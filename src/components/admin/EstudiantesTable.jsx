@@ -5,7 +5,7 @@ const InscripcionesTable = () => {
 
   // Cargar las inscripciones desde el backend
   const cargarInscripciones = async () => {
-    const res = await fetch('http://localhost:5050/api/inscripciones');
+    const res = await fetch('https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones');
     const data = await res.json();
     setInscripciones(data);
   };
@@ -17,7 +17,7 @@ const InscripcionesTable = () => {
   // Confirmar el pago
   const confirmarPago = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5050/api/inscripciones/confirmar-pago/${id}`, {
+      const res = await fetch(`https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones/confirmar-pago/${id}`, {
         method: 'PUT',
       });
       const result = await res.json();

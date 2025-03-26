@@ -170,7 +170,7 @@ const CursoDetalle = () => {
                     };
 
                     try {
-                      const res = await fetch('http://localhost:5050/api/inscripciones', {
+                      const res = await fetch('https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)

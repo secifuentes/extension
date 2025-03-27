@@ -154,7 +154,7 @@ const CursoDetalle = () => {
             <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
               ¿Eres parte de la <strong>Familia Presentación</strong>? ¡Tenemos beneficios especiales para ti! 💙
               <br />
-              Obtén un<strong>5% de descuento</strong> en tu inscripción mensual solo por ser de la casa.
+              Obtén un<strong> 5% de descuento</strong> en tu inscripción mensual solo por ser de la casa.
               <br />
               Y si decides pagar los tres meses por anticipado, recibes un <strong>5% adicional</strong>.
               <br />
@@ -321,3 +321,6 @@ const CursoDetalle = () => {
 };
 
 export default CursoDetalle;
+
+// Agrega esto temporalmente para forzar cambio
+console.log("🚀 Forzando redeploy");

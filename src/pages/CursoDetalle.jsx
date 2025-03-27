@@ -150,7 +150,7 @@ const CursoDetalle = () => {
               </div>
             </div>
 
-            <div className="bg-gray-50 border border-gray-200 p-4 rounded text-sm text-gray-800 leading-relaxed">
+            <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
               Si haces parte de la <strong>Familia Presentación</strong>, tienes un <strong>10% exclusivo</strong> en tu inscripción.
               <br />
               Y al pagar los tres meses, se suma el <strong>5% que ya incluye el curso</strong>.

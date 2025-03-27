@@ -135,14 +135,35 @@ const CursoDetalle = () => {
           <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
           {/* Bloque visual de precios */}
-          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded shadow space-y-2">
-            <p className="text-xl font-semibold text-presentacionDark">💰 Valor mensual: ${valorMensual.toLocaleString()}</p>
-            <p className="text-md text-gray-700">📦 Curso completo (3 meses): ${valorTrimestral.toLocaleString()}</p>
-            <p className="text-md text-gray-700">🎯 Total con descuento aplicado: <span className="font-bold text-green-600">${total.toLocaleString()}</span></p>
-            <p className="text-sm text-green-700 font-semibold bg-green-50 p-2 rounded border border-green-200">
-              {textoDescuento}
-            </p>
-          </div>
+          {/* Bloque visual de precios */}
+<div className="border border-gray-200 p-6 rounded shadow space-y-5 bg-white">
+  {/* Valor mensual */}
+  <div>
+    <p className="text-lg font-semibold text-gray-700">Valor mensual:</p>
+    <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
+  </div>
+
+  {/* Curso completo */}
+  <div>
+    <p className="text-lg font-semibold text-gray-700 mt-4">Curso completo (3 meses):</p>
+    <div className="flex items-baseline gap-2 mt-1">
+      <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
+      <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
+      <span className="text-sm text-green-700 font-medium">
+        ({textoDescuento})
+      </span>
+    </div>
+  </div>
+
+  {/* Texto explicativo para familia Presentación */}
+  {datosEstudiante && modoPago === 'trimestral' && (
+    <div className="bg-gray-50 border border-gray-200 p-4 rounded text-sm text-gray-800 leading-relaxed">
+      Si haces parte de la Familia Presentación, tienes un <strong>10% exclusivo</strong> en tu inscripción.<br />
+      Y al pagar los tres meses, se suma el <strong>5% incluido</strong> en el curso.<br />
+      <span className="font-semibold text-institucional">¡Disfruta un 15% de descuento total por anticipado!</span>
+    </div>
+  )}
+  </div>
 
           <p className="text-sm text-gray-700 mt-4">{curso.descripcion}</p>
 

@@ -4,6 +4,8 @@ import { datosCursos } from '../data/datosCursos';
 import { estudiantesRegistrados } from '../data/estudiantes';
 import { inscripciones } from '../data/inscripciones';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AccordionItem = ({ title, content }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -170,7 +172,7 @@ const CursoDetalle = () => {
                     };
 
                     try {
-                      const res = await fetch('https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones', {
+                      const res = await fetch(`${API_URL}/api/inscripciones`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)

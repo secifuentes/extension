@@ -37,6 +37,25 @@ const InscripcionesTable = () => {
     }
   };
 
+  const enviarRecordatorio = async (correo, cursoNombre) => {
+    try {
+      const res = await fetch(`${API_URL}/api/recordatorio`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo, cursoNombre }),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert(`📬 Recordatorio enviado a ${correo}`);
+      } else {
+        alert('❌ Error al enviar recordatorio');
+      }
+    } catch (err) {
+      console.error('Error al enviar recordatorio:', err);
+      alert('❌ No se pudo enviar recordatorio');
+    }
+  };
+
   const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleDateString('es-CO', {
       day: '2-digit',
@@ -61,14 +80,14 @@ const InscripcionesTable = () => {
             <th className="px-4 py-2 border">Valor pagado</th>
             <th className="px-4 py-2 border">Comprobante</th>
             <th className="px-4 py-2 border">Fecha inscripción</th>
-            <th className="px-4 py-2 border">Acción</th>
+            <th className="px-4 py-2 border">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {inscripciones.map((ins) => (
             <tr key={ins._id}>
               <td className="px-4 py-2 border">{ins.nombres} {ins.apellidos}</td>
-              <td className="px-4 py-2 border">{ins.tipoDocumento.toUpperCase()} {ins.documento}</td>
+              <td className="px-4 py-2 border">{ins.tipoDocumento?.toUpperCase()} {ins.documento}</td>
               <td className="px-4 py-2 border">{ins.correo}</td>
               <td className="px-4 py-2 border">{ins.telefono}</td>
               <td className="px-4 py-2 border">
@@ -79,7 +98,13 @@ const InscripcionesTable = () => {
                 )}
               </td>
               <td className="px-4 py-2 border">{ins.cursoNombre}</td>
-              <td className="px-4 py-2 border capitalize">{ins.formaPago}</td>
+              <td className="px-4 py-2 border">
+                {ins.formaPago === 'mensual' ? (
+                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Mensual</span>
+                ) : (
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">Curso completo</span>
+                )}
+              </td>
               <td className="px-4 py-2 border">${ins.valorPagado?.toLocaleString()}</td>
               <td className="px-4 py-2 border">
                 {ins.comprobante ? (
@@ -100,14 +125,23 @@ const InscripcionesTable = () => {
                 )}
               </td>
               <td className="px-4 py-2 border">{formatearFecha(ins.fechaInscripcion)}</td>
-              <td className="px-4 py-2 border">
+              <td className="px-4 py-2 border space-y-2 flex flex-col">
                 {!ins.pagoConfirmado && (
-                  <button
-                    onClick={() => confirmarPago(ins._id)}
-                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-800"
-                  >
-                    Confirmar Pago
-                  </button>
+                  <>
+                    <button
+                      onClick={() => confirmarPago(ins._id)}
+                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-800"
+                    >
+                      Confirmar pago
+                    </button>
+
+                    <button
+                      onClick={() => enviarRecordatorio(ins.correo, ins.cursoNombre)}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                    >
+                      Enviar recordatorio
+                    </button>
+                  </>
                 )}
               </td>
             </tr>

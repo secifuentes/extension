@@ -6,32 +6,31 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
-      <div className="w-full flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 py-4">
-        {/* Logo / Nombre */}
+      <div className="flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
+        {/* Logo */}
         <h1 className="font-extrabold text-lg tracking-wide">
           EXTENSIÓN LA PRESENTACIÓN
         </h1>
 
         {/* Botón hamburguesa para móviles */}
         <button
-          className="sm:hidden text-white focus:outline-none"
+          className="sm:hidden flex items-center justify-center w-10 h-10"
           onClick={() => setMenuAbierto(!menuAbierto)}
           aria-label="Menú"
         >
           <svg
-            className="w-6 h-6 fill-current"
+            className="w-6 h-6 text-white"
             viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             {menuAbierto ? (
-              <path
-                fillRule="evenodd"
-                d="M18.36 6.64a1 1 0 00-1.41 0L12 11.59 7.05 6.64a1 1 0 10-1.41 1.41L10.59 13l-4.95 4.95a1 1 0 101.41 1.41L12 14.41l4.95 4.95a1 1 0 001.41-1.41L13.41 13l4.95-4.95a1 1 0 000-1.41z"
-              />
+              <path d="M18 6L6 18M6 6l12 12" />
             ) : (
-              <path
-                fillRule="evenodd"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>

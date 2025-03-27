@@ -10,15 +10,19 @@ const AccordionItem = ({ title, content }) => {
   const [open, setOpen] = useState(false);
   return (
     <div className="bg-[#f2f2f2] rounded-lg p-4 mb-3 shadow-sm">
-      <div className="flex justify-between items-center cursor-pointer" onClick={() => setOpen(!open)}>
+      <div
+        className="flex justify-between items-center cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
         <h4 className="font-semibold text-institucional">{title}</h4>
-        <span className="text-xl font-bold text-institucional">{open ? '−' : '+'}</span>
+        <span className="text-xl font-bold text-institucional">
+          {open ? '−' : '+'}
+        </span>
       </div>
       {open && <p className="mt-2 text-sm text-gray-600">{content}</p>}
     </div>
   );
 };
-
 const CursoDetalle = () => {
   const { id } = useParams();
   const curso = datosCursos[id];
@@ -37,13 +41,16 @@ const CursoDetalle = () => {
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
     const edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const cumple = hoy.getMonth() > nacimiento.getMonth() ||
+    const cumple =
+      hoy.getMonth() > nacimiento.getMonth() ||
       (hoy.getMonth() === nacimiento.getMonth() && hoy.getDate() >= nacimiento.getDate());
     return (cumple ? edad : edad - 1) < 18;
   };
 
   const verificarEstudiante = () => {
-    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === id);
+    const yaExiste = inscripciones.find(
+      (i) => i.documento === documento && i.cursoId === id
+    );
     if (yaExiste) {
       setYaInscrito(true);
       setMostrarFormulario(false);
@@ -101,42 +108,128 @@ const CursoDetalle = () => {
             Inicio / Cursos de Extensión /{' '}
             <span className="text-institucional font-semibold">{curso.nombre}</span>
           </p>
-          <button onClick={() => window.history.back()} className="text-institucional hover:underline">
+          <button
+            onClick={() => window.history.back()}
+            className="text-institucional hover:underline"
+          >
             ← Volver a cursos
           </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
-        {/* Columna izquierda */}
+      {/* CONTENEDOR PRINCIPAL RESPONSIVE */}
+      <div className="max-w-7xl mx-auto px-6 pb-16 mt-4 flex flex-col-reverse md:grid md:grid-cols-2 gap-10">
+        {/* COLUMNA IZQUIERDA (en móvil aparece abajo) */}
         <div className="flex flex-col gap-6">
-          <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
-            <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
+          {/* Mostrar nombre y valor solo en móvil */}
+          <div className="md:hidden space-y-2">
+            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+            <p className="text-2xl font-bold text-presentacionDark">
+              Valor mensual: ${valorMensual.toLocaleString()}
+            </p>
           </div>
-
+                    {/* FICHA TÉCNICA */}
           <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div><p className="text-institucional font-semibold">Modalidad:</p><p>{curso.modalidad}</p></div>
-            <div><p className="text-institucional font-semibold">Duración:</p><p>{curso.duracion}</p></div>
-            <div><p className="text-institucional font-semibold">Ubicación:</p><p>{curso.ubicacion}</p></div>
-            <div><p className="text-institucional font-semibold">Inicio:</p><p>{curso.inicio}</p></div>
-            <div><p className="text-institucional font-semibold">Fin:</p><p>{curso.fin}</p></div>
+            <div>
+              <p className="text-institucional font-semibold">Modalidad:</p>
+              <p>{curso.modalidad}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Duración:</p>
+              <p>{curso.duracion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Ubicación:</p>
+              <p>{curso.ubicacion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Inicio:</p>
+              <p>{curso.inicio}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Fin:</p>
+              <p>{curso.fin}</p>
+            </div>
           </div>
 
-          <div>
-            <AccordionItem title="Requisitos" content={curso.requisitos} />
-            <AccordionItem title="Implementos necesarios" content={curso.implementos} />
-            <AccordionItem title="Beneficios" content={curso.beneficios} />
-            <AccordionItem title="Edad" content={curso.edad} />
-            <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
-          </div>
+          {/* Acordeones */}
+          <AccordionItem title="Requisitos" content={curso.requisitos} />
+          <AccordionItem title="Implementos necesarios" content={curso.implementos} />
+          <AccordionItem title="Beneficios" content={curso.beneficios} />
+          <AccordionItem title="Edad" content={curso.edad} />
+          <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
         </div>
 
-        {/* Columna derecha */}
-        <div className="flex flex-col gap-4">
-          <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+        {/* COLUMNA DERECHA (en móvil aparece arriba) */}
+        <div className="flex flex-col gap-6">
+          {/* Imagen del curso */}
+          <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
+            <img
+              src={curso.imagen}
+              alt={curso.nombre}
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-          {/* Bloque visual de precios */}
-          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+          {/* Título y precio solo visible en escritorio */}
+          <div className="hidden md:block">
+            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+            <p className="text-2xl font-bold text-presentacionDark mt-1">
+              Valor mensual: ${valorMensual.toLocaleString()}
+            </p>
+          </div>
+                    {/* FICHA TÉCNICA */}
+                    <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
+            <div>
+              <p className="text-institucional font-semibold">Modalidad:</p>
+              <p>{curso.modalidad}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Duración:</p>
+              <p>{curso.duracion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Ubicación:</p>
+              <p>{curso.ubicacion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Inicio:</p>
+              <p>{curso.inicio}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Fin:</p>
+              <p>{curso.fin}</p>
+            </div>
+          </div>
+
+          {/* Acordeones */}
+          <AccordionItem title="Requisitos" content={curso.requisitos} />
+          <AccordionItem title="Implementos necesarios" content={curso.implementos} />
+          <AccordionItem title="Beneficios" content={curso.beneficios} />
+          <AccordionItem title="Edad" content={curso.edad} />
+          <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
+        </div>
+
+        {/* COLUMNA DERECHA (en móvil aparece arriba) */}
+        <div className="flex flex-col gap-6">
+          {/* Imagen del curso */}
+          <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
+            <img
+              src={curso.imagen}
+              alt={curso.nombre}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Título y precio solo visible en escritorio */}
+          <div className="hidden md:block">
+            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+            <p className="text-2xl font-bold text-presentacionDark mt-1">
+              Valor mensual: ${valorMensual.toLocaleString()}
+            </p>
+          </div>
+                    {/* Bloque de precios */}
+                    <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
             <div>
               <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
               <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
@@ -170,7 +263,7 @@ const CursoDetalle = () => {
             )}
           </div>
 
-          {/* Verificación de estudiante */}
+          {/* Verificación del estudiante */}
           <div className="mt-6 space-y-2">
             <label className="block font-semibold">Tipo de documento:</label>
             <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
@@ -180,7 +273,13 @@ const CursoDetalle = () => {
             </select>
 
             <label className="block font-semibold mt-2">Número de documento:</label>
-            <input type="text" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={documento}
+              onChange={(e) => setDocumento(e.target.value)}
+              required
+            />
 
             <button
               className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
@@ -195,8 +294,7 @@ const CursoDetalle = () => {
               Ya estás inscrito en este curso 🎓
             </div>
           )}
-
-          {mostrarFormulario && !yaInscrito && (
+                    {mostrarFormulario && !yaInscrito && (
             <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
               {inscripcionExitosa ? (
                 <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
@@ -248,11 +346,14 @@ const CursoDetalle = () => {
                   className="space-y-4"
                 >
                   <label className="block font-semibold">Forma de pago:</label>
-                  <select className="w-full border p-2 rounded" value={modoPago} onChange={(e) => setModoPago(e.target.value)}>
+                  <select
+                    className="w-full border p-2 rounded"
+                    value={modoPago}
+                    onChange={(e) => setModoPago(e.target.value)}
+                  >
                     <option value="trimestral">Curso completo (3 meses)</option>
                     <option value="mensual">Pago mensual</option>
                   </select>
-
                   <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
                   <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
                   <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
@@ -266,22 +367,22 @@ const CursoDetalle = () => {
                     </>
                   )}
 
-<input
-  type="file"
-  accept="image/*"
-  onChange={async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
-    };
-    reader.readAsDataURL(file);
-  }}
-  className="w-full p-2 border rounded"
-  required
-/>
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                    className="w-full p-2 border rounded"
+                    required
+                  />
 
                   {/* RESUMEN DEL PAGO FINAL */}
                   <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">

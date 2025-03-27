@@ -37,10 +37,10 @@ const Header = () => {
 
         {/* Menú en escritorio */}
         <nav className="hidden sm:flex gap-6 text-sm font-medium">
-          <a href="/" className="hover:text-yellow-400 transition">Inicio</a>
+          <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-          <a href="/contacto" className="hover:text-yellow-400 transition">Contacto</a>
-          <a href="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</a>
+          <Link to="/contacto" className="hover:text-yellow-400 transition">Contacto</Link>
+          <Link to="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</Link>
         </nav>
       </div>
 
@@ -48,10 +48,10 @@ const Header = () => {
       {menuAbierto && (
         <div className="sm:hidden bg-institucional border-t border-white px-6 pb-4">
           <nav className="flex flex-col gap-3 text-sm font-medium">
-            <a href="/" className="hover:text-yellow-400 transition">Inicio</a>
+            <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
             <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-            <a href="/contacto" className="hover:text-yellow-400 transition">Contacto</a>
-            <a href="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</a>
+            <Link to="/contacto" className="hover:text-yellow-400 transition">Contacto</Link>
+            <Link to="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</Link>
           </nav>
         </div>
       )}

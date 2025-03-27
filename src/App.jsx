@@ -13,11 +13,12 @@ import MainLayout from './layouts/MainLayout';
 import AdminEstudiantes from './pages/AdminEstudiantes';
 import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './pages/AdminContabilidad';
-
+import ScrollToTop from './components/ScrollToTop'; // 👈 importa
 
 const App = () => {
   return (
     <MainLayout>
+      <ScrollToTop /> {/* 👈 aquí va */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/curso/:id" element={<CursoDetalle />} />
@@ -25,13 +26,12 @@ const App = () => {
         <Route path="/estudiante" element={<EstudiantePanel />} />
         <Route path="/docente" element={<DocentePanel />} />
         <Route path="/estado" element={<EstadoEstudiante />} />
-        <Route path="/admin" element={<AdminDashboard />} /> {/* ✅ Panel CRM nuevo */}
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/inscripciones" element={<AdminInscripciones />} />
         <Route path="/admin/docentes" element={<AdminDocentes />} />
         <Route path="/admin/estudiantes" element={<AdminEstudiantes />} />
         <Route path="/admin/certificados" element={<AdminCertificados />} />
         <Route path="/admin/contabilidad" element={<AdminContabilidad />} />
-        
       </Routes>
     </MainLayout>
   );

@@ -31,6 +31,7 @@ const CursoDetalle = () => {
   const [esMenor, setEsMenor] = useState(false);
   const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [modoPago, setModoPago] = useState('trimestral');
+  const [comprobanteBase64, setComprobanteBase64] = useState('');
 
   const calcularSiEsMenor = (fechaNacimiento) => {
     const hoy = new Date();
@@ -222,7 +223,8 @@ const CursoDetalle = () => {
                       esEstudiante: !!datosEstudiante,
                       formaPago: modoPago,
                       valorPagado: total,
-                      pagoConfirmado: false
+                      pagoConfirmado: false,
+                      comprobante: comprobanteBase64,
                     };
 
                     try {
@@ -264,7 +266,22 @@ const CursoDetalle = () => {
                     </>
                   )}
 
-                  <input type="file" className="w-full p-2 border rounded" required />
+<input
+  type="file"
+  accept="image/*"
+  onChange={async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
+    };
+    reader.readAsDataURL(file);
+  }}
+  className="w-full p-2 border rounded"
+  required
+/>
 
                   {/* RESUMEN DEL PAGO FINAL */}
                   <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const InscripcionesTable = () => {
   const [inscripciones, setInscripciones] = useState([]);
 
   // Cargar las inscripciones desde el backend
   const cargarInscripciones = async () => {
-    const res = await fetch('https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones');
-    const data = await res.json();
-    setInscripciones(data);
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones`);
+      const data = await res.json();
+      setInscripciones(data);
+    } catch (error) {
+      console.error('Error al cargar inscripciones:', error);
+    }
   };
 
   useEffect(() => {
@@ -17,14 +23,13 @@ const InscripcionesTable = () => {
   // Confirmar el pago
   const confirmarPago = async (id) => {
     try {
-      const res = await fetch(`https://extension-backend-app-3f0e27c4f9ad.herokuapp.com/api/inscripciones/confirmar-pago/${id}`, {
+      const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${id}`, {
         method: 'PUT',
       });
       const result = await res.json();
       if (res.ok) {
         alert('✅ Pago confirmado');
-        // Recargar las inscripciones después de confirmar el pago
-        cargarInscripciones();
+        cargarInscripciones(); // Recargar después de confirmar pago
       } else {
         alert('❌ Error al confirmar el pago');
       }
@@ -48,7 +53,9 @@ const InscripcionesTable = () => {
         <tbody>
           {inscripciones.map((inscripcion) => (
             <tr key={inscripcion._id}>
-              <td className="px-4 py-2 border">{inscripcion.nombres} {inscripcion.apellidos}</td>
+              <td className="px-4 py-2 border">
+                {inscripcion.nombres} {inscripcion.apellidos}
+              </td>
               <td className="px-4 py-2 border">{inscripcion.cursoNombre}</td>
               <td className="px-4 py-2 border">
                 {inscripcion.pagoConfirmado ? 'Pago Confirmado' : 'Pago Pendiente'}

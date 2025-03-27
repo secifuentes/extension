@@ -68,17 +68,17 @@ const CursoDetalle = () => {
 
   if (modoPago === 'mensual') {
     if (datosEstudiante) {
-      total = valorMensual * 0.9;
-      descuentoAplicado = 10;
-      textoDescuento = '10% (Familia Presentación)';
+      total = valorMensual * 0.95;
+      descuentoAplicado = 5;
+      textoDescuento = '5% (Familia Presentación)';
     } else {
       total = valorMensual;
     }
   } else {
     if (datosEstudiante) {
-      total = valorTrimestral * 0.85;
-      descuentoAplicado = 15;
-      textoDescuento = '15% (10% familia + 5% curso completo)';
+      total = valorTrimestral * 0.90;
+      descuentoAplicado = 10;
+      textoDescuento = '10% (5% familia + 5% curso completo)';
     } else {
       total = valorTrimestral * 0.95;
       descuentoAplicado = 5;
@@ -152,13 +152,15 @@ const CursoDetalle = () => {
             </div>
 
             <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
-              Si haces parte de la <strong>Familia Presentación</strong>, tienes un <strong>10% exclusivo</strong> en tu inscripción.
+              ¿Eres parte de la <strong>Familia Presentación</strong>? ¡Tenemos beneficios especiales para ti! 💙
               <br />
-              Y al pagar los tres meses, se suma el <strong>5% que ya incluye el curso</strong>.
+              Obtén un<strong>5% de descuento</strong> en tu inscripción mensual solo por ser de la casa.
+              <br />
+              Y si decides pagar los tres meses por anticipado, recibes un <strong>5% adicional</strong>.
               <br />
               <span className="font-semibold text-institucional">
-                ¡Disfruta un 15% de descuento total por anticipado!
-              </span>
+                ¡Aprovecha hasta un 10% de descuento exclusivo para nuestra familia!
+                </span>
             </div>
 
             {datosEstudiante && modoPago === 'trimestral' && (

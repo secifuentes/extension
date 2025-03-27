@@ -23,6 +23,7 @@ const AccordionItem = ({ title, content }) => {
     </div>
   );
 };
+
 const CursoDetalle = () => {
   const { id } = useParams();
   const curso = datosCursos[id];
@@ -96,6 +97,7 @@ const CursoDetalle = () => {
   total = parseInt(total.toFixed(0));
 
   if (!curso) return <p className="p-10 text-center">Curso no encontrado</p>;
+
   return (
     <div className="pt-[72px]">
       <div className="max-w-7xl mx-auto px-6 mt-2">
@@ -117,52 +119,10 @@ const CursoDetalle = () => {
         </div>
       </div>
 
-      {/* CONTENEDOR PRINCIPAL RESPONSIVE */}
       <div className="max-w-7xl mx-auto px-6 pb-16 mt-4 flex flex-col-reverse md:grid md:grid-cols-2 gap-10">
-        {/* COLUMNA IZQUIERDA (en móvil aparece abajo) */}
+        {/* Columna izquierda: Imagen y precio */}
         <div className="flex flex-col gap-6">
-          {/* Mostrar nombre y valor solo en móvil */}
-          <div className="md:hidden space-y-2">
-            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
-            <p className="text-2xl font-bold text-presentacionDark">
-              Valor mensual: ${valorMensual.toLocaleString()}
-            </p>
-          </div>
-                    {/* FICHA TÉCNICA */}
-          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div>
-              <p className="text-institucional font-semibold">Modalidad:</p>
-              <p>{curso.modalidad}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Duración:</p>
-              <p>{curso.duracion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Ubicación:</p>
-              <p>{curso.ubicacion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Inicio:</p>
-              <p>{curso.inicio}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Fin:</p>
-              <p>{curso.fin}</p>
-            </div>
-          </div>
-
-          {/* Acordeones */}
-          <AccordionItem title="Requisitos" content={curso.requisitos} />
-          <AccordionItem title="Implementos necesarios" content={curso.implementos} />
-          <AccordionItem title="Beneficios" content={curso.beneficios} />
-          <AccordionItem title="Edad" content={curso.edad} />
-          <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
-        </div>
-
-        {/* COLUMNA DERECHA (en móvil aparece arriba) */}
-        <div className="flex flex-col gap-6">
-          {/* Imagen del curso */}
+          {/* Imagen */}
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img
               src={curso.imagen}
@@ -171,65 +131,8 @@ const CursoDetalle = () => {
             />
           </div>
 
-          {/* Título y precio solo visible en escritorio */}
-          <div className="hidden md:block">
-            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
-            <p className="text-2xl font-bold text-presentacionDark mt-1">
-              Valor mensual: ${valorMensual.toLocaleString()}
-            </p>
-          </div>
-                    {/* FICHA TÉCNICA */}
-                    <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div>
-              <p className="text-institucional font-semibold">Modalidad:</p>
-              <p>{curso.modalidad}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Duración:</p>
-              <p>{curso.duracion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Ubicación:</p>
-              <p>{curso.ubicacion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Inicio:</p>
-              <p>{curso.inicio}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Fin:</p>
-              <p>{curso.fin}</p>
-            </div>
-          </div>
-
-          {/* Acordeones */}
-          <AccordionItem title="Requisitos" content={curso.requisitos} />
-          <AccordionItem title="Implementos necesarios" content={curso.implementos} />
-          <AccordionItem title="Beneficios" content={curso.beneficios} />
-          <AccordionItem title="Edad" content={curso.edad} />
-          <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
-        </div>
-
-        {/* COLUMNA DERECHA (en móvil aparece arriba) */}
-        <div className="flex flex-col gap-6">
-          {/* Imagen del curso */}
-          <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
-            <img
-              src={curso.imagen}
-              alt={curso.nombre}
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Título y precio solo visible en escritorio */}
-          <div className="hidden md:block">
-            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
-            <p className="text-2xl font-bold text-presentacionDark mt-1">
-              Valor mensual: ${valorMensual.toLocaleString()}
-            </p>
-          </div>
-                    {/* Bloque de precios */}
-                    <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+          {/* Bloque de valores */}
+          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
             <div>
               <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
               <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
@@ -262,8 +165,32 @@ const CursoDetalle = () => {
               </div>
             )}
           </div>
+        </div>
 
-          {/* Verificación del estudiante */}
+        {/* Columna derecha: Ficha técnica, formulario */}
+        <div className="flex flex-col gap-6">
+          {/* Título del curso solo en móvil */}
+          <div className="md:hidden">
+            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+            <p className="text-2xl font-bold text-presentacionDark">
+              Valor mensual: ${valorMensual.toLocaleString()}
+            </p>
+          </div>
+
+          {/* Ficha técnica con 3 columnas */}
+          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
+            <div><p className="text-institucional font-semibold">Modalidad:</p><p>{curso.modalidad}</p></div>
+            <div><p className="text-institucional font-semibold">Duración:</p><p>{curso.duracion}</p></div>
+            <div><p className="text-institucional font-semibold">Ubicación:</p><p>{curso.ubicacion}</p></div>
+            <div><p className="text-institucional font-semibold">Inicio:</p><p>{curso.inicio}</p></div>
+            <div><p className="text-institucional font-semibold">Fin:</p><p>{curso.fin}</p></div>
+          </div>
+
+          {/* Descripción */}
+          <h3 className="mt-4 text-lg font-semibold text-institucional">Descripción del curso</h3>
+          <p className="text-sm text-gray-700">{curso.descripcion}</p>
+
+          {/* Formulario de inscripción */}
           <div className="mt-6 space-y-2">
             <label className="block font-semibold">Tipo de documento:</label>
             <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
@@ -288,131 +215,6 @@ const CursoDetalle = () => {
               Inscribirme
             </button>
           </div>
-
-          {yaInscrito && (
-            <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded mt-6">
-              Ya estás inscrito en este curso 🎓
-            </div>
-          )}
-                    {mostrarFormulario && !yaInscrito && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
-              {inscripcionExitosa ? (
-                <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
-                  <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
-                  <p className="mt-2">Te has inscrito al curso <strong>{curso.nombre}</strong>.</p>
-                  <p className="mt-1">Estamos verificando tu comprobante de pago. Te enviaremos una confirmación pronto.</p>
-                </div>
-              ) : (
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    const form = e.target;
-
-                    const data = {
-                      nombres: datosEstudiante?.nombres || form.nombres.value,
-                      apellidos: datosEstudiante?.apellidos || form.apellidos.value,
-                      documento,
-                      tipoDocumento: tipoDoc,
-                      correo: datosEstudiante?.correo || form.correo.value,
-                      telefono: datosEstudiante?.telefono || form.telefono.value,
-                      fechaNacimiento: form.fechaNacimiento.value,
-                      cursoId: parseInt(id),
-                      cursoNombre: curso.nombre,
-                      esEstudiante: !!datosEstudiante,
-                      formaPago: modoPago,
-                      valorPagado: total,
-                      pagoConfirmado: false,
-                      comprobante: comprobanteBase64,
-                    };
-
-                    try {
-                      const res = await fetch(`${API_URL}/api/inscripciones`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                      });
-
-                      const result = await res.json();
-                      if (res.ok) {
-                        setInscripcionExitosa(true);
-                      } else {
-                        alert('Error al guardar inscripción');
-                      }
-                    } catch (err) {
-                      alert('No se pudo conectar con el servidor');
-                      console.error(err);
-                    }
-                  }}
-                  className="space-y-4"
-                >
-                  <label className="block font-semibold">Forma de pago:</label>
-                  <select
-                    className="w-full border p-2 rounded"
-                    value={modoPago}
-                    onChange={(e) => setModoPago(e.target.value)}
-                  >
-                    <option value="trimestral">Curso completo (3 meses)</option>
-                    <option value="mensual">Pago mensual</option>
-                  </select>
-                  <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
-                  <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
-                  <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
-                  <input name="telefono" type="tel" placeholder="Teléfono" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.telefono || ''} readOnly={!!datosEstudiante} required />
-                  <input name="fechaNacimiento" type="date" className="w-full p-2 border rounded" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} />
-
-                  {esMenor && (
-                    <>
-                      <input name="acudiente" type="text" placeholder="Nombre del acudiente" className="w-full p-2 border rounded" required />
-                      <input name="telefonoAcudiente" type="tel" placeholder="Teléfono del acudiente" className="w-full p-2 border rounded" required />
-                    </>
-                  )}
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={async (e) => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
-                      };
-                      reader.readAsDataURL(file);
-                    }}
-                    className="w-full p-2 border rounded"
-                    required
-                  />
-
-                  {/* RESUMEN DEL PAGO FINAL */}
-                  <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">
-                    <p className="font-semibold mb-2 text-institucional text-base">Resumen del pago</p>
-
-                    <p><strong>Curso:</strong> {curso.nombre}</p>
-                    <p><strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}</p>
-                    <p><strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}</p>
-                    <p><strong>Descuento aplicado:</strong> {textoDescuento}</p>
-
-                    {datosEstudiante && modoPago === 'trimestral' && (
-                      <div className="bg-green-50 border border-green-200 p-3 rounded text-green-800 font-medium mt-2">
-                        Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                      </div>
-                    )}
-
-                    <div className="mt-3 pt-3 border-t">
-                      <p className="text-lg font-bold text-institucional">
-                        Total a pagar: ${total.toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
-                    Finalizar inscripción
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>

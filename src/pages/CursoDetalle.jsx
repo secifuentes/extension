@@ -119,8 +119,8 @@ const CursoDetalle = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-16 mt-4 flex flex-col-reverse md:grid md:grid-cols-2 gap-10">
-        {/* Columna izquierda: Imagen y precio */}
+      <div className="max-w-7xl mx-auto px-6 pb-16 mt-4 flex flex-col md:grid md:grid-cols-2 gap-10">
+        {/* Columna izquierda: Imagen */}
         <div className="flex flex-col gap-6">
           {/* Imagen */}
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
@@ -130,8 +130,19 @@ const CursoDetalle = () => {
               className="w-full h-full object-cover"
             />
           </div>
+        </div>
 
-          {/* Bloque de valores */}
+        {/* Columna derecha: Precios y datos */}
+        <div className="flex flex-col gap-6">
+          {/* Título del curso y valor mensual */}
+          <div className="md:hidden">
+            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+            <p className="text-2xl font-bold text-presentacionDark">
+              Valor mensual: ${valorMensual.toLocaleString()}
+            </p>
+          </div>
+
+          {/* Precios */}
           <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
             <div>
               <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
@@ -166,59 +177,48 @@ const CursoDetalle = () => {
             )}
           </div>
         </div>
+      </div>
 
-        {/* Columna derecha: Ficha técnica, formulario */}
-        <div className="flex flex-col gap-6">
-          {/* Título del curso solo en móvil */}
-          <div className="md:hidden">
-            <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
-            <p className="text-2xl font-bold text-presentacionDark">
-              Valor mensual: ${valorMensual.toLocaleString()}
-            </p>
-          </div>
+      {/* Descripción */}
+      <h3 className="mt-4 text-lg font-semibold text-institucional">Descripción del curso</h3>
+      <p className="text-sm text-gray-700">{curso.descripcion}</p>
 
-          {/* Ficha técnica con 3 columnas */}
-          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div><p className="text-institucional font-semibold">Modalidad:</p><p>{curso.modalidad}</p></div>
-            <div><p className="text-institucional font-semibold">Duración:</p><p>{curso.duracion}</p></div>
-            <div><p className="text-institucional font-semibold">Ubicación:</p><p>{curso.ubicacion}</p></div>
-            <div><p className="text-institucional font-semibold">Inicio:</p><p>{curso.inicio}</p></div>
-            <div><p className="text-institucional font-semibold">Fin:</p><p>{curso.fin}</p></div>
-          </div>
+      {/* Formulario de inscripción */}
+      <div className="mt-6 space-y-2">
+        <label className="block font-semibold">Tipo de documento:</label>
+        <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
+          <option value="">Selecciona tipo</option>
+          <option value="cc">Cédula</option>
+          <option value="ti">Tarjeta de Identidad</option>
+        </select>
 
-          {/* Descripción */}
-          <h3 className="mt-4 text-lg font-semibold text-institucional">Descripción del curso</h3>
-          <p className="text-sm text-gray-700">{curso.descripcion}</p>
+        <label className="block font-semibold mt-2">Número de documento:</label>
+        <input
+          type="text"
+          className="w-full border p-2 rounded"
+          value={documento}
+          onChange={(e) => setDocumento(e.target.value)}
+          required
+        />
 
-          {/* Formulario de inscripción */}
-          <div className="mt-6 space-y-2">
-            <label className="block font-semibold">Tipo de documento:</label>
-            <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
-              <option value="">Selecciona tipo</option>
-              <option value="cc">Cédula</option>
-              <option value="ti">Tarjeta de Identidad</option>
-            </select>
+        <button
+          className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+          onClick={verificarEstudiante}
+        >
+          Inscribirme
+        </button>
+      </div>
 
-            <label className="block font-semibold mt-2">Número de documento:</label>
-            <input
-              type="text"
-              className="w-full border p-2 rounded"
-              value={documento}
-              onChange={(e) => setDocumento(e.target.value)}
-              required
-            />
-
-            <button
-              className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
-              onClick={verificarEstudiante}
-            >
-              Inscribirme
-            </button>
-          </div>
-        </div>
+      {/* Acordeones (Requisitos, Implementos, etc.) */}
+      <div className="mt-6">
+        <AccordionItem title="Requisitos" content={curso.requisitos} />
+        <AccordionItem title="Implementos necesarios" content={curso.implementos} />
+        <AccordionItem title="Beneficios" content={curso.beneficios} />
+        <AccordionItem title="Edad" content={curso.edad} />
+        <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
       </div>
     </div>
   );
 };
 
-export default CursoDetalle; 
+export default CursoDetalle;

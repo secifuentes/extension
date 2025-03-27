@@ -120,9 +120,8 @@ const CursoDetalle = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-16 mt-4 flex flex-col-reverse md:grid md:grid-cols-2 gap-10">
-        {/* Columna izquierda: Imagen, Modalidad y Acordeones */}
+        {/* Columna Izquierda */}
         <div className="flex flex-col gap-6">
-          {/* Imagen */}
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img
               src={curso.imagen}
@@ -131,14 +130,29 @@ const CursoDetalle = () => {
             />
           </div>
 
-          {/* Modalidad, Duración, Ubicación */}
           <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div><p className="text-institucional font-semibold">Modalidad:</p><p>{curso.modalidad}</p></div>
-            <div><p className="text-institucional font-semibold">Duración:</p><p>{curso.duracion}</p></div>
-            <div><p className="text-institucional font-semibold">Ubicación:</p><p>{curso.ubicacion}</p></div>
+            <div>
+              <p className="text-institucional font-semibold">Modalidad:</p>
+              <p>{curso.modalidad}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Duración:</p>
+              <p>{curso.duracion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Ubicación:</p>
+              <p>{curso.ubicacion}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Inicio:</p>
+              <p>{curso.inicio}</p>
+            </div>
+            <div>
+              <p className="text-institucional font-semibold">Fin:</p>
+              <p>{curso.fin}</p>
+            </div>
           </div>
 
-          {/* Acordeones */}
           <div>
             <AccordionItem title="Requisitos" content={curso.requisitos} />
             <AccordionItem title="Implementos necesarios" content={curso.implementos} />
@@ -148,77 +162,168 @@ const CursoDetalle = () => {
           </div>
         </div>
 
-        {/* Columna derecha: Precios, Descripción y Formulario */}
-        <div className="flex flex-col gap-6">
-          <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+        {/* Continúa en PARTE 2 */}
+        {/* Columna Derecha */}
+<div className="flex flex-col gap-6">
+  <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
-          {/* Precios */}
-          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
-            <div>
-              <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
-              <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
-            </div>
+  {/* Precios */}
+  <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+    <div>
+      <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
+      <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
+    </div>
 
-            <div>
-              <p className="text-xl font-semibold text-gray-800 mt-4">Curso completo (3 meses)</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
-                <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
-                <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
-              </div>
-            </div>
-
-            <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
-              Si haces parte de la <strong>Familia Presentación</strong>, tienes un <strong>10% exclusivo</strong> en tu inscripción.
-              <br />
-              Y al pagar los tres meses, se suma el <strong>5% que ya incluye el curso</strong>.
-              <br />
-              <span className="font-semibold text-institucional">
-                ¡Disfruta un 15% de descuento total por anticipado!
-              </span>
-            </div>
-
-            {datosEstudiante && modoPago === 'trimestral' && (
-              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-                Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                <br />
-                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Descripción */}
-          <h3 className="mt-4 text-lg font-semibold text-institucional">Descripción del curso</h3>
-          <p className="text-sm text-gray-700">{curso.descripcion}</p>
-
-          {/* Formulario de inscripción */}
-          <div className="mt-6 space-y-2">
-            <label className="block font-semibold">Tipo de documento:</label>
-            <select
-              className="w-full border p-2 rounded"
-              value={tipoDoc}
-              onChange={(e) => setTipoDoc(e.target.value)}
-              required
-            >
-              <option value="">Selecciona tipo</option>
-              <option value="cc">Cédula</option>
-              <option value="ti">Tarjeta de Identidad</option>
-            </select>
-
-            <label className="block font-semibold mt-2">Número de documento:</label>
-            <input
-              type="text"
-              className="w-full border p-2 rounded"
-              value={documento}
-              onChange={(e) => setDocumento(e.target.value)}
-              required
-            />
-            {/* Agregar resto del formulario aquí */}
-          </div>
-        </div>
+    <div>
+      <p className="text-xl font-semibold text-gray-800 mt-4">Curso completo (3 meses)</p>
+      <div className="flex items-baseline gap-2 mt-1">
+        <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
+        <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
+        <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
       </div>
     </div>
-  );
+
+    <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
+      Si haces parte de la <strong>Familia Presentación</strong>, tienes un <strong>10% exclusivo</strong> en tu inscripción.
+      <br />
+      Y al pagar los tres meses, se suma el <strong>5% que ya incluye el curso</strong>.
+      <br />
+      <span className="font-semibold text-institucional">
+        ¡Disfruta un 15% de descuento total por anticipado!
+      </span>
+    </div>
+  </div>
+
+  {/* Descripción */}
+  <h3 className="text-lg font-semibold text-institucional">Descripción del curso</h3>
+  <p className="text-sm text-gray-700">{curso.descripcion}</p>
+
+  {/* Formulario inscripción */}
+  <div className="mt-6 space-y-2">
+    <label className="block font-semibold">Tipo de documento:</label>
+    <select
+      className="w-full border p-2 rounded"
+      value={tipoDoc}
+      onChange={(e) => setTipoDoc(e.target.value)}
+      required
+    >
+      <option value="">Selecciona tipo</option>
+      <option value="cc">Cédula</option>
+      <option value="ti">Tarjeta de Identidad</option>
+    </select>
+
+    <label className="block font-semibold mt-2">Número de documento:</label>
+    <input
+      type="text"
+      className="w-full border p-2 rounded"
+      value={documento}
+      onChange={(e) => setDocumento(e.target.value)}
+      required
+    />
+
+    <button
+      className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+      onClick={verificarEstudiante}
+    >
+      Inscribirme
+    </button>
+  </div>
+
+  {yaInscrito && (
+    <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded mt-6">
+      Ya estás inscrito en este curso 🎓
+    </div>
+  )}
+
+  {mostrarFormulario && !yaInscrito && (
+    <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
+      {inscripcionExitosa ? (
+        <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
+          <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
+          <p className="mt-2">Te has inscrito al curso <strong>{curso.nombre}</strong>.</p>
+          <p className="mt-1">Estamos verificando tu comprobante de pago. Te enviaremos una confirmación pronto.</p>
+        </div>
+      ) : (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const form = e.target;
+
+            const data = {
+              nombres: datosEstudiante?.nombres || form.nombres.value,
+              apellidos: datosEstudiante?.apellidos || form.apellidos.value,
+              documento,
+              tipoDocumento: tipoDoc,
+              correo: datosEstudiante?.correo || form.correo.value,
+              telefono: datosEstudiante?.telefono || form.telefono.value,
+              fechaNacimiento: form.fechaNacimiento.value,
+              cursoId: parseInt(id),
+              cursoNombre: curso.nombre,
+              esEstudiante: !!datosEstudiante,
+              formaPago: modoPago,
+              valorPagado: total,
+              pagoConfirmado: false,
+              comprobante: comprobanteBase64,
+            };
+
+            try {
+              const res = await fetch(`${API_URL}/api/inscripciones`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              });
+
+              const result = await res.json();
+              if (res.ok) {
+                setInscripcionExitosa(true);
+              } else {
+                alert('Error al guardar inscripción');
+              }
+            } catch (err) {
+              alert('No se pudo conectar con el servidor');
+              console.error(err);
+            }
+          }}
+          className="space-y-4"
+        >
+          <label className="block font-semibold">Forma de pago:</label>
+          <select
+            className="w-full border p-2 rounded"
+            value={modoPago}
+            onChange={(e) => setModoPago(e.target.value)}
+          >
+            <option value="trimestral">Curso completo (3 meses)</option>
+            <option value="mensual">Pago mensual</option>
+          </select>
+
+          <input
+            name="nombres"
+            type="text"
+            placeholder="Nombres"
+            className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
+            defaultValue={datosEstudiante?.nombres || ''}
+            readOnly={!!datosEstudiante}
+            required
+          />
+
+          <input
+            name="apellidos"
+            type="text"
+            placeholder="Apellidos"
+            className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
+            defaultValue={datosEstudiante?.apellidos || ''}
+            readOnly={!!datosEstudiante}
+            required
+          />
+          {/* Aquí continúa con el resto del formulario */}
+        </form>
+      )}
+    </div>
+  )}
+</div>
+</div>
+</div>
+);
 };
 
 export default CursoDetalle;

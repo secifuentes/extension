@@ -135,39 +135,41 @@ const CursoDetalle = () => {
           <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
           {/* Bloque visual de precios */}
-          {/* Bloque visual de precios */}
-<div className="border border-gray-200 p-6 rounded shadow space-y-5 bg-white">
-  {/* Valor mensual */}
-  <div>
-    <p className="text-lg font-semibold text-gray-700">Valor mensual:</p>
-    <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
-  </div>
+          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+            <div>
+              <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
+              <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
+            </div>
 
-  {/* Curso completo */}
-  <div>
-    <p className="text-lg font-semibold text-gray-700 mt-4">Curso completo (3 meses):</p>
-    <div className="flex items-baseline gap-2 mt-1">
-      <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
-      <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
-      <span className="text-sm text-green-700 font-medium">
-        ({textoDescuento})
-      </span>
-    </div>
-  </div>
+            <div>
+              <p className="text-xl font-semibold text-gray-800 mt-4">Curso completo (3 meses)</p>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
+                <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
+              </div>
+            </div>
 
-  {/* Texto explicativo para familia Presentación */}
-  {datosEstudiante && modoPago === 'trimestral' && (
-    <div className="bg-gray-50 border border-gray-200 p-4 rounded text-sm text-gray-800 leading-relaxed">
-      Si haces parte de la Familia Presentación, tienes un <strong>10% exclusivo</strong> en tu inscripción.<br />
-      Y al pagar los tres meses, se suma el <strong>5% incluido</strong> en el curso.<br />
-      <span className="font-semibold text-institucional">¡Disfruta un 15% de descuento total por anticipado!</span>
-    </div>
-  )}
-  </div>
+            <div className="bg-gray-50 border border-gray-200 p-4 rounded text-sm text-gray-800 leading-relaxed">
+              Si haces parte de la <strong>Familia Presentación</strong>, tienes un <strong>10% exclusivo</strong> en tu inscripción.
+              <br />
+              Y al pagar los tres meses, se suma el <strong>5% que ya incluye el curso</strong>.
+              <br />
+              <span className="font-semibold text-institucional">
+                ¡Disfruta un 15% de descuento total por anticipado!
+              </span>
+            </div>
 
-          <p className="text-sm text-gray-700 mt-4">{curso.descripcion}</p>
+            {datosEstudiante && modoPago === 'trimestral' && (
+              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+                Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+                <br />
+                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+              </div>
+            )}
+          </div>
 
-          {/* Verificación */}
+          {/* Verificación de estudiante */}
           <div className="mt-6 space-y-2">
             <label className="block font-semibold">Tipo de documento:</label>
             <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
@@ -264,16 +266,31 @@ const CursoDetalle = () => {
 
                   <input type="file" className="w-full p-2 border rounded" required />
 
-                  <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm">
-                    <p className="font-semibold mb-2 text-institucional">Resumen del pago:</p>
-                    <p>Curso: <span className="font-medium">{curso.nombre}</span></p>
-                    <p>Forma de pago: {modoPago === 'mensual' ? 'Mensual' : 'Curso completo (3 meses)'}</p>
-                    <p>Valor original: ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}</p>
-                    <p>Descuento aplicado: {textoDescuento}</p>
-                    <p className="mt-2 font-bold text-lg text-institucional">Total a pagar: ${total.toLocaleString()}</p>
+                  {/* RESUMEN DEL PAGO FINAL */}
+                  <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">
+                    <p className="font-semibold mb-2 text-institucional text-base">Resumen del pago</p>
+
+                    <p><strong>Curso:</strong> {curso.nombre}</p>
+                    <p><strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}</p>
+                    <p><strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}</p>
+                    <p><strong>Descuento aplicado:</strong> {textoDescuento}</p>
+
+                    {datosEstudiante && modoPago === 'trimestral' && (
+                      <div className="bg-green-50 border border-green-200 p-3 rounded text-green-800 font-medium mt-2">
+                        Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+                      </div>
+                    )}
+
+                    <div className="mt-3 pt-3 border-t">
+                      <p className="text-lg font-bold text-institucional">
+                        Total a pagar: ${total.toLocaleString()}
+                      </p>
+                    </div>
                   </div>
 
-                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">Finalizar inscripción</button>
+                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
+                    Finalizar inscripción
+                  </button>
                 </form>
               )}
             </div>

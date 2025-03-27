@@ -221,4 +221,4 @@ const CursoDetalle = () => {
   );
 };
 
-export default CursoDetalle;
+export default CursoDetalle; 

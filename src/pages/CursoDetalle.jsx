@@ -108,6 +108,7 @@ const CursoDetalle = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
+
         {/* Columna izquierda */}
         <div className="flex flex-col gap-6">
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
@@ -147,89 +148,85 @@ const CursoDetalle = () => {
           <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
           {/* Bloque visual de precios */}
-          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
-            <div>
-              <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
-              <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
-            </div>
-
-            <div>
-              <p className="text-xl font-semibold text-gray-800 mt-4">Curso completo (3 meses)</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
-                <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
-                <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-[#f7f9fc] to-white border border-institucional rounded-xl p-6 shadow-md">
-  <div className="flex items-center gap-3 mb-3">
-    <div className="text-2xl">💙</div>
-    <h3 className="text-lg font-bold text-institucional">Beneficio para Familia Presentación</h3>
+<div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+  <div>
+    <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
+    <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
   </div>
 
-  <p className="text-gray-700 mb-3">
-    Accede a un <span className="font-semibold text-institucional">descuento exclusivo</span> solo por ser parte de la casa:
-  </p>
-
-  <ul className="list-disc list-inside space-y-1 text-gray-800">
-    <li><strong>5%</strong> si pagas el valor mensual.</li>
-    <li><strong>10%</strong> si pagas el curso completo (3 meses).</li>
-  </ul>
-
-  <p className="mt-4 text-sm text-gray-700">
-    Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.
-  </p>
-
-  <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
-</div>
-
-            {datosEstudiante && modoPago === 'trimestral' && (
-  <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-    Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-    <br />
-    <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+  <div>
+    <p className="text-xl font-semibold text-gray-800 mt-4">Curso completo (3 meses)</p>
+    <div className="flex items-baseline gap-2 mt-1">
+      <span className="text-gray-500 line-through text-xl">${valorTrimestral.toLocaleString()}</span>
+      <span className="text-2xl font-bold text-green-600">${total.toLocaleString()}</span>
+      <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
+    </div>
   </div>
-)}
-          </div>
 
-          {/* Título motivador */}
-          <div className="mt-4 mb-2">
-  <h3 className="text-xl font-semibold text-institucional leading-tight">
-    Inscríbete al curso y asegura tu cupo
-  </h3>
-  <p className="text-sm text-gray-700 mt-1">
-    Empieza ingresando tu tipo y número de documento.
-  </p>
+  <div className="bg-gradient-to-br from-[#f7f9fc] to-white border border-institucional rounded-xl p-6 shadow-md">
+    <div className="flex items-center gap-3 mb-3">
+      <div className="text-2xl">💙</div>
+      <h3 className="text-lg font-bold text-institucional">Beneficio para Familia Presentación</h3>
+    </div>
+
+    <p className="text-gray-700 mb-3">
+      Accede a un <span className="font-semibold text-institucional">descuento exclusivo</span> solo por ser parte de la casa:
+    </p>
+
+    <ul className="list-disc list-inside space-y-1 text-gray-800">
+      <li><strong>5%</strong> si pagas el valor mensual.</li>
+      <li><strong>10%</strong> si pagas el curso completo (3 meses).</li>
+    </ul>
+
+    <p className="mt-4 text-sm text-gray-700">
+      Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.
+    </p>
+
+    <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
+  </div>
+
+  {/* Descripción del curso - Nueva sección */}
+  <div className="mt-6">
+    <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
+    <p className="text-sm text-gray-600 mt-2">{curso.descripcion}</p>
+  </div>
+
+  {datosEstudiante && modoPago === 'trimestral' && (
+    <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+      Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+      <br />
+      <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+    </div>
+  )}
 </div>
 
-          {/* Verificación de estudiante */}
-          <div className="mt-6 space-y-2">
-          <label className="block font-semibold">Tipo de documento:</label>
-<select
-  className="w-full border p-2 rounded"
-  value={tipoDoc}
-  onChange={(e) => setTipoDoc(e.target.value)}
-  required
->
-  <option value="">Selecciona tipo</option>
-  <option value="rc">Registro Civil</option>
-  <option value="ti">Tarjeta de Identidad</option>
-  <option value="cc">Cédula de Ciudadanía</option>
-  <option value="ce">Cédula de Extranjería</option>
-  <option value="pa">Pasaporte</option>
-</select>
+{/* Formulario de inscripción */}
+<div className="mt-6 space-y-2">
+  <label className="block font-semibold">Tipo de documento:</label>
+  <select
+    className="w-full border p-2 rounded"
+    value={tipoDoc}
+    onChange={(e) => setTipoDoc(e.target.value)}
+    required
+  >
+    <option value="">Selecciona tipo</option>
+    <option value="rc">Registro Civil</option>
+    <option value="ti">Tarjeta de Identidad</option>
+    <option value="cc">Cédula de Ciudadanía</option>
+    <option value="ce">Cédula de Extranjería</option>
+    <option value="pa">Pasaporte</option>
+  </select>
 
-            <label className="block font-semibold mt-2">Número de documento:</label>
-            <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
+  <label className="block font-semibold mt-2">Número de documento:</label>
+  <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
 
-            <button
-              className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
-              onClick={verificarEstudiante}
-            >
-              Inscribirme
-            </button>
-          </div>
+  <button
+    className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+    onClick={verificarEstudiante}
+  >
+    Inscribirme
+  </button>
+</div>
 
           {yaInscrito && (
             <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded mt-6">

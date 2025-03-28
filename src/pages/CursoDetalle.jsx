@@ -113,6 +113,7 @@ const CursoDetalle = () => {
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
           </div>
+
           <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
             <div>
               <p className="text-institucional font-semibold">Modalidad:</p>
@@ -140,7 +141,7 @@ const CursoDetalle = () => {
             <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
           </div>
         </div>
-
+        
         {/* Columna derecha */}
         <div className="flex flex-col gap-4">
           <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
@@ -182,18 +183,9 @@ const CursoDetalle = () => {
 
               <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
             </div>
-
-            {datosEstudiante && modoPago === 'trimestral' && (
-              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-                Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                <br />
-                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
-              </div>
-            )}
           </div>
-
-          {/* Título motivador */}
-          <div className="mt-4 mb-2">
+                    {/* Título motivador */}
+                    <div className="mt-4 mb-2">
             <h3 className="text-xl font-semibold text-institucional leading-tight">
               Inscríbete al curso y asegura tu cupo
             </h3>
@@ -220,13 +212,7 @@ const CursoDetalle = () => {
             </select>
 
             <label className="block font-semibold mt-2">Número de documento:</label>
-            <input
-              type="text"
-              className="w-full border p-2 rounded"
-              value={documento}
-              onChange={(e) => setDocumento(e.target.value)}
-              required
-            />
+            <input type="text" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
 
             <button
               className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
@@ -279,7 +265,7 @@ const CursoDetalle = () => {
                       const res = await fetch(`${API_URL}/api/inscripciones`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data),
+                        body: JSON.stringify(data)
                       });
 
                       const result = await res.json();
@@ -296,74 +282,21 @@ const CursoDetalle = () => {
                   className="space-y-4"
                 >
                   <label className="block font-semibold">Forma de pago:</label>
-                  <select
-                    className="w-full border p-2 rounded"
-                    value={modoPago}
-                    onChange={(e) => setModoPago(e.target.value)}
-                  >
+                  <select className="w-full border p-2 rounded" value={modoPago} onChange={(e) => setModoPago(e.target.value)}>
                     <option value="trimestral">Curso completo (3 meses)</option>
                     <option value="mensual">Pago mensual</option>
                   </select>
 
-                  <input
-                    name="nombres"
-                    type="text"
-                    placeholder="Nombres"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.nombres || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="apellidos"
-                    type="text"
-                    placeholder="Apellidos"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.apellidos || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="correo"
-                    type="email"
-                    placeholder="Correo electrónico"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.correo || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="telefono"
-                    type="tel"
-                    placeholder="Celular"
-                    className="w-full p-2 border rounded"
-                    defaultValue={datosEstudiante?.telefono || ''}
-                    required
-                  />
-                  <input
-                    name="fechaNacimiento"
-                    type="date"
-                    className="w-full p-2 border rounded text-gray-500"
-                    required
-                    onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))}
-                  />
+                  <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
+                  <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
+                  <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
+                  <input name="telefono" type="tel" placeholder="Celular" className="w-full p-2 border rounded" defaultValue={datosEstudiante?.telefono || ''} required />
+                  <input name="fechaNacimiento" type="date" className="w-full p-2 border rounded text-gray-500" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} />
 
                   {esMenor && (
                     <>
-                      <input
-                        name="acudiente"
-                        type="text"
-                        placeholder="Nombre del acudiente"
-                        className="w-full p-2 border rounded"
-                        required
-                      />
-                      <input
-                        name="telefonoAcudiente"
-                        type="tel"
-                        placeholder="Teléfono del acudiente"
-                        className="w-full p-2 border rounded"
-                        required
-                      />
+                      <input name="acudiente" type="text" placeholder="Nombre del acudiente" className="w-full p-2 border rounded" required />
+                      <input name="telefonoAcudiente" type="tel" placeholder="Teléfono del acudiente" className="w-full p-2 border rounded" required />
                     </>
                   )}
 
@@ -408,10 +341,7 @@ const CursoDetalle = () => {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark"
-                  >
+                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
                     Finalizar inscripción
                   </button>
                 </form>

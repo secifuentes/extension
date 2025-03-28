@@ -89,6 +89,7 @@ const CursoDetalle = () => {
   total = parseInt(total.toFixed(0));
 
   if (!curso) return <p className="p-10 text-center">Curso no encontrado</p>;
+
   return (
     <div className="pt-[72px]">
       <div className="max-w-7xl mx-auto px-6 mt-2">
@@ -108,8 +109,8 @@ const CursoDetalle = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
-        {/* Columna izquierda */}
-        <div className="flex flex-col gap-6">
+        {/* Columna izquierda (Imagen y detalles del curso en versión móvil y escritorio) */}
+        <div className="flex flex-col gap-6 order-2 md:order-1">
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
           </div>
@@ -141,9 +142,9 @@ const CursoDetalle = () => {
             <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
           </div>
         </div>
-        
-        {/* Columna derecha */}
-        <div className="flex flex-col gap-4">
+
+        {/* Columna derecha (Precios y formulario de inscripción) */}
+        <div className="flex flex-col gap-4 order-1 md:order-2">
           <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
           {/* Bloque visual de precios */}
@@ -183,9 +184,18 @@ const CursoDetalle = () => {
 
               <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
             </div>
+
+            {datosEstudiante && modoPago === 'trimestral' && (
+              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+                Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+                <br />
+                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+              </div>
+            )}
           </div>
-                    {/* Título motivador */}
-                    <div className="mt-4 mb-2">
+
+          {/* Título motivador */}
+          <div className="mt-4 mb-2">
             <h3 className="text-xl font-semibold text-institucional leading-tight">
               Inscríbete al curso y asegura tu cupo
             </h3>
@@ -194,7 +204,7 @@ const CursoDetalle = () => {
             </p>
           </div>
 
-          {/* Verificación de estudiante */}
+          {/* Formulario de inscripción */}
           <div className="mt-6 space-y-2">
             <label className="block font-semibold">Tipo de documento:</label>
             <select
@@ -212,7 +222,13 @@ const CursoDetalle = () => {
             </select>
 
             <label className="block font-semibold mt-2">Número de documento:</label>
-            <input type="text" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
+            <input
+              type="text"
+              className="w-full border p-2 rounded"
+              value={documento}
+              onChange={(e) => setDocumento(e.target.value)}
+              required
+            />
 
             <button
               className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
@@ -265,7 +281,7 @@ const CursoDetalle = () => {
                       const res = await fetch(`${API_URL}/api/inscripciones`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(data),
                       });
 
                       const result = await res.json();
@@ -282,21 +298,74 @@ const CursoDetalle = () => {
                   className="space-y-4"
                 >
                   <label className="block font-semibold">Forma de pago:</label>
-                  <select className="w-full border p-2 rounded" value={modoPago} onChange={(e) => setModoPago(e.target.value)}>
+                  <select
+                    className="w-full border p-2 rounded"
+                    value={modoPago}
+                    onChange={(e) => setModoPago(e.target.value)}
+                  >
                     <option value="trimestral">Curso completo (3 meses)</option>
                     <option value="mensual">Pago mensual</option>
                   </select>
 
-                  <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
-                  <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
-                  <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
-                  <input name="telefono" type="tel" placeholder="Celular" className="w-full p-2 border rounded" defaultValue={datosEstudiante?.telefono || ''} required />
-                  <input name="fechaNacimiento" type="date" className="w-full p-2 border rounded text-gray-500" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} />
+                  <input
+                    name="nombres"
+                    type="text"
+                    placeholder="Nombres"
+                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
+                    defaultValue={datosEstudiante?.nombres || ''}
+                    readOnly={!!datosEstudiante}
+                    required
+                  />
+                  <input
+                    name="apellidos"
+                    type="text"
+                    placeholder="Apellidos"
+                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
+                    defaultValue={datosEstudiante?.apellidos || ''}
+                    readOnly={!!datosEstudiante}
+                    required
+                  />
+                  <input
+                    name="correo"
+                    type="email"
+                    placeholder="Correo electrónico"
+                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
+                    defaultValue={datosEstudiante?.correo || ''}
+                    readOnly={!!datosEstudiante}
+                    required
+                  />
+                  <input
+                    name="telefono"
+                    type="tel"
+                    placeholder="Celular"
+                    className="w-full p-2 border rounded"
+                    defaultValue={datosEstudiante?.telefono || ''}
+                    required
+                  />
+                  <input
+                    name="fechaNacimiento"
+                    type="date"
+                    className="w-full p-2 border rounded text-gray-500"
+                    required
+                    onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))}
+                  />
 
                   {esMenor && (
                     <>
-                      <input name="acudiente" type="text" placeholder="Nombre del acudiente" className="w-full p-2 border rounded" required />
-                      <input name="telefonoAcudiente" type="tel" placeholder="Teléfono del acudiente" className="w-full p-2 border rounded" required />
+                      <input
+                        name="acudiente"
+                        type="text"
+                        placeholder="Nombre del acudiente"
+                        className="w-full p-2 border rounded"
+                        required
+                      />
+                      <input
+                        name="telefonoAcudiente"
+                        type="tel"
+                        placeholder="Teléfono del acudiente"
+                        className="w-full p-2 border rounded"
+                        required
+                      />
                     </>
                   )}
 
@@ -321,10 +390,18 @@ const CursoDetalle = () => {
                   <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">
                     <p className="font-semibold mb-2 text-institucional text-base">Resumen del pago</p>
 
-                    <p><strong>Curso:</strong> {curso.nombre}</p>
-                    <p><strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}</p>
-                    <p><strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}</p>
-                    <p><strong>Descuento aplicado:</strong> {textoDescuento}</p>
+                    <p>
+                      <strong>Curso:</strong> {curso.nombre}
+                    </p>
+                    <p>
+                      <strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}
+                    </p>
+                    <p>
+                      <strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}
+                    </p>
+                    <p>
+                      <strong>Descuento aplicado:</strong> {textoDescuento}
+                    </p>
 
                     {datosEstudiante && modoPago === 'trimestral' && (
                       <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">

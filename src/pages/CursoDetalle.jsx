@@ -185,12 +185,6 @@ const CursoDetalle = () => {
     <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
   </div>
 
-  {/* Descripción del curso - Nueva sección */}
-  <div className="mt-6">
-    <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-    <p className="text-sm text-gray-600 mt-2">{curso.descripcion}</p>
-  </div>
-
   {datosEstudiante && modoPago === 'trimestral' && (
     <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
       Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
@@ -200,7 +194,23 @@ const CursoDetalle = () => {
   )}
 </div>
 
-{/* Formulario de inscripción */}
+{/* Descripción del curso - Fuera de la caja de precios */}
+<div className="mt-6">
+  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
+  <p className="text-sm text-gray-600 mt-2">{curso.descripcion}</p>
+</div>
+
+{/* Título motivador */}
+<div className="mt-4 mb-2">
+  <h3 className="text-xl font-semibold text-institucional leading-tight">
+    Inscríbete al curso y asegura tu cupo
+  </h3>
+  <p className="text-sm text-gray-700 mt-1">
+    Empieza ingresando tu tipo y número de documento.
+  </p>
+</div>
+
+{/* Verificación de estudiante (Formulario) */}
 <div className="mt-6 space-y-2">
   <label className="block font-semibold">Tipo de documento:</label>
   <select

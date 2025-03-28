@@ -108,45 +108,20 @@ const CursoDetalle = () => {
         </div>
       </div>
 
+      {/* Responsive: Primero la imagen */}
       <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
-        {/* Columna izquierda (Imagen y detalles del curso en versión móvil y escritorio) */}
-        <div className="flex flex-col gap-6 order-2 md:order-1">
+        {/* Columna izquierda: Imagen y nombre del curso */}
+        <div className="flex flex-col gap-6">
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
           </div>
 
-          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div>
-              <p className="text-institucional font-semibold">Modalidad:</p>
-              <p>{curso.modalidad}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Duración:</p>
-              <p>{curso.duracion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Ubicación:</p>
-              <p>{curso.ubicacion}</p>
-            </div>
-            <div>
-              <p className="text-institucional font-semibold">Horario:</p>
-              <p>{curso.horario}</p>
-            </div>
-          </div>
-
-          <div>
-            <AccordionItem title="Requisitos" content={curso.requisitos} />
-            <AccordionItem title="Implementos necesarios" content={curso.implementos} />
-            <AccordionItem title="Beneficios" content={curso.beneficios} />
-            <AccordionItem title="Edad" content={curso.edad} />
-            <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
-          </div>
+          {/* Título del curso */}
+          <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
         </div>
 
-        {/* Columna derecha (Precios y formulario de inscripción) */}
-        <div className="flex flex-col gap-4 order-1 md:order-2">
-          <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
-
+        {/* Columna derecha: Bloques de valores */}
+        <div className="flex flex-col gap-4">
           {/* Bloque visual de precios */}
           <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
             <div>
@@ -162,271 +137,78 @@ const CursoDetalle = () => {
                 <span className="text-sm text-green-700 font-medium">({textoDescuento})</span>
               </div>
             </div>
-
-            <div className="bg-gradient-to-br from-[#f7f9fc] to-white border border-institucional rounded-xl p-6 shadow-md">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-2xl">💙</div>
-                <h3 className="text-lg font-bold text-institucional">Beneficio para Familia Presentación</h3>
-              </div>
-
-              <p className="text-gray-700 mb-3">
-                Accede a un <span className="font-semibold text-institucional">descuento exclusivo</span> solo por ser parte de la casa:
-              </p>
-
-              <ul className="list-disc list-inside space-y-1 text-gray-800">
-                <li><strong>5%</strong> si pagas el valor mensual.</li>
-                <li><strong>10%</strong> si pagas el curso completo (3 meses).</li>
-              </ul>
-
-              <p className="mt-4 text-sm text-gray-700">
-                Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.
-              </p>
-
-              <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
-            </div>
-
-            {datosEstudiante && modoPago === 'trimestral' && (
-              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-                Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                <br />
-                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
-              </div>
-            )}
           </div>
-
-          {/* Título motivador */}
-          <div className="mt-4 mb-2">
-            <h3 className="text-xl font-semibold text-institucional leading-tight">
-              Inscríbete al curso y asegura tu cupo
-            </h3>
-            <p className="text-sm text-gray-700 mt-1">
-              Empieza ingresando tu tipo y número de documento.
-            </p>
-          </div>
-
-          {/* Formulario de inscripción */}
-          <div className="mt-6 space-y-2">
-            <label className="block font-semibold">Tipo de documento:</label>
-            <select
-              className="w-full border p-2 rounded"
-              value={tipoDoc}
-              onChange={(e) => setTipoDoc(e.target.value)}
-              required
-            >
-              <option value="">Selecciona tipo</option>
-              <option value="rc">Registro Civil</option>
-              <option value="ti">Tarjeta de Identidad</option>
-              <option value="cc">Cédula de Ciudadanía</option>
-              <option value="ce">Cédula de Extranjería</option>
-              <option value="pa">Pasaporte</option>
-            </select>
-
-            <label className="block font-semibold mt-2">Número de documento:</label>
-            <input
-              type="text"
-              className="w-full border p-2 rounded"
-              value={documento}
-              onChange={(e) => setDocumento(e.target.value)}
-              required
-            />
-
-            <button
-              className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
-              onClick={verificarEstudiante}
-            >
-              Inscribirme
-            </button>
-          </div>
-
-          {yaInscrito && (
-            <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded mt-6">
-              Ya estás inscrito en este curso 🎓
-            </div>
-          )}
-
-          {mostrarFormulario && !yaInscrito && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
-              {inscripcionExitosa ? (
-                <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
-                  <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
-                  <p className="mt-2">Te has inscrito al curso <strong>{curso.nombre}</strong>.</p>
-                  <p className="mt-1">Estamos verificando tu comprobante de pago. Te enviaremos una confirmación pronto.</p>
-                </div>
-              ) : (
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    const form = e.target;
-
-                    const data = {
-                      nombres: datosEstudiante?.nombres || form.nombres.value,
-                      apellidos: datosEstudiante?.apellidos || form.apellidos.value,
-                      documento,
-                      tipoDocumento: tipoDoc,
-                      correo: datosEstudiante?.correo || form.correo.value,
-                      telefono: datosEstudiante?.telefono || form.telefono.value,
-                      fechaNacimiento: form.fechaNacimiento.value,
-                      cursoId: id,
-                      cursoNombre: curso.nombre,
-                      esEstudiante: !!datosEstudiante,
-                      formaPago: modoPago,
-                      valorPagado: total,
-                      pagoConfirmado: false,
-                      comprobante: comprobanteBase64,
-                    };
-
-                    console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
-
-                    try {
-                      const res = await fetch(`${API_URL}/api/inscripciones`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data),
-                      });
-
-                      const result = await res.json();
-                      if (res.ok) {
-                        setInscripcionExitosa(true);
-                      } else {
-                        alert('Error al guardar inscripción');
-                      }
-                    } catch (err) {
-                      console.error('❌ Error al enviar inscripción:', err);
-                      alert('No se pudo conectar con el servidor');
-                    }
-                  }}
-                  className="space-y-4"
-                >
-                  <label className="block font-semibold">Forma de pago:</label>
-                  <select
-                    className="w-full border p-2 rounded"
-                    value={modoPago}
-                    onChange={(e) => setModoPago(e.target.value)}
-                  >
-                    <option value="trimestral">Curso completo (3 meses)</option>
-                    <option value="mensual">Pago mensual</option>
-                  </select>
-
-                  <input
-                    name="nombres"
-                    type="text"
-                    placeholder="Nombres"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.nombres || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="apellidos"
-                    type="text"
-                    placeholder="Apellidos"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.apellidos || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="correo"
-                    type="email"
-                    placeholder="Correo electrónico"
-                    className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`}
-                    defaultValue={datosEstudiante?.correo || ''}
-                    readOnly={!!datosEstudiante}
-                    required
-                  />
-                  <input
-                    name="telefono"
-                    type="tel"
-                    placeholder="Celular"
-                    className="w-full p-2 border rounded"
-                    defaultValue={datosEstudiante?.telefono || ''}
-                    required
-                  />
-                  <input
-                    name="fechaNacimiento"
-                    type="date"
-                    className="w-full p-2 border rounded text-gray-500"
-                    required
-                    onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))}
-                  />
-
-                  {esMenor && (
-                    <>
-                      <input
-                        name="acudiente"
-                        type="text"
-                        placeholder="Nombre del acudiente"
-                        className="w-full p-2 border rounded"
-                        required
-                      />
-                      <input
-                        name="telefonoAcudiente"
-                        type="tel"
-                        placeholder="Teléfono del acudiente"
-                        className="w-full p-2 border rounded"
-                        required
-                      />
-                    </>
-                  )}
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={async (e) => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
-                      };
-                      reader.readAsDataURL(file);
-                    }}
-                    className="w-full p-2 border rounded"
-                    required
-                  />
-
-                  {/* RESUMEN DEL PAGO FINAL */}
-                  <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">
-                    <p className="font-semibold mb-2 text-institucional text-base">Resumen del pago</p>
-
-                    <p>
-                      <strong>Curso:</strong> {curso.nombre}
-                    </p>
-                    <p>
-                      <strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}
-                    </p>
-                    <p>
-                      <strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}
-                    </p>
-                    <p>
-                      <strong>Descuento aplicado:</strong> {textoDescuento}
-                    </p>
-
-                    {datosEstudiante && modoPago === 'trimestral' && (
-                      <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-                        Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                        <br />
-                        <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
-                      </div>
-                    )}
-
-                    <div className="mt-3 pt-3 border-t">
-                      <p className="text-lg font-bold text-institucional">
-                        Total a pagar: ${total.toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
-                    Finalizar inscripción
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Responsive: Detalles del curso (Modalidad, Duración, etc.) */}
+      <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
+        <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
+          <div>
+            <p className="text-institucional font-semibold">Modalidad:</p>
+            <p>{curso.modalidad}</p>
+          </div>
+          <div>
+            <p className="text-institucional font-semibold">Duración:</p>
+            <p>{curso.duracion}</p>
+          </div>
+          <div>
+            <p className="text-institucional font-semibold">Ubicación:</p>
+            <p>{curso.ubicacion}</p>
+          </div>
+          <div>
+            <p className="text-institucional font-semibold">Horario:</p>
+            <p>{curso.horario}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Abajo: Formulario de inscripción y acordeones */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="mt-4 mb-2">
+          <h3 className="text-xl font-semibold text-institucional leading-tight">Inscríbete al curso y asegura tu cupo</h3>
+          <p className="text-sm text-gray-700 mt-1">Empieza ingresando tu tipo y número de documento.</p>
+        </div>
+
+        <div className="mt-6 space-y-2">
+          <label className="block font-semibold">Tipo de documento:</label>
+          <select
+            className="w-full border p-2 rounded"
+            value={tipoDoc}
+            onChange={(e) => setTipoDoc(e.target.value)}
+            required
+          >
+            <option value="">Selecciona tipo</option>
+            <option value="rc">Registro Civil</option>
+            <option value="ti">Tarjeta de Identidad</option>
+            <option value="cc">Cédula de Ciudadanía</option>
+            <option value="ce">Cédula de Extranjería</option>
+            <option value="pa">Pasaporte</option>
+          </select>
+
+          <label className="block font-semibold mt-2">Número de documento:</label>
+          <input
+            type="text"
+            className="w-full border p-2 rounded"
+            value={documento}
+            onChange={(e) => setDocumento(e.target.value)}
+            required
+          />
+
+          <button
+            className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+            onClick={verificarEstudiante}
+          >
+            Inscribirme
+          </button>
+        </div>
+      </div>
+
+      <AccordionItem title="Requisitos" content={curso.requisitos} />
+      <AccordionItem title="Implementos necesarios" content={curso.implementos} />
+      <AccordionItem title="Beneficios" content={curso.beneficios} />
+      <AccordionItem title="Edad" content={curso.edad} />
+      <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
     </div>
   );
 };

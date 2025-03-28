@@ -7,10 +7,10 @@ const cursos = [
   { slug: 'semillero-banda', nombre: 'Semillero Banda', valor: '$70.000', imagen: '/cursos/banda.jpg' },
   { slug: 'defensa-personal', nombre: 'Defensa Personal', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
   { slug: 'junior-english-a1-a2', nombre: 'Junior English Level A1-A2 (9 to 11 years old)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
-  { slug: 'teens-english-b1', nombre: 'Inglés Teens (12-14 B1)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
-  { slug: 'young-adults-english-a1-a2', nombre: 'Inglés Young (15-17 B1-B2)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
-  { slug: 'young-adults-english-b1-b2', nombre: 'Inglés Young (15-17 B1-B2)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
-  { slug: 'adult-english-a1-a2', nombre: 'Inglés Young (15-17 B1-B2)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'teens-english-b1', nombre: 'Teens English Level B1 (12 to 14 years old)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
+  { slug: 'young-adults-english-a1-a2', nombre: 'Young Adults English Level A1-A2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'young-adults-english-b1-b2', nombre: 'Young Adults English Level B1-B2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'adult-english-a1-a2', nombre: 'Adult English Level A1-A2 (18 years and older)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
   { slug: 'ajedrez', nombre: 'Ajedrez', valor: '$80.000', imagen: '/cursos/ajedrez.jpg' },
 ];
 

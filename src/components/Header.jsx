@@ -43,7 +43,7 @@ const Header = () => {
         <nav className="hidden sm:flex gap-6 text-sm font-medium">
           <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-          <Link to="/estado-inscripcion" className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
+          <Link to="/estado" className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
         </nav>
       </div>
 

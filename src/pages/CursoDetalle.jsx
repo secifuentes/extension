@@ -194,11 +194,11 @@ const CursoDetalle = () => {
           </div>
 
           {/* Título motivador */}
-          <div className="mt-8 mb-4">
-  <h3 className="text-2xl font-semibold text-institucional leading-snug">
+          <div className="mt-4 mb-2">
+  <h3 className="text-xl font-semibold text-institucional leading-tight">
     Inscríbete al curso y asegura tu cupo
   </h3>
-  <p className="text-base text-gray-700 mt-1">
+  <p className="text-sm text-gray-700 mt-1">
     Empieza ingresando tu tipo y número de documento.
   </p>
 </div>

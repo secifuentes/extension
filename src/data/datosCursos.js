@@ -1,6 +1,6 @@
 export const datosCursos = {
   "iniciacion-musical": {
-    nombre: 'Iniciación Musical',
+    nombre: 'Iniciación Musical (5 a 10 años)',
     precio: 70000,
     imagen: '/cursos/musica.jpg',
     modalidad: 'Presencial',
@@ -14,8 +14,8 @@ export const datosCursos = {
     reserva: 'Sí, se requiere reserva previa.',
     horario: 'Martes de 14:30 a 16:00'
   },
-  "ensamble-musical": {
-    nombre: 'Ensamble Musical',
+  "iniciacion-canto-instrumentos": {
+    nombre: 'Iniciación en Canto e Instrumentos (Desde los 7 años)',
     precio: 70000,
     imagen: '/cursos/ensamble.jpg',
     modalidad: 'Presencial',
@@ -29,8 +29,8 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes de 14:30 a 16:00'
   },
-  "semillero-banda": {
-    nombre: 'Semillero Banda',
+  "ensamble-conjunto-musical": {
+    nombre: 'Ensamble y Conjunto Musical (Desde los 7 años)',
     precio: 70000,
     imagen: '/cursos/banda.jpg',
     modalidad: 'Presencial',
@@ -44,8 +44,25 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes de 14:30 a 16:00'
   },
+
+  "semillero-banda-vientos": {
+    nombre: 'Semillero Banda de Vientos (Estudiantes Iniciados)',
+    precio: 70000,
+    imagen: '/cursos/banda.jpg',
+    modalidad: 'Presencial',
+    duracion: '8 semanas',
+    ubicacion: 'Sede principal',
+    descripcion: 'Participá en el semillero de banda marcial del colegio. Desarrollá ritmo, disciplina y espíritu de grupo.',
+    requisitos: 'Ninguno.',
+    implementos: 'El colegio provee instrumentos básicos.',
+    beneficios: 'Disciplina, identidad institucional, coordinación.',
+    edad: '8 a 14 años',
+    reserva: 'Sí.',
+    horario: 'Martes de 14:30 a 16:00'
+  },
+
   "defensa-personal": {
-    nombre: 'Defensa Personal con énfasis en lucha olímpica',
+    nombre: 'Defensa Personal con Énfasis en Lucha Olímpica',
     precio: 85000,
     imagen: '/cursos/defensa.jpg',
     modalidad: 'Presencial',

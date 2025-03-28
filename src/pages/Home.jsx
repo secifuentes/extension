@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const cursos = [
-  { slug: 'iniciacion-musical', nombre: 'Iniciación Musical', valor: '$70.000', imagen: '/cursos/musica.jpg' },
-  { slug: 'ensamble-musical', nombre: 'Ensamble Musical', valor: '$70.000', imagen: '/cursos/ensamble.jpg' },
-  { slug: 'semillero-banda', nombre: 'Semillero Banda', valor: '$70.000', imagen: '/cursos/banda.jpg' },
-  { slug: 'defensa-personal', nombre: 'Defensa Personal', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
+  { slug: 'iniciacion-musical', nombre: 'Iniciación Musical (5 a 10 años)', valor: '$70.000', imagen: '/cursos/musica.jpg' },
+  { slug: 'iniciacion-canto-instrumentos', nombre: 'Iniciación en Canto e Instrumentos (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/ensamble.jpg' },
+  { slug: 'ensamble-conjunto-musical', nombre: 'Ensamble y Conjunto Musical (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
+  { slug: 'semillero-banda-vientos', nombre: 'Semillero Banda de Vientos (Estudiantes Iniciados)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
   { slug: 'junior-english-a1-a2', nombre: 'Junior English Level A1-A2 (9 to 11 years old)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
   { slug: 'teens-english-b1', nombre: 'Teens English Level B1 (12 to 14 years old)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
   { slug: 'young-adults-english-a1-a2', nombre: 'Young Adults English Level A1-A2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
   { slug: 'young-adults-english-b1-b2', nombre: 'Young Adults English Level B1-B2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
   { slug: 'adult-english-a1-a2', nombre: 'Adult English Level A1-A2 (18 years and older)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'defensa-personal', nombre: 'Defensa Personal con Énfasis en Lucha Olímpica', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
   { slug: 'ajedrez', nombre: 'Ajedrez', valor: '$80.000', imagen: '/cursos/ajedrez.jpg' },
 ];
 

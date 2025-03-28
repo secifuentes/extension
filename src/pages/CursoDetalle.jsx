@@ -241,7 +241,7 @@ const CursoDetalle = () => {
                       correo: datosEstudiante?.correo || form.correo.value,
                       telefono: datosEstudiante?.telefono || form.telefono.value,
                       fechaNacimiento: form.fechaNacimiento.value,
-                      cursoId: parseInt(id),
+                      cursoId: id,
                       cursoNombre: curso.nombre,
                       esEstudiante: !!datosEstudiante,
                       formaPago: modoPago,

@@ -1,17 +1,44 @@
-import React, { useState } from 'react';
-import { inscripciones } from '../../data/inscripciones';
-import { datosCursos } from '../../data/datosCursos';
-import { estudiantesRegistrados } from '../../data/estudiantes';
+import React, { useState, useEffect } from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {
-  const [data, setData] = useState(inscripciones);
+  const [data, setData] = useState([]);
+  
+  // Cargar inscripciones desde el backend
+  useEffect(() => {
+    const cargarInscripciones = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/inscripciones`);
+        const data = await res.json();
+        setData(data);
+      } catch (error) {
+        console.error('Error al cargar inscripciones:', error);
+      }
+    };
+    cargarInscripciones();
+  }, []);
 
-  const confirmarPago = (index) => {
-    const actualizado = [...data];
-    actualizado[index].pagoConfirmado = true;
-    setData(actualizado);
-    alert('✅ Pago confirmado correctamente.');
-    // Aquí podrías integrar lógica para persistir en DB real
+  const confirmarPago = async (index) => {
+    const inscripcion = data[index];
+    
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${inscripcion._id}`, {
+        method: 'PUT',
+      });
+      
+      if (res.ok) {
+        // Actualizamos el estado local de la inscripición a pago confirmado
+        const actualizado = [...data];
+        actualizado[index].pagoConfirmado = true;
+        setData(actualizado);
+        alert('✅ Pago confirmado correctamente y correo enviado.');
+      } else {
+        alert('❌ Error al confirmar el pago');
+      }
+    } catch (err) {
+      console.error('Error al confirmar el pago:', err);
+      alert('❌ No se pudo conectar con el servidor');
+    }
   };
 
   return (

@@ -151,25 +151,26 @@ const CursoDetalle = () => {
               </div>
             </div>
 
-            <div className="bg-white border border-institucional rounded-xl p-5 shadow-sm text-gray-800 text-[15px] leading-relaxed">
-  <div className="flex items-center gap-2 mb-2">
-    <span className="text-xl">💙</span>
-    <h3 className="font-bold text-institucional text-base">Beneficio para Familia Presentación</h3>
+            <div className="bg-gradient-to-br from-[#f7f9fc] to-white border border-institucional rounded-xl p-6 shadow-md">
+  <div className="flex items-center gap-3 mb-3">
+    <div className="text-2xl">💙</div>
+    <h3 className="text-lg font-bold text-institucional">Beneficio para Familia Presentación</h3>
   </div>
 
-  <p className="mb-3">
-    Accede a un <strong>descuento exclusivo</strong> solo por ser parte de la casa:
+  <p className="text-gray-700 mb-3">
+    Accede a un <span className="font-semibold text-institucional">descuento exclusivo</span> solo por ser parte de la casa:
   </p>
 
-  <ul className="list-disc list-inside space-y-1">
+  <ul className="list-disc list-inside space-y-1 text-gray-800">
     <li><strong>5%</strong> si pagas el valor mensual.</li>
     <li><strong>10%</strong> si pagas el curso completo (3 meses).</li>
   </ul>
 
-  <p className="mt-3 text-sm">
-    Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.  
-    <span className="font-semibold text-institucional ml-1">¡Aprovéchalo!</span>
+  <p className="mt-4 text-sm text-gray-700">
+    Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.
   </p>
+
+  <p className="mt-1 font-semibold text-institucional text-sm">¡Aprovéchalo!</p>
 </div>
 
             {datosEstudiante && modoPago === 'trimestral' && (

@@ -6,7 +6,7 @@ const cursos = [
   { slug: 'ensamble-musical', nombre: 'Ensamble Musical', valor: '$70.000', imagen: '/cursos/ensamble.jpg' },
   { slug: 'semillero-banda', nombre: 'Semillero Banda', valor: '$70.000', imagen: '/cursos/banda.jpg' },
   { slug: 'defensa-personal', nombre: 'Defensa Personal', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
-  { slug: 'ingles-junior-a1-a2', nombre: 'Inglés Junior (9-11 A1-A2)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
+  { slug: 'ingles-junior-a1-a2', nombre: 'Junior English Level A1-A2 (9 to 11 years old)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
   { slug: 'ingles-teens-b1', nombre: 'Inglés Teens (12-14 B1)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
   { slug: 'ingles-young-b1-b2', nombre: 'Inglés Young (15-17 B1-B2)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
   { slug: 'ajedrez', nombre: 'Ajedrez', valor: '$80.000', imagen: '/cursos/ajedrez.jpg' },

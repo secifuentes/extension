@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
+  const handleLinkClick = () => {
+    setMenuAbierto(false); // Cierra el menú cuando se hace clic en un enlace
+  };
+
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
       <div className="flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
-        {/* Logo */}
-        <h1 className="font-extrabold text-lg tracking-wide">
-          EXTENSIÓN LA PRESENTACIÓN
+        {/* Logo (modificado para móvil) */}
+        <h1 className="font-extrabold text-lg tracking-wide sm:text-2xl">
+          <span className="block sm:inline">EXTENSIÓN</span>
+          <span className="block sm:inline">LA PRESENTACIÓN</span>
         </h1>
 
         {/* Botón hamburguesa para móviles */}
@@ -39,8 +44,7 @@ const Header = () => {
         <nav className="hidden sm:flex gap-6 text-sm font-medium">
           <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-          <Link to="/contacto" className="hover:text-yellow-400 transition">Contacto</Link>
-          <Link to="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</Link>
+          <Link to="/estado-inscripcion" className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
         </nav>
       </div>
 
@@ -48,10 +52,9 @@ const Header = () => {
       {menuAbierto && (
         <div className="sm:hidden bg-institucional border-t border-white px-6 pb-4">
           <nav className="flex flex-col gap-3 text-sm font-medium">
-            <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
-            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-            <Link to="/contacto" className="hover:text-yellow-400 transition">Contacto</Link>
-            <Link to="/estado" className="hover:text-yellow-400 transition">Consulta tu estado</Link>
+            <Link to="/" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Inicio</Link>
+            <a href="https://lapresentaciongirardota.edu.co/index.php" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Presentación</a>
+            <Link to="/estado-inscripcion" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
           </nav>
         </div>
       )}

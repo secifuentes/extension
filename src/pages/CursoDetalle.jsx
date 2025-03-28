@@ -195,12 +195,20 @@ const CursoDetalle = () => {
 
           {/* Verificación de estudiante */}
           <div className="mt-6 space-y-2">
-            <label className="block font-semibold">Tipo de documento:</label>
-            <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
-              <option value="">Selecciona tipo</option>
-              <option value="cc">Cédula</option>
-              <option value="ti">Tarjeta de Identidad</option>
-            </select>
+          <label className="block font-semibold">Tipo de documento:</label>
+<select
+  className="w-full border p-2 rounded"
+  value={tipoDoc}
+  onChange={(e) => setTipoDoc(e.target.value)}
+  required
+>
+  <option value="">Selecciona tipo</option>
+  <option value="rc">Registro Civil</option>
+  <option value="ti">Tarjeta de Identidad</option>
+  <option value="cc">Cédula de Ciudadanía</option>
+  <option value="ce">Cédula de Extranjería</option>
+  <option value="pa">Pasaporte</option>
+</select>
 
             <label className="block font-semibold mt-2">Número de documento:</label>
             <input type="text" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />

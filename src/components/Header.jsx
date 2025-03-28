@@ -11,11 +11,10 @@ const Header = () => {
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
       <div className="flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
-        {/* Logo (modificado para móvil) */}
-        <h1 className="font-extrabold text-lg tracking-wide sm:text-2xl">
-          <span className="block sm:inline">EXTENSIÓN</span>
-          <span className="block sm:inline">LA PRESENTACIÓN</span>
-        </h1>
+        {/* Logo */}
+        <h1 className="font-extrabold text-lg tracking-wide">
+      EXTENSIÓN LA PRESENTACIÓN
+      </h1>
 
         {/* Botón hamburguesa para móviles */}
         <button

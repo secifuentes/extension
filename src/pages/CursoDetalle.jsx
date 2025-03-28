@@ -164,12 +164,12 @@ const CursoDetalle = () => {
             </div>
 
             {datosEstudiante && modoPago === 'trimestral' && (
-              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
-                Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                <br />
-                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
-              </div>
-            )}
+  <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+    Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+    <br />
+    <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+  </div>
+)}
           </div>
 
           {/* Verificación de estudiante */}
@@ -295,10 +295,12 @@ const CursoDetalle = () => {
                     <p><strong>Descuento aplicado:</strong> {textoDescuento}</p>
 
                     {datosEstudiante && modoPago === 'trimestral' && (
-                      <div className="bg-green-50 border border-green-200 p-3 rounded text-green-800 font-medium mt-2">
-                        Obtuviste un <strong>15% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
-                      </div>
-                    )}
+  <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+    Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+    <br />
+    <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
+  </div>
+)}
 
                     <div className="mt-3 pt-3 border-t">
                       <p className="text-lg font-bold text-institucional">
@@ -321,6 +323,3 @@ const CursoDetalle = () => {
 };
 
 export default CursoDetalle;
-
-// Agrega esto temporalmente para forzar cambio
-console.log("🚀 Forzando redeploy");

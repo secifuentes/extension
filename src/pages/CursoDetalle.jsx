@@ -268,6 +268,8 @@ const CursoDetalle = () => {
                       comprobante: comprobanteBase64,
                     };
 
+                    console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
+
                     try {
                       const res = await fetch(`${API_URL}/api/inscripciones`, {
                         method: 'POST',
@@ -282,8 +284,8 @@ const CursoDetalle = () => {
                         alert('Error al guardar inscripción');
                       }
                     } catch (err) {
+                      console.error('❌ Error al enviar inscripción:', err);
                       alert('No se pudo conectar con el servidor');
-                      console.error(err);
                     }
                   }}
                   className="space-y-4"

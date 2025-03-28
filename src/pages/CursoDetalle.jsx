@@ -10,15 +10,16 @@ const CursoDetalle = () => {
   const { id } = useParams();
   const curso = datosCursos[id];
 
-  // Estado para gestionar el formulario y la inscripción
+  // Estados para manejar el formulario y la inscripción
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [documento, setDocumento] = useState('');
   const [tipoDoc, setTipoDoc] = useState('');
   const [datosEstudiante, setDatosEstudiante] = useState(null);
   const [yaInscrito, setYaInscrito] = useState(false);
-  const [inscripcionExitosa, setInscripcionExitosa] = useState(false); // Estado para mostrar mensaje de éxito
+  const [inscripcionExitosa, setInscripcionExitosa] = useState(false); // Estado para el mensaje de éxito
   const [comprobanteBase64, setComprobanteBase64] = useState('');
 
+  // Verificar si el estudiante ya está inscrito
   const verificarEstudiante = () => {
     const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === id);
     if (yaExiste) {
@@ -48,12 +49,13 @@ const CursoDetalle = () => {
     reader.readAsDataURL(file);
   };
 
-  // Función para manejar el envío de los datos de inscripción
+  // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
     const form = e.target;
 
+    // Asegúrate de que todos los datos necesarios estén disponibles
     const data = {
       nombres: datosEstudiante?.nombres || form.nombres.value,
       apellidos: datosEstudiante?.apellidos || form.apellidos.value,
@@ -65,10 +67,10 @@ const CursoDetalle = () => {
       cursoId: id,
       cursoNombre: curso.nombre,
       esEstudiante: !!datosEstudiante,
-      formaPago: 'mensual', // O 'trimestral', depende de tu lógica
+      formaPago: 'mensual', // O 'trimestral', dependiendo de tu lógica
       valorPagado: 0, // Ajusta el valor real aquí
       pagoConfirmado: false, // El pago aún no está confirmado
-      comprobante: comprobanteBase64,
+      comprobante: comprobanteBase64, // El archivo de comprobante de pago en base64
     };
 
     try {
@@ -81,7 +83,7 @@ const CursoDetalle = () => {
       const result = await res.json();
 
       if (res.ok) {
-        setInscripcionExitosa(true); // Mostrar el mensaje de éxito
+        setInscripcionExitosa(true); // Cambiar el estado para mostrar el mensaje de éxito
       } else {
         alert('Error al guardar inscripción');
       }
@@ -90,7 +92,6 @@ const CursoDetalle = () => {
       alert('No se pudo conectar con el servidor');
     }
   };
-
   return (
     <div className="pt-[72px]">
       <div className="max-w-7xl mx-auto px-6 mt-2">
@@ -110,7 +111,7 @@ const CursoDetalle = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
-        {/* Columna izquierda (sin cambios) */}
+        {/* Columna izquierda */}
         <div className="flex flex-col gap-6">
           <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
             <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
@@ -146,7 +147,7 @@ const CursoDetalle = () => {
             </p>
           </div>
 
-          {/* Formulario de inscripción */}
+          {/* Mostrar el mensaje de inscripción exitosa */}
           {inscripcionExitosa && (
             <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
               <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
@@ -233,6 +234,7 @@ const CursoDetalle = () => {
                 required
               />
 
+              {/* Cargar el comprobante de pago */}
               <input
                 type="file"
                 accept="image/*"

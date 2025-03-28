@@ -59,8 +59,8 @@ export const datosCursos = {
     reserva: 'Cupos limitados.',
     horario: 'Martes de 14:30 a 16:00'
   },
-  "ingles-junior-a1-a2": {
-    nombre: 'Inglés Junior 9 - 11 A1 - A2',
+  "junior-english-a1-a2": {
+    nombre: 'Junior English Level A1-A2 (9 to 11 years old)',
     precio: 70000,
     imagen: '/cursos/ingles1.jpg',
     modalidad: 'Presencial',
@@ -74,8 +74,8 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes y jueves de 15:00 a 16:00'
   },
-  "ingles-teens-a1-a2": {
-    nombre: 'Inglés Teens 12 - 14 A1 - A2',
+  "teens-english-b1": {
+    nombre: 'Teens English Level B1 (12 to 14 years old)',
     precio: 70000,
     imagen: '/cursos/ingles2.jpg',
     modalidad: 'Presencial',
@@ -89,8 +89,8 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes y jueves de 15:00 a 16:00'
   },
-  "ingles-teens-b1": {
-    nombre: 'Inglés Teens 12 - 14 B1',
+  "young-adults-english-a1-a2": {
+    nombre: 'Young Adults English Level A1-A2 (15 to 17 years old)',
     precio: 80000,
     imagen: '/cursos/ingles2.jpg',
     modalidad: 'Presencial',
@@ -104,8 +104,8 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes y jueves de 15:00 a 16:00'
   },
-  "ingles-young-b1-b2": {
-    nombre: 'Inglés Young 15 - 17 B1-B2',
+  "young-adults-english-b1-b2": {
+    nombre: 'Young Adults English Level B1-B2 (15 to 17 years old)',
     precio: 90000,
     imagen: '/cursos/ingles3.jpg',
     modalidad: 'Presencial',
@@ -119,6 +119,23 @@ export const datosCursos = {
     reserva: 'Sí.',
     horario: 'Martes y jueves de 15:00 a 16:00'
   },
+
+  "adult-english-a1-a2": {
+    nombre: 'Adult English Level A1-A2 (18 years and older)',
+    precio: 90000,
+    imagen: '/cursos/ingles3.jpg',
+    modalidad: 'Presencial',
+    duracion: '12 semanas',
+    ubicacion: 'Bloque académico',
+    descripcion: 'Curso avanzado para jóvenes con bases previas. Enfocado en comprensión de textos y expresión oral fluida.',
+    requisitos: 'Nivel B1.',
+    implementos: 'Diccionario, cuaderno.',
+    beneficios: 'Preparación para pruebas oficiales.',
+    edad: '15 a 17 años',
+    reserva: 'Sí.',
+    horario: 'Martes y jueves de 15:00 a 16:00'
+  },
+
   "ajedrez": {
     nombre: 'Ajedrez',
     precio: 80000,

@@ -115,12 +115,23 @@ const CursoDetalle = () => {
           </div>
 
           <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
-            <div><p className="text-institucional font-semibold">Modalidad:</p><p>{curso.modalidad}</p></div>
-            <div><p className="text-institucional font-semibold">Duración:</p><p>{curso.duracion}</p></div>
-            <div><p className="text-institucional font-semibold">Ubicación:</p><p>{curso.ubicacion}</p></div>
-            <div><p className="text-institucional font-semibold">Inicio:</p><p>{curso.inicio}</p></div>
-            <div><p className="text-institucional font-semibold">Fin:</p><p>{curso.fin}</p></div>
-          </div>
+  <div>
+    <p className="text-institucional font-semibold">Modalidad:</p>
+    <p>{curso.modalidad}</p>
+  </div>
+  <div>
+    <p className="text-institucional font-semibold">Duración:</p>
+    <p>{curso.duracion}</p>
+  </div>
+  <div>
+    <p className="text-institucional font-semibold">Ubicación:</p>
+    <p>{curso.ubicacion}</p>
+  </div>
+  <div>
+    <p className="text-institucional font-semibold">Horario:</p>
+    <p>{curso.horario}</p>
+  </div>
+</div>
 
           <div>
             <AccordionItem title="Requisitos" content={curso.requisitos} />

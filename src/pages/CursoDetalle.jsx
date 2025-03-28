@@ -151,17 +151,26 @@ const CursoDetalle = () => {
               </div>
             </div>
 
-            <div className="bg-[#f1f5fb] border border-institucional p-5 rounded text-[15px] text-gray-800 leading-relaxed">
-              ¿Eres parte de la <strong>Familia Presentación</strong>? ¡Tenemos beneficios especiales para ti! 💙
-              <br />
-              Obtén un<strong> 5% de descuento</strong> en tu inscripción mensual solo por ser de la casa.
-              <br />
-              Y si decides pagar los tres meses por anticipado, recibes un <strong>5% adicional</strong>.
-              <br />
-              <span className="font-semibold text-institucional">
-                ¡Aprovecha hasta un 10% de descuento exclusivo para nuestra familia!
-                </span>
-            </div>
+            <div className="bg-white border border-institucional rounded-xl p-5 shadow-sm text-gray-800 text-[15px] leading-relaxed">
+  <div className="flex items-center gap-2 mb-2">
+    <span className="text-xl">💙</span>
+    <h3 className="font-bold text-institucional text-base">Beneficio para Familia Presentación</h3>
+  </div>
+
+  <p className="mb-3">
+    Accede a un <strong>descuento exclusivo</strong> solo por ser parte de la casa:
+  </p>
+
+  <ul className="list-disc list-inside space-y-1">
+    <li><strong>5%</strong> si pagas el valor mensual.</li>
+    <li><strong>10%</strong> si pagas el curso completo (3 meses).</li>
+  </ul>
+
+  <p className="mt-3 text-sm">
+    Ingresa tu documento en el formulario y el descuento se aplicará automáticamente.  
+    <span className="font-semibold text-institucional ml-1">¡Aprovéchalo!</span>
+  </p>
+</div>
 
             {datosEstudiante && modoPago === 'trimestral' && (
   <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">

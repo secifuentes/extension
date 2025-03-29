@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { cargarCursosEnBackend } from '../scripts/cargarCursos'; // Asegúrate que esta ruta sea correcta
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminCursos = () => {
   const [cursos, setCursos] = useState([]);
 
+  // 👉 Ejecutar carga solo una vez (para migrar los cursos)
+  useEffect(() => {
+    cargarCursosEnBackend();
+  }, []);
+
+  // 👉 Luego, carga normal de cursos desde la API
   useEffect(() => {
     const fetchCursos = async () => {
       const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);

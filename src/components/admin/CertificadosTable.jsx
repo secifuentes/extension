@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { inscripciones } from '../../data/inscripciones';
-import { datosCursos } from '../../data/datosCursos';
 import { estudiantesRegistrados } from '../../data/estudiantes';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';

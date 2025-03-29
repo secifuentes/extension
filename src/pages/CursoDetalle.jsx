@@ -276,6 +276,9 @@ const CursoDetalle = () => {
                     };
 
                     console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
+                    console.log("📤 Enviando datos:", data);
+                    console.log("➡ Enviando inscripción a:", `${API_URL}/api/inscripciones`);
+                    
 
                     try {
                       const res = await fetch(`${API_URL}/api/inscripciones`, {

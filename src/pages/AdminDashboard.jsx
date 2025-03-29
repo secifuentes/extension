@@ -4,6 +4,7 @@ import Header from '../components/admin/Header';
 import StatsCards from '../components/admin/StatsCards';
 import ChartBox from '../components/admin/ChartBox';
 import ChartResumen from '../components/admin/ChartResumen';
+import InscripcionesTable from '../components/admin/InscripcionesTable';
 
 const AdminDashboard = () => {
   return (
@@ -20,6 +21,7 @@ const AdminDashboard = () => {
           <StatsCards />
           <ChartBox />
           <ChartResumen />
+          <InscripcionesTable />
         </main>
       </div>
     </div>

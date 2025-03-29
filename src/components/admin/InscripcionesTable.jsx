@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { estudiantesRegistrados } from '../../data/estudiantes';
+import { datosCursos } from '../../data/datosCursos';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {
   const [data, setData] = useState([]);
-  
+
   // Cargar inscripciones desde el backend
   useEffect(() => {
     const cargarInscripciones = async () => {
@@ -20,14 +22,13 @@ const InscripcionesTable = () => {
 
   const confirmarPago = async (index) => {
     const inscripcion = data[index];
-    
+
     try {
       const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${inscripcion._id}`, {
         method: 'PUT',
       });
-      
+
       if (res.ok) {
-        // Actualizamos el estado local de la inscripición a pago confirmado
         const actualizado = [...data];
         actualizado[index].pagoConfirmado = true;
         setData(actualizado);

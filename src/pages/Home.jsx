@@ -1,120 +1,110 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const API_URL = import.meta.env.VITE_API_URL;
+
+const cursos = [
+  { slug: 'iniciacion-musical', nombre: 'Iniciación Musical (5 a 10 años)', valor: '$70.000', imagen: '/cursos/musica.jpg' },
+  { slug: 'iniciacion-canto-instrumentos', nombre: 'Iniciación en Canto e Instrumentos (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/ensamble.jpg' },
+  { slug: 'ensamble-conjunto-musical', nombre: 'Ensamble y Conjunto Musical (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
+  { slug: 'semillero-banda-vientos', nombre: 'Semillero Banda de Vientos (Estudiantes Iniciados)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
+  { slug: 'junior-english-a1-a2', nombre: 'Junior English Level A1-A2 (9 to 11 years old)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
+  { slug: 'teens-english-b1', nombre: 'Teens English Level B1 (12 to 14 years old)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
+  { slug: 'young-adults-english-a1-a2', nombre: 'Young Adults English Level A1-A2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'young-adults-english-b1-b2', nombre: 'Young Adults English Level B1-B2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'adult-english-a1-a2', nombre: 'Adult English Level A1-A2 (18 years and older)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
+  { slug: 'defensa-personal', nombre: 'Defensa Personal con Énfasis en Lucha Olímpica', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
+  { slug: 'ajedrez', nombre: 'Ajedrez', valor: '$80.000', imagen: '/cursos/ajedrez.jpg' },
+];
+
+const beneficios = [
+  { icono: '🎓', texto: 'Educación de Alta Calidad' },
+  { icono: '💡', texto: 'Formación Integral' },
+  { icono: '🤝', texto: 'Valores Presentación' },
+  { icono: '🛡️', texto: 'Ambiente Seguro y Acompañamiento' },
+];
+
+const imagenesBanner = [
+  '/banner/banner1.jpg',
+  '/banner/banner2.jpg',
+  '/banner/banner3.jpg',
+];
 
 const Home = () => {
   const [imagenActual, setImagenActual] = useState(0);
-  const [cursos, setCursos] = useState([]);
 
-  const imagenes = [
-    '/banner/banner1.jpg',
-    '/banner/banner2.jpg',
-    '/banner/banner3.jpg',
-  ];
-
-  // Carrusel automático
   useEffect(() => {
     const intervalo = setInterval(() => {
-      setImagenActual((prev) => (prev + 1) % imagenes.length);
-    }, 4000);
+      setImagenActual((prev) => (prev + 1) % imagenesBanner.length);
+    }, 5000);
     return () => clearInterval(intervalo);
   }, []);
 
-  // Obtener cursos desde el backend
-  useEffect(() => {
-    const fetchCursos = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
-        const data = await res.json();
-        setCursos(data);
-      } catch (error) {
-        console.error('Error al cargar cursos desde el backend:', error);
-      }
-    };
-
-    fetchCursos();
-  }, []);
-
   return (
-    <div className="pt-[72px]">
-
-      {/* Carrusel */}
-      <div className="w-full h-[400px] relative overflow-hidden">
+    <div className="pt-0">
+      {/* Banner */}
+      <div className="w-full h-[600px] relative">
         <img
-          src={imagenes[imagenActual]}
+          src={imagenesBanner[imagenActual]}
           alt="Banner"
-          className="w-full h-full object-cover transition-all duration-1000"
+          className="w-full h-full object-cover transition-all duration-700"
         />
-      </div>
-
-      {/* Cursos */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <h2 className="text-3xl font-bold text-institucional mb-6 text-center">Cursos de Extensión</h2>
-
-        {cursos.length === 0 ? (
-          <p className="text-center text-gray-500 text-sm mt-10">No hay cursos disponibles por ahora.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {cursos.map((curso) => (
-              <Link to={`/curso/${curso._id}`} key={curso._id}>
-                <div className="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden">
-                  <img
-                    src={curso.imagen}
-                    alt={curso.nombre}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="text-center font-bold text-institucional text-lg leading-snug">
-                      {curso.nombre}
-                    </h3>
-                    <p className="text-sm text-center text-gray-500 mt-1">
-                      💰 {curso.precio?.toLocaleString?.() ? `$${curso.precio.toLocaleString()}` : ''}
-                    </p>
-                    <p className="text-xs text-center text-gray-400 mt-1">
-                      {curso.modalidad} • {curso.duracion}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* SECCIÓN: ¿Por qué elegirnos? */}
-      <div className="bg-[#f7f9fc] py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-institucional mb-4">¿Por qué elegirnos?</h2>
-          <p className="text-gray-700 text-md mb-10">
-            Nuestros cursos de extensión están diseñados para potenciar las habilidades de nuestros estudiantes,
-            fomentar la creatividad y reforzar valores a través de experiencias significativas.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-left">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-institucional mb-2">Profesores calificados</h3>
-              <p className="text-gray-600 text-sm">
-                Contamos con docentes apasionados, expertos en su área y con vocación educativa.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-institucional mb-2">Ambiente seguro</h3>
-              <p className="text-gray-600 text-sm">
-                Nuestras actividades se desarrollan en espacios seguros, pensados para el bienestar de cada estudiante.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-institucional mb-2">Formación integral</h3>
-              <p className="text-gray-600 text-sm">
-                Promovemos el desarrollo académico, emocional, físico y espiritual de nuestros estudiantes.
-              </p>
-            </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 flex items-center justify-center px-4 text-center">
+          <div>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+              Cursos de Extensión
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
+              La Presentación Girardota
+            </p>
           </div>
         </div>
       </div>
 
+      {/* Cursos */}
+      <section className="max-w-7xl mx-auto px-4 py-14">
+        <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {cursos.map((curso) => (
+            <div key={curso.slug} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+              <div className="aspect-[3/3] overflow-hidden">
+                <img
+                  src={curso.imagen}
+                  alt={curso.nombre}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 text-center">
+                <h3 className="text-center font-bold text-institucional text-lg leading-snug">
+                  {curso.nombre}
+                </h3>
+                <Link
+                  to={`/curso/${curso.slug}`}
+                  className="mt-4 inline-block bg-institucional text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
+                >
+                  Inscribirme
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Beneficios */}
+      <section className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h3 className="text-3xl font-bold text-center mb-12 text-institucional">¿Por qué elegirnos?</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {beneficios.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer"
+              >
+                <div className="text-6xl mb-3">{item.icono}</div>
+                <p className="font-semibold text-lg">{item.texto}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

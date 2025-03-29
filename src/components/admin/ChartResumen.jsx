@@ -10,7 +10,6 @@ import {
 } from 'chart.js';
 
 import { inscripciones } from '../../data/inscripciones';
-import { datosCursos } from '../../data/datosCursos';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 

@@ -311,7 +311,7 @@ const CursoDetalle = () => {
                   <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
                   <input name="telefono" type="tel" placeholder="Celular" className="w-full p-2 border rounded" defaultValue={datosEstudiante?.telefono || ''} required />
                   <label className="block font-semibold text-gray-700">Fecha de nacimiento:</label>
-                  <input type="date" className="w-full p-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-institucional placeholder-gray-500" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} placeholder="Selecciona tu fecha de nacimiento" />
+                  <input type="date" name="fechaNacimiento" className="w-full p-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-institucional placeholder-gray-500" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} placeholder="Selecciona tu fecha de nacimiento" />
 
                   {esMenor && (
                     <>

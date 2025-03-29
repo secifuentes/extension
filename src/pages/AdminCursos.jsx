@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { cargarCursosEnBackend } from '../scripts/cargarCursos'; // Asegúrate que esta ruta sea correcta
+// Si no vas a cargar cursos automáticamente, puedes quitar esta línea
+// import { cargarCursosEnBackend } from '../scripts/cargarCursos';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminCursos = () => {
   const [cursos, setCursos] = useState([]);
 
-  // 👉 Ejecutar carga solo una vez (para migrar los cursos)
-  useEffect(() => {
-    cargarCursosEnBackend();
-  }, []);
+  const eliminarTodosLosCursos = async () => {
+    const confirmacion = window.confirm('¿Estás seguro de eliminar TODOS los cursos? Esta acción no se puede deshacer.');
+    if (!confirmacion) return;
+  
+    try {
+      const res = await fetch(`${API_URL}/api/cursos/eliminar-todos`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      alert(data.mensaje || 'Cursos eliminados');
+      window.location.reload(); // recargar para reflejar el cambio
+    } catch (error) {
+      console.error('❌ Error al eliminar cursos:', error);
+      alert('Error al eliminar los cursos');
+    }
+  };
 
-  // 👉 Luego, carga normal de cursos desde la API
+  // Obtener cursos desde la API
   useEffect(() => {
     const fetchCursos = async () => {
       const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
@@ -23,6 +36,14 @@ const AdminCursos = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-institucional mb-6">Gestión de Cursos</h1>
+
+      {/* 🔴 Botón para eliminar todos los cursos */}
+      <button
+        onClick={eliminarTodosLosCursos}
+        className="mb-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+      >
+        🗑️ Eliminar todos los cursos
+      </button>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cursos.map((curso) => (

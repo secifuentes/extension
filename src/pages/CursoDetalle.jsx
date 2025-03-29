@@ -27,6 +27,7 @@ useEffect(() => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
       const data = await res.json();
+      console.log('Datos recibidos:', data);  // Esto imprime los datos recibidos
       const cursoEncontrado = data.find(c => c.slug === slug);
       setCurso(cursoEncontrado);
     } catch (err) {
@@ -73,7 +74,7 @@ useEffect(() => {
     setMostrarFormulario(true);
   };
 
-  const valorMensual = curso.precio;
+  const valorMensual = curso ? curso.precio : 0;
   const valorTrimestral = valorMensual * 3;
 
   let total = 0;

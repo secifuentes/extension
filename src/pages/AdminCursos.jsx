@@ -62,37 +62,51 @@ const AdminCursos = () => {
         </p>
       )}
 
-      {/* Cursos listados en filas (en lugar de cuadrícula) */}
-      <div className="space-y-6"> {/* Cambié de flex a espacio entre cada curso */}
-        {cursos.map((curso) => (
-          <div key={curso._id} className="bg-white shadow-md rounded-lg overflow-hidden w-full">
-            <img
-              src={curso.imagen}
-              alt={curso.nombre}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-institucional">{curso.nombre}</h3>
-              <p className="text-sm text-gray-600 mb-1">{curso.modalidad} • {curso.duracion}</p>
-              <p className="text-sm text-gray-600 mb-2">{curso.ubicacion}</p>
-              <p className="text-sm font-medium text-green-700">Inscritos: {curso.inscritos}</p>
-              <p className="text-sm text-gray-500 mt-2">💰 Valor mensual: ${curso.precio.toLocaleString()}</p>
+      {/* Tabla de cursos */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="p-3 text-left">Imagen</th>
+              <th className="p-3 text-left">Título</th>
+              <th className="p-3 text-left">Modalidad</th>
+              <th className="p-3 text-left">Duración</th>
+              <th className="p-3 text-left">Inscritos</th>
+              <th className="p-3 text-left">Valor Mensual</th>
+              <th className="p-3 text-left">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cursos.map((curso) => (
+              <tr key={curso._id} className="border-b hover:bg-gray-50">
+                <td className="p-3">
+                  <img
+                    src={curso.imagen}
+                    alt={curso.nombre}
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                </td>
+                <td className="p-3">{curso.nombre}</td>
+                <td className="p-3">{curso.modalidad}</td>
+                <td className="p-3">{curso.duracion}</td>
+                <td className="p-3">{curso.inscritos}</td>
+                <td className="p-3">${curso.precio.toLocaleString()}</td>
+                <td className="p-3 flex gap-2">
+                  <Link
+                    to={`/admin/editar-curso/${curso._id}`}
+                    className="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                  >
+                    Editar
+                  </Link>
 
-              <div className="mt-4 flex justify-between">
-                <Link
-                  to={`/admin/editar-curso/${curso._id}`}
-                  className="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                >
-                  Editar
-                </Link>
-
-                <button className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+                  <button className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

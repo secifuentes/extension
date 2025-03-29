@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
-import { docentes as datosOriginales } from '../../data/docentes';
+import React, { useState, useEffect } from 'react';
 
 const DocentesTable = () => {
-  const [docentes, setDocentes] = useState(datosOriginales);
+  const [docentes, setDocentes] = useState([]);
+  const [cursos, setCursos] = useState([]); // Estado para cursos cargados desde la base de datos
 
+  // Cargar docentes y cursos desde la API
+  useEffect(() => {
+    const fetchDocentes = async () => {
+      // Simulamos la carga de docentes, puedes reemplazar esto con tu backend
+      const docentesData = await fetch('/api/docentes'); // Reemplaza con tu URL real
+      const docentesJson = await docentesData.json();
+      setDocentes(docentesJson);
+    };
+
+    const fetchCursos = async () => {
+      // Cargar cursos desde la base de datos
+      const cursosData = await fetch('/api/cursos'); // Reemplaza con tu URL real
+      const cursosJson = await cursosData.json();
+      setCursos(cursosJson); // Almacenamos los cursos en el estado
+    };
+
+    fetchDocentes();
+    fetchCursos();
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
+
+  // Función para marcar pago
   const marcarPagado = (index) => {
     const actualizados = [...docentes];
     actualizados[index].pago = true;
@@ -11,6 +32,7 @@ const DocentesTable = () => {
     alert('✅ Quincena marcada como pagada.');
   };
 
+  // Función para actualizar observación
   const actualizarObservacion = (index, nuevaObs) => {
     const actualizados = [...docentes];
     actualizados[index].observaciones = nuevaObs;
@@ -39,9 +61,10 @@ const DocentesTable = () => {
               <td className="p-3 border">{doc.correo}</td>
               <td className="p-3 border">
                 <ul className="list-disc list-inside">
-                  {doc.cursos.map((id) => (
-                    <li key={id}>{datosCursos[id]?.nombre || 'Curso no encontrado'}</li>
-                  ))}
+                  {doc.cursos.map((id) => {
+                    const curso = cursos.find(c => c._id === id); // Buscar el curso en los cursos cargados
+                    return <li key={id}>{curso ? curso.nombre : 'Curso no encontrado'}</li>;
+                  })}
                 </ul>
               </td>
               <td className="p-3 border">

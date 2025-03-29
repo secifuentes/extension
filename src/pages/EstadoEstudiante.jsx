@@ -4,7 +4,7 @@ import { estudiantesRegistrados } from '../data/estudiantes';
 import { useNavigate } from 'react-router-dom';
 
 const adminCredenciales = {
-  correo: 'secifuentes@lapresentaciongirardota.edu.co',
+  usuario: 'secifuentes',  // Cambiamos correo por 'secifuentes' como usuario
   clave: '1624Scc$',
 };
 
@@ -40,12 +40,12 @@ const EstadoEstudiante = () => {
 
   const validarAdmin = () => {
     if (
-      correoAdmin === adminCredenciales.correo &&
+      correoAdmin === adminCredenciales.usuario &&  // Comparamos con 'secifuentes' como usuario
       clave === adminCredenciales.clave
     ) {
       navigate('/admin');
     } else {
-      setErrorLogin('Correo o contraseña incorrectos.');
+      setErrorLogin('Usuario o contraseña incorrectos.');
     }
   };
 
@@ -117,8 +117,8 @@ const EstadoEstudiante = () => {
           <div className="space-y-3">
             <h4 className="text-md font-semibold">Acceso para administradores</h4>
             <input
-              type="email"
-              placeholder="Correo institucional"
+              type="text"  // Cambiamos el input de correo a nombre de usuario
+              placeholder="Usuario (secifuentes)"
               value={correoAdmin}
               onChange={(e) => setCorreoAdmin(e.target.value)}
               className="w-full border p-2 rounded"

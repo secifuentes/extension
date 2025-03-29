@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { inscripciones } from '../../data/inscripciones';
-import { estudiantesRegistrados } from '../../data/estudiantes';
+import React, { useState, useEffect } from 'react';
+import { inscripciones } from '../../data/inscripciones'; // Suponiendo que estas inscripciones se mantienen así
+import { estudiantesRegistrados } from '../../data/estudiantes'; // Los estudiantes también siguen siendo estáticos
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const CertificadosTable = () => {
+const CertificadosTable = ({ cursos }) => {  // Recibimos cursos como prop
   const [aprobados, setAprobados] = useState([]);
 
   const generarCertificado = (est, curso) => {
@@ -46,7 +46,8 @@ const CertificadosTable = () => {
         <tbody>
           {inscritos.map((insc, i) => {
             const est = getEstudiante(insc.documento);
-            const curso = datosCursos[insc.cursoId];
+            // Obtener el curso desde los cursos cargados
+            const curso = cursos.find((c) => c._id === insc.cursoId); 
             const idUnico = `${insc.documento}-${insc.cursoId}`;
             const estaAprobado = aprobados.includes(idUnico);
 

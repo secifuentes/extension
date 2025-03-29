@@ -1,20 +1,41 @@
-import React from 'react';
-import { inscripciones } from '../../data/inscripciones';
+import React, { useState, useEffect } from 'react';
+import { inscripciones } from '../../data/inscripciones'; // Suponiendo que las inscripciones se mantienen así
 
 const ContabilidadResumen = () => {
+  const [cursos, setCursos] = useState([]);  // Estado para almacenar los cursos
+
+  // Cargar cursos desde la API o base de datos
+  useEffect(() => {
+    const fetchCursos = async () => {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos`);
+      const data = await res.json();
+      setCursos(data); // Establecer los cursos en el estado
+    };
+
+    fetchCursos();
+  }, []);
+
+  // Si los cursos no han cargado aún, mostrar un mensaje
+  if (cursos.length === 0) {
+    return <div>Cargando cursos...</div>;
+  }
+
+  // Filtrar inscripciones confirmadas y pendientes
   const confirmados = inscripciones.filter(i => i.pagoConfirmado);
   const pendientes = inscripciones.filter(i => !i.pagoConfirmado);
 
+  // Calcular total de ingresos confirmados
   const totalIngresos = confirmados.reduce((acc, curr) => {
-    const precio = datosCursos[curr.cursoId]?.precio || 0;
+    const curso = cursos.find(c => c._id === curr.cursoId); // Obtener el curso correspondiente
+    const precio = curso ? curso.precio : 0;
     const descuento = curr.esEstudiante ? 0.9 : 1;
     return acc + precio * descuento;
   }, 0);
 
-  const ingresosPorCurso = Object.keys(datosCursos).map(id => {
-    const curso = datosCursos[id];
+  // Calcular ingresos por curso
+  const ingresosPorCurso = cursos.map((curso) => {
     const ingresos = confirmados
-      .filter(i => i.cursoId.toString() === id)
+      .filter(i => i.cursoId.toString() === curso._id.toString())
       .reduce((acc, i) => {
         const descuento = i.esEstudiante ? 0.9 : 1;
         return acc + curso.precio * descuento;

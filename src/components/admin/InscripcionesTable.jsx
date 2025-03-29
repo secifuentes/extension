@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { estudiantesRegistrados } from '../../data/estudiantes';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {
   const [data, setData] = useState([]);
+  const [cursos, setCursos] = useState([]); // Nuevo estado para almacenar los cursos
 
   // Cargar inscripciones desde el backend
   useEffect(() => {
@@ -16,7 +16,19 @@ const InscripcionesTable = () => {
         console.error('Error al cargar inscripciones:', error);
       }
     };
+
+    const cargarCursos = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/cursos`);
+        const cursosData = await res.json();
+        setCursos(cursosData); // Establecer los cursos en el estado
+      } catch (error) {
+        console.error('Error al cargar cursos:', error);
+      }
+    };
+
     cargarInscripciones();
+    cargarCursos();
   }, []);
 
   const confirmarPago = async (index) => {
@@ -58,8 +70,7 @@ const InscripcionesTable = () => {
         </thead>
         <tbody>
           {data.map((insc, index) => {
-            const estudiante = estudiantesRegistrados.find(e => e.documento === insc.documento);
-            const curso = datosCursos[insc.cursoId];
+            const curso = cursos.find((c) => c._id === insc.cursoId); // Buscar el curso en los cursos cargados
 
             return (
               <tr key={index} className="border-b hover:bg-gray-50">
@@ -67,7 +78,7 @@ const InscripcionesTable = () => {
                 <td className="p-3 border">{insc.documento}</td>
                 <td className="p-3 border">{curso?.nombre || 'Curso no encontrado'}</td>
                 <td className="p-3 border">
-                  {estudiante ? (
+                  {insc.estudiante ? (
                     <span className="text-green-600 font-medium">Sí</span>
                   ) : (
                     <span className="text-red-500 font-medium">No</span>

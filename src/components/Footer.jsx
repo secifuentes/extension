@@ -10,6 +10,7 @@ const Footer = () => {
           <h4 className="font-bold mb-3">Contáctanos</h4>
           <p>Instituto Parroquial Nuestra Señora de la Presentación</p>
           <p>Dirección: Calle 7 No. 18 - 92. Girardota, Antioquia</p>
+          <p>Girardota, Antioquia</p>
           <p>Teléfonos: 604 424 41 00 - 604 424 41 01 - 604 424 41 02</p>
         </div>
 

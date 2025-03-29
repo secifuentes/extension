@@ -38,20 +38,28 @@ const AdminCursos = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold text-institucional mb-6">Gestión de Cursos</h1>
 
-      {/* 🔴 Botón para eliminar todos los cursos */}
-      <button
-        onClick={eliminarTodosLosCursos}
-        className="mb-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-      >
-        🗑️ Eliminar todos los cursos
-      </button>
+      {/* 🔘 Botones de acción */}
+<div className="flex flex-wrap gap-4 mb-6">
+  <Link
+    to="/admin/crear-curso"
+    className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
+  >
+    ➕ Crear nuevo curso
+  </Link>
 
-      <Link
-      to="/admin/crear-curso"
-      className="mb-6 inline-block bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
-      >
-        ➕ Crear nuevo curso
-        </Link>
+  <button
+    onClick={eliminarTodosLosCursos}
+    className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+  >
+    🗑️ Eliminar todos los cursos
+  </button>
+</div>
+
+{cursos.length === 0 && (
+  <p className="text-center text-gray-500 mt-10">
+    No hay cursos creados todavía.
+  </p>
+)}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cursos.map((curso) => (
@@ -75,7 +83,7 @@ const AdminCursos = () => {
                 >
                     Editar
                     </Link>
-                    
+
                 <button className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                   Eliminar
                 </button>

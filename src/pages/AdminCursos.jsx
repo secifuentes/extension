@@ -34,6 +34,8 @@ const AdminCursos = () => {
     fetchCursos();
   }, []);
 
+  console.log('✅ Se está renderizando AdminCursos');
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-institucional mb-6">Gestión de Cursos</h1>

@@ -81,13 +81,13 @@ const API_URL = import.meta.env.VITE_API_URL;
           {curso.nombre}
         </h3>
 
-        {/* Mostrar valor y detalles */}
+        {/* Mostrar valor y detalles 
         <p className="text-sm text-gray-500 mt-1">
           💰 {curso.precio?.toLocaleString?.() ? `$${curso.precio.toLocaleString()}` : ''}
         </p>
         <p className="text-xs text-gray-500 mt-1">
           {curso.modalidad} • {curso.duracion}
-        </p>
+        </p> */}
 
         <Link
           to={`/curso/${curso.slug}`} // ✅ Usa el slug del backend

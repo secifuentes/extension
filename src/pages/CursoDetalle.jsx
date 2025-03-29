@@ -19,8 +19,23 @@ const AccordionItem = ({ title, content }) => {
 };
 
 const CursoDetalle = () => {
-  const { id } = useParams();
-  const curso = datosCursos[id];
+  const { slug } = useParams();
+  const [curso, setCurso] = useState(null);
+
+useEffect(() => {
+  const fetchCurso = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
+      const data = await res.json();
+      const cursoEncontrado = data.find(c => c.slug === slug);
+      setCurso(cursoEncontrado);
+    } catch (err) {
+      console.error('❌ Error al cargar el curso:', err);
+    }
+  };
+
+  fetchCurso();
+}, [slug]);
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [documento, setDocumento] = useState('');
@@ -265,7 +280,7 @@ const CursoDetalle = () => {
                       correo: datosEstudiante?.correo || form.correo.value,
                       telefono: datosEstudiante?.telefono || form.telefono.value,
                       fechaNacimiento: form.fechaNacimiento.value,
-                      cursoId: id,
+                      cursoId: curso._id,
                       cursoNombre: curso.nombre,
                       esEstudiante: !!datosEstudiante,
                       formaPago: modoPago,

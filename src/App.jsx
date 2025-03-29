@@ -15,6 +15,8 @@ import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './pages/AdminContabilidad';
 import ScrollToTop from './components/ScrollToTop'; // 👈 importa
 import AdminCursos from './pages/AdminCursos';
+import CrearCurso from './pages/CrearCurso';
+import EditarCurso from './pages/EditarCurso';
 
 const App = () => {
   return (

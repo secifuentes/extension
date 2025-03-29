@@ -8,9 +8,9 @@ const Footer = () => {
         {/* Columna 1: Contacto */}
         <div>
           <h4 className="font-bold mb-3">Contáctanos</h4>
-          <p>Colegio La Presentación Girardota</p>
-          <p>Dirección: Calle Ejemplo #00</p>
-          <p>Tel: (XXX) XXX-XXXX</p>
+          <p>Instituto Parroquial Nuestra Señora de la Presentación</p>
+          <p>Dirección: Calle 7 No. 18 - 92. Girardota, Antioquia</p>
+          <p>Teléfonos: 604 424 41 00 - 604 424 41 01 - 604 424 41 02</p>
         </div>
 
         {/* Columna 2: Enlaces */}

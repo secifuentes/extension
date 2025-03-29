@@ -9,7 +9,7 @@ const Sidebar = () => {
       <nav className="flex flex-col gap-4 text-sm">
         <Link to="/admin" className="hover:text-yellow-300">Dashboard</Link>
         <Link to="/admin/estudiantes" className="hover:text-yellow-300">Estudiantes</Link>
-        <Link to="/admin/cursos" className="hover:text-yellow-300">Cursos</Link>
+        <Link to="/admin/cursos" className="...">Cursos</Link>
         <Link to="/admin/inscripciones" className="hover:text-yellow-300">Inscripciones</Link>
         <Link to="/admin/certificados" className="hover:text-yellow-300">Certificados</Link>
         <Link to="/admin/contabilidad" className="hover:text-yellow-300">Contabilidad</Link>

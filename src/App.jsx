@@ -14,6 +14,7 @@ import AdminEstudiantes from './pages/AdminEstudiantes';
 import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './pages/AdminContabilidad';
 import ScrollToTop from './components/ScrollToTop'; // 👈 importa
+import AdminCursos from './pages/AdminCursos';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/admin/estudiantes" element={<AdminEstudiantes />} />
         <Route path="/admin/certificados" element={<AdminCertificados />} />
         <Route path="/admin/contabilidad" element={<AdminContabilidad />} />
+        <Route path="/admin/cursos" element={<AdminCursos />} />
       </Routes>
     </MainLayout>
   );

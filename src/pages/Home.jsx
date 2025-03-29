@@ -6,7 +6,21 @@ const Home = () => {
   const [imagenActual, setImagenActual] = useState(0);
   const [cursos, setCursos] = useState([]);
 
-  // Cargar cursos desde el backend
+  const imagenes = [
+    '/banner1.jpg',
+    '/banner2.jpg',
+    '/banner3.jpg',
+  ];
+
+  // Carrusel automático
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setImagenActual((prev) => (prev + 1) % imagenes.length);
+    }, 4000);
+    return () => clearInterval(intervalo);
+  }, []);
+
+  // Obtener cursos desde el backend
   useEffect(() => {
     const fetchCursos = async () => {
       try {
@@ -21,23 +35,10 @@ const Home = () => {
     fetchCursos();
   }, []);
 
-  // Carrusel (si lo usas)
-  const imagenes = [
-    '/banner1.jpg',
-    '/banner2.jpg',
-    '/banner3.jpg',
-  ];
-
-  useEffect(() => {
-    const intervalo = setInterval(() => {
-      setImagenActual((prev) => (prev + 1) % imagenes.length);
-    }, 4000);
-    return () => clearInterval(intervalo);
-  }, []);
-
   return (
     <div className="pt-[72px]">
-      {/* Banner principal */}
+
+      {/* Carrusel */}
       <div className="w-full h-[400px] relative overflow-hidden">
         <img
           src={imagenes[imagenActual]}
@@ -46,11 +47,10 @@ const Home = () => {
         />
       </div>
 
-      {/* Sección de cursos */}
+      {/* Cursos */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <h2 className="text-3xl font-bold text-institucional mb-6 text-center">Cursos de Extensión</h2>
 
-        {/* Si no hay cursos */}
         {cursos.length === 0 ? (
           <p className="text-center text-gray-500 text-sm mt-10">No hay cursos disponibles por ahora.</p>
         ) : (
@@ -80,6 +80,41 @@ const Home = () => {
           </div>
         )}
       </div>
+
+      {/* SECCIÓN: ¿Por qué elegirnos? */}
+      <div className="bg-[#f7f9fc] py-16 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-institucional mb-4">¿Por qué elegirnos?</h2>
+          <p className="text-gray-700 text-md mb-10">
+            Nuestros cursos de extensión están diseñados para potenciar las habilidades de nuestros estudiantes,
+            fomentar la creatividad y reforzar valores a través de experiencias significativas.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-left">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold text-institucional mb-2">Profesores calificados</h3>
+              <p className="text-gray-600 text-sm">
+                Contamos con docentes apasionados, expertos en su área y con vocación educativa.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold text-institucional mb-2">Ambiente seguro</h3>
+              <p className="text-gray-600 text-sm">
+                Nuestras actividades se desarrollan en espacios seguros, pensados para el bienestar de cada estudiante.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold text-institucional mb-2">Formación integral</h3>
+              <p className="text-gray-600 text-sm">
+                Promovemos el desarrollo académico, emocional, físico y espiritual de nuestros estudiantes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };

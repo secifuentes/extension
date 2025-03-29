@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { inscripciones } from '../data/inscripciones';
-import { datosCursos } from '../data/datosCursos';
 import { estudiantesRegistrados } from '../data/estudiantes';
 import { useNavigate } from 'react-router-dom';
 

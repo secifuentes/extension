@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { datosCursos } from '../data/datosCursos';
 import { estudiantesRegistrados } from '../data/estudiantes';
 import { inscripciones } from '../data/inscripciones';
 

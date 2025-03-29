@@ -212,7 +212,9 @@ useEffect(() => {
 {/* Descripción del curso - Fuera de la caja de precios */}
 <div className="mt-6">
   <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-  <p className="text-sm text-gray-600 mt-2">{curso.descripcion}</p>
+  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
+    {curso.descripcion}
+  </p>
 </div>
 
 {/* Título motivador */}

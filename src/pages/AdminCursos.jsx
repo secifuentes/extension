@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 // Si no vas a cargar cursos automáticamente, puedes quitar esta línea
 // import { cargarCursosEnBackend } from '../scripts/cargarCursos';
 const API_URL = import.meta.env.VITE_API_URL;
@@ -45,6 +46,13 @@ const AdminCursos = () => {
         🗑️ Eliminar todos los cursos
       </button>
 
+      <Link
+      to="/admin/crear-curso"
+      className="mb-6 inline-block bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
+      >
+        ➕ Crear nuevo curso
+        </Link>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cursos.map((curso) => (
           <div key={curso._id} className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -61,9 +69,13 @@ const AdminCursos = () => {
               <p className="text-sm text-gray-500 mt-2">💰 Valor mensual: ${curso.precio.toLocaleString()}</p>
 
               <div className="mt-4 flex justify-between">
-                <button className="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
-                  Editar
-                </button>
+                <Link
+                to={`/admin/editar-curso/${curso._id}`}
+                className="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                >
+                    Editar
+                    </Link>
+                    
                 <button className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                   Eliminar
                 </button>

@@ -34,6 +34,8 @@ const App = () => {
         <Route path="/admin/certificados" element={<AdminCertificados />} />
         <Route path="/admin/contabilidad" element={<AdminContabilidad />} />
         <Route path="/admin/cursos" element={<AdminCursos />} />
+        <Route path="/admin/crear-curso" element={<CrearCurso />} />
+        <Route path="/admin/editar-curso/:id" element={<EditarCurso />} />
       </Routes>
     </MainLayout>
   );

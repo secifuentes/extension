@@ -7,9 +7,9 @@ const Home = () => {
   const [cursos, setCursos] = useState([]);
 
   const imagenes = [
-    '/banner1.jpg',
-    '/banner2.jpg',
-    '/banner3.jpg',
+    '/banner/banner1.jpg',
+    '/banner/banner2.jpg',
+    '/banner/banner3.jpg',
   ];
 
   // Carrusel automático

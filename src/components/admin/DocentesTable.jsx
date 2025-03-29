@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { docentes as datosOriginales } from '../../data/docentes';
-import { datosCursos } from '../../data/datosCursos';
 
 const DocentesTable = () => {
   const [docentes, setDocentes] = useState(datosOriginales);

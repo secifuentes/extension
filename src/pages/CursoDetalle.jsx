@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { estudiantesRegistrados } from '../data/estudiantes';
 import { inscripciones } from '../data/inscripciones';
@@ -57,7 +57,7 @@ useEffect(() => {
   };
 
   const verificarEstudiante = () => {
-    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === id);
+    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === curso._id);
     if (yaExiste) {
       setYaInscrito(true);
       setMostrarFormulario(false);

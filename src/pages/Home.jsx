@@ -1,19 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const cursos = [
-  { slug: 'iniciacion-musical', nombre: 'Iniciación Musical (5 a 10 años)', valor: '$70.000', imagen: '/cursos/musica.jpg' },
-  { slug: 'iniciacion-canto-instrumentos', nombre: 'Iniciación en Canto e Instrumentos (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/ensamble.jpg' },
-  { slug: 'ensamble-conjunto-musical', nombre: 'Ensamble y Conjunto Musical (Desde los 7 años)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
-  { slug: 'semillero-banda-vientos', nombre: 'Semillero Banda de Vientos (Estudiantes Iniciados)', valor: '$70.000', imagen: '/cursos/banda.jpg' },
-  { slug: 'junior-english-a1-a2', nombre: 'Junior English Level A1-A2 (9 to 11 years old)', valor: '$70.000', imagen: '/cursos/ingles1.jpg' },
-  { slug: 'teens-english-b1', nombre: 'Teens English Level B1 (12 to 14 years old)', valor: '$80.000', imagen: '/cursos/ingles2.jpg' },
-  { slug: 'young-adults-english-a1-a2', nombre: 'Young Adults English Level A1-A2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
-  { slug: 'young-adults-english-b1-b2', nombre: 'Young Adults English Level B1-B2 (15 to 17 years old)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
-  { slug: 'adult-english-a1-a2', nombre: 'Adult English Level A1-A2 (18 years and older)', valor: '$90.000', imagen: '/cursos/ingles3.jpg' },
-  { slug: 'defensa-personal', nombre: 'Defensa Personal con Énfasis en Lucha Olímpica', valor: '$85.000', imagen: '/cursos/defensa.jpg' },
-  { slug: 'ajedrez', nombre: 'Ajedrez', valor: '$80.000', imagen: '/cursos/ajedrez.jpg' },
-];
 
 const beneficios = [
   { icono: '🎓', texto: 'Educación de Alta Calidad' },
@@ -30,6 +17,23 @@ const imagenesBanner = [
 
 const Home = () => {
   const [imagenActual, setImagenActual] = useState(0);
+  const [cursos, setCursos] = useState([]);
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    const fetchCursos = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
+        const data = await res.json();
+        setCursos(data);
+      } catch (error) {
+        console.error('❌ Error al cargar cursos:', error);
+      }
+    };
+  
+    fetchCursos();
+  }, []);
 
   useEffect(() => {
     const intervalo = setInterval(() => {
@@ -64,28 +68,37 @@ const Home = () => {
         <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {cursos.map((curso) => (
-            <div key={curso.slug} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
-              <div className="aspect-[3/3] overflow-hidden">
-                <img
-                  src={curso.imagen}
-                  alt={curso.nombre}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-5 text-center">
-                <h3 className="text-center font-bold text-institucional text-lg leading-snug">
-                  {curso.nombre}
-                </h3>
-                <Link
-                  to={`/curso/${curso.slug}`}
-                  className="mt-4 inline-block bg-institucional text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
-                >
-                  Inscribirme
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+            <div key={curso._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+      <div className="aspect-[3/3] overflow-hidden">
+        <img
+          src={curso.imagen}
+          alt={curso.nombre}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-5 text-center">
+        <h3 className="text-center font-bold text-institucional text-lg leading-snug">
+          {curso.nombre}
+        </h3>
+
+        {/* Mostrar valor y detalles */}
+        <p className="text-sm text-gray-500 mt-1">
+          💰 {curso.precio?.toLocaleString?.() ? `$${curso.precio.toLocaleString()}` : ''}
+        </p>
+        <p className="text-xs text-gray-500 mt-1">
+          {curso.modalidad} • {curso.duracion}
+        </p>
+
+        <Link
+          to={`/curso/${curso.slug}`} // ✅ Usa el slug del backend
+          className="mt-4 inline-block bg-institucional text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
+        >
+          Inscribirme
+        </Link>
+      </div>
+    </div>
+  ))}
+</div>
       </section>
 
       {/* Beneficios */}

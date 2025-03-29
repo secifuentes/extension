@@ -1,6 +1,5 @@
 import React from 'react';
 import { inscripciones } from '../../data/inscripciones';
-import { datosCursos } from '../../data/datosCursos';
 
 const ContabilidadResumen = () => {
   const confirmados = inscripciones.filter(i => i.pagoConfirmado);

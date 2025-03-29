@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { estudiantesRegistrados } from '../../data/estudiantes';
-import { datosCursos } from '../../data/datosCursos';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {

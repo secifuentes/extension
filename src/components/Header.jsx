@@ -13,7 +13,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-4 py-2 sm:px-6 md:px-8"> {/* Ajusté el padding vertical de 4 a 2 */}
         {/* Logo */}
         <div className="font-extrabold text-lg tracking-wide">
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-8" /> {/* Ajusté el tamaño del logo a h-8 */}
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" /> {/* Ajusté el tamaño del logo a h-8 */}
         </div>
 
         {/* Botón hamburguesa para móviles */}

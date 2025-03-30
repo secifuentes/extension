@@ -221,18 +221,8 @@ useEffect(() => {
   </p>
 </div>
 
-{/* Título motivador */}
-<div className="mt-4 mb-2">
-  <h3 className="text-xl font-semibold text-institucional leading-tight">
-    Inscríbete al curso y asegura tu cupo
-  </h3>
-  <p className="text-sm text-gray-700 mt-1">
-    Ingresa los datos de la persona que realizará el curso
-  </p>
-</div>
-
 {/* Banner informativo con ícono estilizado y texto atractivo */}
-<div className="bg-gradient-to-r from-blue-100 to-blue-200 border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
+<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
   <div className="mr-4 text-3xl">
     <i className="fas fa-info-circle"></i> {/* Ícono de información estilizado */}
   </div>

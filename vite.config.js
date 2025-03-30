@@ -5,11 +5,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,  // Puerto en el que quieres que se ejecute tu proyecto
+    port: 3000,
   },
   build: {
     rollupOptions: {
-      external: ['@fortawesome/free-brands-svg-icons'],  // Agregar esto
+      external: ['@fortawesome/free-brands-svg-icons', '@fortawesome/free-solid-svg-icons'],  // Evitar errores de módulo
     },
   },
 });

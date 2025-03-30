@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); // Estado para el texto de búsqueda
-  const history = useHistory(); // Hook para redirigir a otra página
-
-  // Función que maneja la búsqueda cuando el formulario es enviado
-  const handleSearch = (event) => {
-    event.preventDefault(); // Previene el comportamiento predeterminado del formulario
-
-    if (searchTerm.trim()) {
-      // Aquí puedes manejar la búsqueda, por ejemplo redirigir a una página de resultados:
-      history.push(`/buscar?query=${searchTerm}`); // Redirige a la página de resultados con el parámetro de búsqueda
-    }
-  };
 
   const handleLinkClick = () => {
     setMenuAbierto(false); // Cierra el menú cuando se hace clic en un enlace
@@ -34,19 +22,6 @@ const Header = () => {
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
           <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
         </nav>
-
-        {/* Barra de búsqueda centrada */}
-        <div className="flex items-center flex-grow mx-6">
-          <form onSubmit={handleSearch} className="w-full">
-            <input
-              type="text"
-              className="w-full px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 rounded-full" {/* Cambié el fondo a un negro más suave */}
-              placeholder="Buscar cursos..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado con el texto ingresado
-            />
-          </form>
-        </div>
 
         {/* Botón de Estado de Inscripción a la derecha */}
         <div className="flex gap-4">

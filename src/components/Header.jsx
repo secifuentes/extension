@@ -12,9 +12,9 @@ const Header = () => {
     <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
       <div className="flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
         {/* Logo */}
-        <h1 className="font-extrabold text-lg tracking-wide">
-      EXTENSIÓN LA PRESENTACIÓN
-      </h1>
+        <div className="font-extrabold text-lg tracking-wide">
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+        </div>
 
         {/* Botón hamburguesa para móviles */}
         <button

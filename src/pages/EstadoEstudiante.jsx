@@ -118,7 +118,7 @@ const EstadoEstudiante = () => {
             <h4 className="text-md font-semibold">Acceso para administradores</h4>
             <input
               type="text"  // Cambiamos el input de correo a nombre de usuario
-              placeholder="Usuario (secifuentes)"
+              placeholder="Usuario"
               value={correoAdmin}
               onChange={(e) => setCorreoAdmin(e.target.value)}
               className="w-full border p-2 rounded"

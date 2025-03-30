@@ -28,9 +28,9 @@ const Header = () => {
           </nav>
         </div>
 
-        {/* Botón de Estado de Inscripción con un border-radius más pequeño */}
+        {/* Botón de Estado de Inscripción con un border-radius moderado */}
         <div className="flex gap-4 mr-20">
-          <Link to="/estado" className="bg-institucional text-white px-4 py-1 rounded-sm hover:bg-presentacionDark transition duration-200 text-base">
+          <Link to="/estado" className="bg-institucional text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
             Estado de Inscripción
           </Link>
         </div>
@@ -43,7 +43,7 @@ const Header = () => {
             <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Cursos</Link>
             <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</Link>
             <Link to="/comunidad" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Comunidad</Link>
-            <Link to="/estado" onClick={handleLinkClick} className="bg-institucional text-white px-4 py-1 rounded-sm hover:bg-presentacionDark transition duration-200 text-base">
+            <Link to="/estado" onClick={handleLinkClick} className="bg-institucional text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
               Estado de Inscripción
             </Link>
           </nav>

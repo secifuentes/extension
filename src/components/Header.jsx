@@ -10,21 +10,21 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
-      <div className="flex justify-between items-center px-8 py-2 sm:px-10 md:px-12"> {/* Aumentamos el padding para mover los elementos hacia adentro */}
-        {/* Menú de navegación a la izquierda */}
-        <nav className="flex gap-10 text-sm font-medium"> {/* Ajusté el gap para mayor distancia entre los elementos */}
+      <div className="flex justify-between items-center px-8 py-2 sm:px-10 md:px-12">
+        {/* Logo a la izquierda */}
+        <div className="font-extrabold text-lg tracking-wide">
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+        </div>
+
+        {/* Menú de navegación a la izquierda del logo */}
+        <nav className="flex gap-10 text-sm font-medium ml-8"> {/* ml-8 agrega separación entre el logo y el menú */}
           <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
           <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
         </nav>
 
-        {/* Logo a la izquierda, con más espacio desde el borde */}
-        <div className="font-extrabold text-lg tracking-wide ml-4"> {/* ml-4 añade margen izquierdo para separarlo del borde */}
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
-        </div>
-
-        {/* Botón de Estado de Inscripción a la derecha, con más espacio desde el borde */}
-        <div className="flex gap-4 mr-4"> {/* mr-4 añade margen derecho para separarlo del borde */}
+        {/* Botón de Estado de Inscripción a la derecha */}
+        <div className="flex gap-4 mr-8"> {/* mr-8 agrega margen a la derecha para separar el botón del borde */}
           <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>

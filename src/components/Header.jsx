@@ -13,7 +13,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-4 py-1 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}
         <div className="flex items-center">
-          <div className="font-extrabold text-lg tracking-wide ml-6"> {/* Tamaño del logo moderado */}
+          <div className="font-extrabold text-lg tracking-wide ml-16"> {/* Tamaño del logo moderado */}
             <Link to="/">
               <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" /> {/* Logo de tamaño adecuado */}
             </Link>

@@ -22,13 +22,6 @@ const Header = () => {
               <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
             </Link>
           </div>
-
-          {/* Menú de navegación justo al lado del logo */}
-          <nav className="flex gap-8 text-base font-medium ml-6">
-            <Link to="/cursos" className="hover:text-mostaza transition duration-200 px-3 py-2">Cursos</Link>
-            <Link to="/colegio" className="hover:text-mostaza transition duration-200 px-3 py-2">Colegio</Link>
-            <Link to="/comunidad" className="hover:text-mostaza transition duration-200 px-3 py-2">Comunidad</Link>
-          </nav>
         </div>
 
         {/* Botón de Estado de Inscripción con fondo azul institucional */}
@@ -41,14 +34,14 @@ const Header = () => {
         {/* Botón de menú hamburguesa para dispositivos móviles */}
         <div className="sm:hidden flex items-center">
           <button onClick={toggleMenu} className="text-3xl bg-institucional text-white p-2 rounded-full">
-            {menuAbierto ? '✖' : '☰'}
+            {menuAbierto ? '✖' : '☰'} {/* Cambio de icono entre abrir y cerrar */}
           </button>
         </div>
       </div>
 
-      {/* Menú de pantalla completa */}
+      {/* Menú de pantalla completa (se activa cuando el menú está abierto) */}
       {menuAbierto && (
-        <div className="fixed inset-0 bg-white text-institucional flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-white text-institucional z-50 flex justify-center items-center">
           <div className="flex flex-col items-center space-y-6">
             <Link to="/cursos" onClick={handleLinkClick} className="text-2xl hover:text-mostaza transition duration-200">Cursos</Link>
             <Link to="/colegio" onClick={handleLinkClick} className="text-2xl hover:text-mostaza transition duration-200">Colegio</Link>

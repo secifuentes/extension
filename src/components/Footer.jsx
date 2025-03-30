@@ -1,10 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-gray-800 pt-10 pb-6 mt-12"> {/* Cambié bg-institucional por bg-gray-100 */}
+    <footer className="bg-gray-100 text-gray-800 pt-10 pb-6 mt-12">
       {/* Parte superior: 3 columnas */}
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-sm">
         {/* Columna 1: Contacto */}
@@ -31,21 +29,23 @@ const Footer = () => {
         {/* Columna 3: Redes sociales + Logo */}
         <div className="text-left">
           <h4 className="font-bold mb-3 text-lg">Nuestras redes</h4>
+          {/* Aquí puedes agregar tus iconos manualmente */}
           <div className="flex space-x-6 text-2xl mb-4">
+            {/* Ejemplo de cómo poner los iconos manualmente (reemplaza con los íconos que prefieras) */}
             <a href="#" aria-label="Instagram">
-              <FontAwesomeIcon icon={faInstagram} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
+              <img src="path/to/your/instagram-icon.svg" alt="Instagram" className="w-8 h-8" />
             </a>
             <a href="#" aria-label="Facebook">
-              <FontAwesomeIcon icon={faFacebook} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
+              <img src="path/to/your/facebook-icon.svg" alt="Facebook" className="w-8 h-8" />
             </a>
             <a href="#" aria-label="TikTok">
-              <FontAwesomeIcon icon={faTiktok} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
+              <img src="path/to/your/tiktok-icon.svg" alt="TikTok" className="w-8 h-8" />
             </a>
             <a href="#" aria-label="YouTube">
-              <FontAwesomeIcon icon={faYoutube} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
+              <img src="path/to/your/youtube-icon.svg" alt="YouTube" className="w-8 h-8" />
             </a>
           </div>
-          <img src="/lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
+          <img src="/footer.svg" alt="Logo Colegio" className="w-48 mt-2" />
         </div>
       </div>
 

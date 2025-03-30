@@ -19,15 +19,15 @@ const Header = () => {
           </div>
 
           {/* Menú de navegación justo al lado del logo */}
-          <nav className="flex gap-6 text-sm font-medium ml-6"> {/* ml-6 para separarlos del logo */}
-            <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
-            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
-            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
+          <nav className="flex gap-8 text-lg font-medium ml-6"> {/* Aquí cambié text-sm a text-lg */}
+            <Link to="/" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Inicio</Link> {/* Añadí padding para mayor tamaño */}
+            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Presentación</a>
+            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Cursos</Link>
           </nav>
         </div>
 
         {/* Botón de Estado de Inscripción a la derecha con margen */}
-        <div className="flex gap-4 mr-16"> {/* mr-16 para separarlo del borde derecho */}
+        <div className="flex gap-4 mr-16">
           <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>

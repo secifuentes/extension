@@ -227,11 +227,19 @@ useEffect(() => {
     Inscríbete al curso y asegura tu cupo
   </h3>
   <p className="text-sm text-gray-700 mt-1">
-    Empieza ingresando tu tipo y número de documento.
+    Ingresa los datos de la persona que realizará el curso
   </p>
 </div>
 
-{/* Verificación de estudiante (Formulario) */}
+{/* Banner informativo con ícono */}
+<div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 flex items-center">
+  <div className="mr-3 text-xl">
+    <i className="fas fa-info-circle"></i> {/* Ícono de información */}
+  </div>
+  <p className="font-semibold">Ingresa los datos de la persona que realizará el curso</p>
+</div>
+
+{/* Formulario de inscripción */}
 <div className="mt-6 space-y-2">
   <label className="block font-semibold">Tipo de documento:</label>
   <select

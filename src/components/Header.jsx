@@ -17,7 +17,7 @@ const Header = () => {
         </div>
 
         {/* Menú de navegación justo al lado del logo */}
-        <nav className="flex gap-6 text-sm font-medium ml-4"> {/* Espaciado moderado con gap-6 */}
+        <nav className="flex gap-6 text-sm font-medium ml-4"> {/* ml-4 añade separación entre logo y las opciones */}
           <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
           <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>

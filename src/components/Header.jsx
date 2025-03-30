@@ -12,7 +12,7 @@ const Header = () => {
     <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
       <div className="flex justify-between items-center px-8 py-2 sm:px-10 md:px-12">
         {/* Logo a la izquierda */}
-        <div className="flex-shrink-0 font-extrabold text-lg tracking-wide">
+        <div className="flex-shrink-0 font-extrabold text-lg tracking-wide ml-10">
           <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
         </div>
 

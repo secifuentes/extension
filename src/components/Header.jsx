@@ -28,7 +28,7 @@ const Header = () => {
         </div>
 
         {/* Botón de Estado de Inscripción con fondo azul institucional */}
-        <div className="flex gap-4 mr-6">
+        <div className="flex gap-4 mr-20">
           <Link to="/estado" className="bg-institucional text-white px-4 py-1 rounded-full hover:bg-presentacionDark transition duration-200 text-base">
             Estado de Inscripción
           </Link>

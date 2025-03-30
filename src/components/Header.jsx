@@ -10,10 +10,10 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
-      <div className="flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
+      <div className="flex justify-between items-center px-4 py-2 sm:px-6 md:px-8"> {/* Ajusté el padding vertical de 4 a 2 */}
         {/* Logo */}
         <div className="font-extrabold text-lg tracking-wide">
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-8" /> {/* Ajusté el tamaño del logo a h-8 */}
         </div>
 
         {/* Botón hamburguesa para móviles */}
@@ -40,7 +40,7 @@ const Header = () => {
         </button>
 
         {/* Menú en escritorio */}
-        <nav className="hidden sm:flex gap-6 text-sm font-medium">
+        <nav className="hidden sm:flex gap-4 text-sm font-medium"> {/* Ajusté el gap de 6 a 4 */}
           <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
           <Link to="/estado" className="hover:text-yellow-400 transition">Estado de Inscripción</Link>

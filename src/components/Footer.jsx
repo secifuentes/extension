@@ -1,6 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
@@ -28,28 +26,9 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Columna 3: Redes sociales + Logo */}
+        {/* Columna 3: Logo */}
         <div className="text-left">
-          <h4 className="font-bold mb-3 text-lg">Nuestras redes</h4>
-          <div className="flex space-x-6 text-2xl mb-4">
-            {/* Instagram */}
-            <a href="https://www.instagram.com/presentaciongirardota/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faInstagram} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
-            </a>
-            {/* Facebook */}
-            <a href="https://web.facebook.com/presentaciondegirardota" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faFacebook} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
-            </a>
-            {/* TikTok */}
-            <a href="https://www.tiktok.com/@presentaciongirardota" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTiktok} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
-            </a>
-            {/* YouTube */}
-            <a href="https://www.youtube.com/user/PresentacionGta" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faYoutube} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
-            </a>
-          </div>
-          <img src="lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
+          <img src="/lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
         </div>
       </div>
 

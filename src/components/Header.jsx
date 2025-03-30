@@ -13,7 +13,7 @@ const Header = () => {
       {/* Línea delgada con frase institucional antes del menú */}
       <div className="w-full bg-institucional py-2">
         <div className="text-center">
-          <p className="text-white text-base font-semibold sm:text-lg md:text-xl">
+          <p className="text-white text-sm font-semibold sm:text-base md:text-lg">
             Crear, Sentir y Transformar
           </p>
         </div>

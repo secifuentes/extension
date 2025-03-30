@@ -10,6 +10,16 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-white text-institucional shadow-md z-50">
+      {/* Línea delgada con frase institucional antes del menú */}
+      <div className="w-full bg-institucional py-2">
+        <div className="text-center">
+          <p className="text-white text-xl font-semibold sm:text-2xl md:text-3xl">
+            Crear, Sentir y Transformar
+          </p>
+        </div>
+      </div>
+
+      {/* Contenedor para logo y menú */}
       <div className="flex justify-between items-center px-4 py-1 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}
         <div className="flex items-center">

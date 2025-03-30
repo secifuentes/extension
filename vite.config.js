@@ -7,4 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,  // Puerto en el que quieres que se ejecute tu proyecto
   },
+  build: {
+    rollupOptions: {
+      external: ['@fortawesome/free-brands-svg-icons'],  // Agregar esto
+    },
+  },
 });

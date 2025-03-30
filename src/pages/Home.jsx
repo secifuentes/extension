@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLightbulb, faGamepad, faClock, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const imagenesBanner = [
   '/banner/banner1.jpg',
@@ -99,7 +97,7 @@ const Home = () => {
             {/* Tarjeta 1: Clases dinámicas y divertidas */}
             <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
               <div className="text-6xl mb-3">
-                <FontAwesomeIcon icon={faLightbulb} className="text-institucional h-12 w-12" />
+                {/* Aquí puedes poner un icono o imagen en el futuro */}
               </div>
               <p className="font-semibold text-lg">Clases dinámicas y divertidas para todos.</p>
             </div>
@@ -107,7 +105,7 @@ const Home = () => {
             {/* Tarjeta 2: Aprende jugando */}
             <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
               <div className="text-6xl mb-3">
-                <FontAwesomeIcon icon={faGamepad} className="text-yellow-400 h-12 w-12" />
+                {/* Aquí puedes poner un icono o imagen en el futuro */}
               </div>
               <p className="font-semibold text-lg">Aprende jugando, mientras te diviertes.</p>
             </div>
@@ -115,7 +113,7 @@ const Home = () => {
             {/* Tarjeta 3: Horarios flexibles */}
             <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
               <div className="text-6xl mb-3">
-                <FontAwesomeIcon icon={faClock} className="text-blue-500 h-12 w-12" />
+                {/* Aquí puedes poner un icono o imagen en el futuro */}
               </div>
               <p className="font-semibold text-lg">Horarios flexibles para tu comodidad.</p>
             </div>
@@ -123,7 +121,7 @@ const Home = () => {
             {/* Tarjeta 4: Cursos para todos */}
             <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
               <div className="text-6xl mb-3">
-                <FontAwesomeIcon icon={faUsers} className="text-green-500 h-12 w-12" />
+                {/* Aquí puedes poner un icono o imagen en el futuro */}
               </div>
               <p className="font-semibold text-lg">Cursos para todos, no importa si eres parte de nuestra familia o no.</p>
             </div>

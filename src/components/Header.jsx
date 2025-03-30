@@ -10,21 +10,24 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
-      <div className="flex justify-between items-center px-12 py-2 sm:px-14 md:px-16">
-        {/* Logo a la izquierda con margen */}
-        <div className="font-extrabold text-lg tracking-wide ml-16"> {/* ml-16 para separar el logo del borde izquierdo */}
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+      <div className="flex justify-between items-center px-8 py-2 sm:px-10 md:px-12">
+        {/* Contenedor para logo y menú, alineados a la izquierda */}
+        <div className="flex items-center">
+          {/* Logo a la izquierda con margen */}
+          <div className="font-extrabold text-lg tracking-wide ml-16">
+            <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+          </div>
+
+          {/* Menú de navegación justo al lado del logo */}
+          <nav className="flex gap-6 text-sm font-medium ml-6"> {/* ml-6 para separarlos del logo */}
+            <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
+            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
+            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
+          </nav>
         </div>
 
-        {/* Menú de navegación justo al lado del logo */}
-        <nav className="flex gap-6 text-sm font-medium ml-6"> {/* Aumenté el gap para separación */}
-          <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
-          <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
-          <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
-        </nav>
-
         {/* Botón de Estado de Inscripción a la derecha con margen */}
-        <div className="flex gap-4 mr-16"> {/* mr-16 para separar el botón del borde derecho */}
+        <div className="flex gap-4 mr-16"> {/* mr-16 para separarlo del borde derecho */}
           <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>

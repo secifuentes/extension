@@ -49,7 +49,7 @@ const Footer = () => {
               <FontAwesomeIcon icon={faYoutube} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
             </a>
           </div>
-          <img src="/lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
+          <img src="lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
         </div>
       </div>
 

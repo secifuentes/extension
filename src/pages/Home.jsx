@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-const beneficios = [
-  { icono: '🎓', texto: 'Educación de Alta Calidad' },
-  { icono: '💡', texto: 'Formación Integral' },
-  { icono: '🤝', texto: 'Valores Presentación' },
-  { icono: '🛡️', texto: 'Ambiente Seguro y Acompañamiento' },
-];
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLightbulb, faGamepad, faClock, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const imagenesBanner = [
   '/banner/banner1.jpg',
@@ -30,7 +25,7 @@ const Home = () => {
         console.error('❌ Error al cargar cursos:', error);
       }
     };
-  
+
     fetchCursos();
   }, []);
 
@@ -49,7 +44,7 @@ const Home = () => {
           src={imagenesBanner[imagenActual]}
           alt="Banner"
           className="w-full h-full object-cover transition-all duration-700"
-          loading="lazy"  // Agrega lazy loading aquí
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 flex items-center justify-center px-4 text-center">
           <div>
@@ -74,7 +69,7 @@ const Home = () => {
                   src={curso.imagen}
                   alt={curso.nombre}
                   className="w-full h-full object-cover"
-                  loading="lazy"  // Agrega lazy loading aquí
+                  loading="lazy"
                 />
               </div>
               <div className="p-5 text-center">
@@ -96,33 +91,45 @@ const Home = () => {
 
       {/* Beneficios */}
       <section className="py-16 bg-white">
-  <div className="max-w-6xl mx-auto px-4 text-center">
-    <h3 className="text-3xl font-bold text-institucional mb-8">
-      ¿Por qué elegir nuestros Cursos de Extensión?
-    </h3>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
-        <div className="text-6xl mb-3">🎓</div>
-        <p className="font-semibold text-lg">Clases dinámicas y divertidas para todos.</p>
-      </div>
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h3 className="text-3xl font-bold text-institucional mb-8">
+            ¿Por qué elegir nuestros Cursos de Extensión?
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {/* Tarjeta 1: Clases dinámicas y divertidas */}
+            <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+              <div className="text-6xl mb-3">
+                <FontAwesomeIcon icon={faLightbulb} className="text-institucional h-12 w-12" />
+              </div>
+              <p className="font-semibold text-lg">Clases dinámicas y divertidas para todos.</p>
+            </div>
 
-      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
-        <div className="text-6xl mb-3">💡</div>
-        <p className="font-semibold text-lg">Aprende jugando, mientras te diviertes.</p>
-      </div>
+            {/* Tarjeta 2: Aprende jugando */}
+            <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+              <div className="text-6xl mb-3">
+                <FontAwesomeIcon icon={faGamepad} className="text-yellow-400 h-12 w-12" />
+              </div>
+              <p className="font-semibold text-lg">Aprende jugando, mientras te diviertes.</p>
+            </div>
 
-      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
-        <div className="text-6xl mb-3">🕒</div>
-        <p className="font-semibold text-lg">Horarios flexibles para tu comodidad.</p>
-      </div>
+            {/* Tarjeta 3: Horarios flexibles */}
+            <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+              <div className="text-6xl mb-3">
+                <FontAwesomeIcon icon={faClock} className="text-blue-500 h-12 w-12" />
+              </div>
+              <p className="font-semibold text-lg">Horarios flexibles para tu comodidad.</p>
+            </div>
 
-      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
-        <div className="text-6xl mb-3">🌍</div>
-        <p className="font-semibold text-lg">Cursos para todos, no importa si eres parte de nuestra familia o no.</p>
-      </div>
-    </div>
-  </div>
-</section>
+            {/* Tarjeta 4: Cursos para todos */}
+            <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+              <div className="text-6xl mb-3">
+                <FontAwesomeIcon icon={faUsers} className="text-green-500 h-12 w-12" />
+              </div>
+              <p className="font-semibold text-lg">Cursos para todos, no importa si eres parte de nuestra familia o no.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

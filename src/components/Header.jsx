@@ -10,20 +10,20 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-white text-institucional shadow-md z-50">
-      <div className="flex justify-between items-center px-6 py-2 sm:px-8 md:px-12">
+      <div className="flex justify-between items-center px-4 py-2 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}
         <div className="flex items-center">
-          <div className="font-extrabold text-lg tracking-wide ml-16">
+          <div className="font-extrabold text-lg tracking-wide ml-10">
             <Link to="/">
               <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
             </Link>
           </div>
 
           {/* Menú de navegación justo al lado del logo */}
-          <nav className="flex gap-6 text-base font-medium ml-6">
-            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Cursos</Link>
-            <Link to="/colegio" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Colegio</Link>
-            <Link to="/comunidad" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Comunidad</Link>
+          <nav className="flex gap-4 text-base font-medium ml-6">
+            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1">Cursos</Link>
+            <Link to="/colegio" className="hover:text-yellow-400 transition duration-200 px-3 py-1">Colegio</Link>
+            <Link to="/comunidad" className="hover:text-yellow-400 transition duration-200 px-3 py-1">Comunidad</Link>
           </nav>
         </div>
 
@@ -38,7 +38,7 @@ const Header = () => {
       {/* Menú desplegable en móvil */}
       {menuAbierto && (
         <div className="sm:hidden bg-white border-t border-institucional px-6 pb-4">
-          <nav className="flex flex-col gap-3 text-sm font-medium">
+          <nav className="flex flex-col gap-2 text-sm font-medium">
             <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Cursos</Link>
             <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Colegio</Link>
             <Link to="/comunidad" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Comunidad</Link>

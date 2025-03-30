@@ -31,10 +31,13 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Botón de menú hamburguesa para dispositivos móviles */}
-        <div className="sm:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-3xl bg-institucional text-white p-2 rounded-full">
-            {menuAbierto ? '✖' : '☰'} {/* Cambio de icono entre abrir y cerrar */}
+        {/* Botón de Menú con fondo rosado, al lado derecho */}
+        <div className="flex items-center sm:hidden">
+          <button 
+            onClick={toggleMenu} 
+            className="bg-[#FF007F] text-white px-4 py-2 rounded-md hover:bg-[#FF2A8F] transition duration-200"
+          >
+            Menú
           </button>
         </div>
       </div>

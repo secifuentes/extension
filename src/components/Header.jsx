@@ -9,42 +9,35 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
-      <div className="flex justify-between items-center px-6 py-4 sm:px-8 md:px-10"> {/* Ajusté el padding para un espaciado más equilibrado */}
-        {/* Logo */}
-        <div className="font-extrabold text-lg tracking-wide ml-8">
+    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50"> {/* Fondo azul institucional */}
+      <div className="flex justify-between items-center px-6 py-4 sm:px-8 md:px-10">
+        {/* Logo a la izquierda */}
+        <div className="font-extrabold text-lg tracking-wide">
           <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
         </div>
 
-        {/* Botón hamburguesa para móviles */}
-        <button
-          className="sm:hidden flex items-center justify-center w-10 h-10"
-          onClick={() => setMenuAbierto(!menuAbierto)}
-          aria-label="Menú"
-        >
-          <svg
-            className="w-6 h-6 text-white"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {menuAbierto ? (
-              <path d="M18 6L6 18M6 6l12 12" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-
-        {/* Menú en escritorio */}
-        <nav className="hidden sm:flex gap-8 text-sm font-medium"> {/* Aumenté el espaciado entre los enlaces */}
-          <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link> {/* Efecto hover para enlaces */}
+        {/* Menú de navegación a la izquierda (junto al logo) */}
+        <nav className="flex gap-8 text-sm font-medium"> 
+          <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
-          <Link to="/estado" className="hover:text-yellow-400 transition duration-200">Estado de Inscripción</Link>
+          <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
         </nav>
+
+        {/* Barra de búsqueda centrada */}
+        <div className="flex items-center flex-grow mx-6">
+          <input
+            type="text"
+            className="w-full px-4 py-2 bg-[#333333] text-white border border-gray-700 rounded-full"
+            placeholder="Buscar cursos..."
+          />
+        </div>
+
+        {/* Botón de Estado de Inscripción a la derecha */}
+        <div className="flex gap-4">
+          <Link to="/estado" className="bg-[#ff6f61] text-white px-4 py-2 rounded-full hover:bg-[#ff3b2b] transition duration-200">
+            Estado de Inscripción
+          </Link>
+        </div>
       </div>
 
       {/* Menú desplegable en móvil */}
@@ -53,7 +46,10 @@ const Header = () => {
           <nav className="flex flex-col gap-4 text-sm font-medium">
             <Link to="/" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Inicio</Link>
             <a href="https://lapresentaciongirardota.edu.co/index.php" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Presentación</a>
-            <Link to="/estado-inscripcion" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Estado de Inscripción</Link>
+            <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Cursos</Link>
+            <Link to="/estado" onClick={handleLinkClick} className="bg-[#ff6f61] text-white px-4 py-2 rounded-full hover:bg-[#ff3b2b] transition duration-200">
+              Estado de Inscripción
+            </Link>
           </nav>
         </div>
       )}

@@ -46,11 +46,12 @@ const API_URL = import.meta.env.VITE_API_URL;
     <div className="pt-0">
       {/* Banner */}
       <div className="w-full h-[600px] relative">
-        <img
-          src={imagenesBanner[imagenActual]}
-          alt="Banner"
-          className="w-full h-full object-cover transition-all duration-700"
-        />
+      <img
+      src={imagenesBanner[imagenActual]}
+      alt="Banner"
+      className="w-full h-full object-cover transition-all duration-700"
+      loading="lazy"  // Agrega lazy loading aquí
+      />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 flex items-center justify-center px-4 text-center">
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
@@ -67,19 +68,20 @@ const API_URL = import.meta.env.VITE_API_URL;
       <section className="max-w-7xl mx-auto px-4 py-14">
         <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {cursos.map((curso) => (
-            <div key={curso._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
-      <div className="aspect-[3/3] overflow-hidden">
-        <img
-          src={curso.imagen}
-          alt={curso.nombre}
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="p-5 text-center">
-        <h3 className="text-center font-bold text-institucional text-lg leading-snug">
-          {curso.nombre}
-        </h3>
+        {cursos.map((curso) => (
+  <div key={curso._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+    <div className="aspect-[3/3] overflow-hidden">
+      <img
+        src={curso.imagen}
+        alt={curso.nombre}
+        className="w-full h-full object-cover"
+        loading="lazy"  // Agrega lazy loading aquí
+      />
+    </div>
+    <div className="p-5 text-center">
+      <h3 className="text-center font-bold text-institucional text-lg leading-snug">
+        {curso.nombre}
+      </h3>
 
         {/* Mostrar valor y detalles 
         <p className="text-sm text-gray-500 mt-1">
@@ -88,16 +90,15 @@ const API_URL = import.meta.env.VITE_API_URL;
         <p className="text-xs text-gray-500 mt-1">
           {curso.modalidad} • {curso.duracion}
         </p> */}
-
         <Link
-          to={`/curso/${curso.slug}`} // ✅ Usa el slug del backend
-          className="mt-4 inline-block bg-institucional text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
-        >
-          Inscribirme
-        </Link>
-      </div>
+        to={`/curso/${curso.slug}`}
+        className="mt-4 inline-block bg-institucional text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
+      >
+        Inscribirme
+      </Link>
     </div>
-  ))}
+  </div>
+))}
 </div>
       </section>
 

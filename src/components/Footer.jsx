@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
@@ -29,29 +31,31 @@ const Footer = () => {
         {/* Columna 3: Redes sociales + Logo */}
         <div className="text-left">
           <h4 className="font-bold mb-3 text-lg">Nuestras redes</h4>
-          {/* Aquí puedes agregar tus iconos manualmente */}
           <div className="flex space-x-6 text-2xl mb-4">
-            {/* Ejemplo de cómo poner los iconos manualmente (reemplaza con los íconos que prefieras) */}
-            <a href="#" aria-label="Instagram">
-              <img src="path/to/your/instagram-icon.svg" alt="Instagram" className="w-8 h-8" />
+            {/* Instagram */}
+            <a href="https://www.instagram.com/presentaciongirardota/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faInstagram} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
             </a>
-            <a href="#" aria-label="Facebook">
-              <img src="path/to/your/facebook-icon.svg" alt="Facebook" className="w-8 h-8" />
+            {/* Facebook */}
+            <a href="https://web.facebook.com/presentaciondegirardota" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faFacebook} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
             </a>
-            <a href="#" aria-label="TikTok">
-              <img src="path/to/your/tiktok-icon.svg" alt="TikTok" className="w-8 h-8" />
+            {/* TikTok */}
+            <a href="https://www.tiktok.com/@presentaciongirardota" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTiktok} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
             </a>
-            <a href="#" aria-label="YouTube">
-              <img src="path/to/your/youtube-icon.svg" alt="YouTube" className="w-8 h-8" />
+            {/* YouTube */}
+            <a href="https://www.youtube.com/user/PresentacionGta" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faYoutube} className="text-gray-800 hover:text-yellow-400 transition duration-200" />
             </a>
           </div>
-          <img src="/footer.svg" alt="Logo Colegio" className="w-48 mt-2" />
+          <img src="/lfooter.svg" alt="Logo Colegio" className="w-48 mt-2" />
         </div>
       </div>
 
       {/* Frase institucional al fondo */}
       <div className="mt-10 text-center">
-        <p className="text-institucional text-2xl font-bold tracking-wide italic">
+        <p className="text-institucional text-2xl font-bold tracking-wide">
           Crear, Sentir y Transformar
         </p>
       </div>

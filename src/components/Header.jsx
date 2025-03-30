@@ -10,22 +10,22 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
-      <div className="flex justify-between items-center px-6 py-4 sm:px-8 md:px-10">
-        {/* Logo a la izquierda */}
-        <div className="font-extrabold text-lg tracking-wide">
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
-        </div>
-
-        {/* Menú de navegación a la izquierda (junto al logo) */}
+      <div className="flex justify-between items-center px-8 py-2 sm:px-10 md:px-12"> {/* Aumentamos el padding para mover los elementos hacia adentro */}
+        {/* Menú de navegación a la izquierda */}
         <nav className="flex gap-10 text-sm font-medium"> {/* Ajusté el gap para mayor distancia entre los elementos */}
           <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
           <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
         </nav>
 
-        {/* Botón de Estado de Inscripción a la derecha */}
-        <div className="flex gap-4">
-          <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200"> {/* Cambié el color del botón */}
+        {/* Logo a la izquierda, con más espacio desde el borde */}
+        <div className="font-extrabold text-lg tracking-wide ml-4"> {/* ml-4 añade margen izquierdo para separarlo del borde */}
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
+        </div>
+
+        {/* Botón de Estado de Inscripción a la derecha, con más espacio desde el borde */}
+        <div className="flex gap-4 mr-4"> {/* mr-4 añade margen derecho para separarlo del borde */}
+          <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>
         </div>

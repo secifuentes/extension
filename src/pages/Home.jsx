@@ -67,7 +67,7 @@ const API_URL = import.meta.env.VITE_API_URL;
       {/* Cursos */}
       <section className="max-w-7xl mx-auto px-4 py-14">
         <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {cursos.map((curso) => (
   <div key={curso._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
     <div className="aspect-[3/3] overflow-hidden">

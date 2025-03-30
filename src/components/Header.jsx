@@ -20,10 +20,10 @@ const Header = () => {
           </div>
 
           {/* Menú de navegación justo al lado del logo */}
-          <nav className="flex gap-2 text-base font-medium ml-6">
-            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-2 py-0.5">Cursos</Link> {/* Reducción del padding */}
-            <Link to="/colegio" className="hover:text-yellow-400 transition duration-200 px-2 py-0.5">Colegio</Link> {/* Reducción del padding */}
-            <Link to="/comunidad" className="hover:text-yellow-400 transition duration-200 px-2 py-0.5">Comunidad</Link> {/* Reducción del padding */}
+          <nav className="flex gap-2 text-sm font-medium ml-6"> {/* Reducir tamaño de fuente */}
+            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-2 py-0.25">Cursos</Link> {/* Reducción del padding */}
+            <Link to="/colegio" className="hover:text-yellow-400 transition duration-200 px-2 py-0.25">Colegio</Link> {/* Reducción del padding */}
+            <Link to="/comunidad" className="hover:text-yellow-400 transition duration-200 px-2 py-0.25">Comunidad</Link> {/* Reducción del padding */}
           </nav>
         </div>
 
@@ -39,9 +39,9 @@ const Header = () => {
       {menuAbierto && (
         <div className="sm:hidden bg-white border-t border-institucional px-4 pb-4">
           <nav className="flex flex-col gap-1 text-sm font-medium">
-            <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.5">Cursos</Link> {/* Reducción del padding */}
-            <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.5">Colegio</Link> {/* Reducción del padding */}
-            <Link to="/comunidad" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.5">Comunidad</Link> {/* Reducción del padding */}
+            <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.25">Cursos</Link> {/* Reducción del padding */}
+            <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.25">Colegio</Link> {/* Reducción del padding */}
+            <Link to="/comunidad" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-0.25">Comunidad</Link> {/* Reducción del padding */}
             <Link to="/estado" onClick={handleLinkClick} className="bg-institucional text-white px-4 py-2 rounded-full hover:bg-presentacionDark transition duration-200">
               Estado de Inscripción
             </Link>

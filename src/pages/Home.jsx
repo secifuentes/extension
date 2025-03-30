@@ -54,10 +54,10 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 flex items-center justify-center px-4 text-center">
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-              Cursos de Extensión para todos
+              Cursos de extensión para todos
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
-              No importa si no eres parte de nuestra familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
+              No importa si no eres parte de nuestra Familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
             </p>
           </div>
         </div>
@@ -96,21 +96,33 @@ const Home = () => {
 
       {/* Beneficios */}
       <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h3 className="text-3xl font-bold text-center mb-12 text-institucional">¿Por qué elegirnos?</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {beneficios.map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer"
-              >
-                <div className="text-6xl mb-3">{item.icono}</div>
-                <p className="font-semibold text-lg">{item.texto}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+  <div className="max-w-6xl mx-auto px-4 text-center">
+    <h3 className="text-3xl font-bold text-institucional mb-8">
+      ¿Por qué elegir nuestros Cursos de Extensión?
+    </h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+        <div className="text-6xl mb-3">🎓</div>
+        <p className="font-semibold text-lg">Clases dinámicas y divertidas para todos.</p>
+      </div>
+
+      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+        <div className="text-6xl mb-3">💡</div>
+        <p className="font-semibold text-lg">Aprende jugando, mientras te diviertes.</p>
+      </div>
+
+      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+        <div className="text-6xl mb-3">🕒</div>
+        <p className="font-semibold text-lg">Horarios flexibles para tu comodidad.</p>
+      </div>
+
+      <div className="bg-gradient-to-br from-white to-gray-100 hover:from-institucional hover:to-presentacionDark hover:text-white p-6 rounded-3xl shadow-lg transition-all duration-500 transform hover:scale-105 text-center cursor-pointer">
+        <div className="text-6xl mb-3">🌍</div>
+        <p className="font-semibold text-lg">Cursos para todos, no importa si eres parte de nuestra familia o no.</p>
+      </div>
+    </div>
+  </div>
+</section>
     </div>
   );
 };

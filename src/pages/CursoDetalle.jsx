@@ -51,6 +51,7 @@ useEffect(() => {
   const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [modoPago, setModoPago] = useState('trimestral');
   const [comprobanteBase64, setComprobanteBase64] = useState('');
+  const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
 
   const calcularSiEsMenor = (fechaNacimiento) => {
     const hoy = new Date();

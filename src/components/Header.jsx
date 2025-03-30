@@ -9,11 +9,11 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-institucional text-white shadow z-50">
-      <div className="flex justify-between items-center px-4 py-2 sm:px-6 md:px-8"> {/* Ajusté el padding vertical de 4 a 2 */}
+    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
+      <div className="flex justify-between items-center px-6 py-4 sm:px-8 md:px-10"> {/* Ajusté el padding para un espaciado más equilibrado */}
         {/* Logo */}
         <div className="font-extrabold text-lg tracking-wide ml-8">
-          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" /> {/* Ajusté el tamaño del logo a h-8 */}
+          <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
         </div>
 
         {/* Botón hamburguesa para móviles */}
@@ -40,20 +40,20 @@ const Header = () => {
         </button>
 
         {/* Menú en escritorio */}
-        <nav className="hidden sm:flex gap-4 text-sm font-medium"> {/* Ajusté el gap de 6 a 4 */}
-          <Link to="/" className="hover:text-yellow-400 transition">Inicio</Link>
-          <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition">Presentación</a>
-          <Link to="/estado" className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
+        <nav className="hidden sm:flex gap-8 text-sm font-medium"> {/* Aumenté el espaciado entre los enlaces */}
+          <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link> {/* Efecto hover para enlaces */}
+          <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
+          <Link to="/estado" className="hover:text-yellow-400 transition duration-200">Estado de Inscripción</Link>
         </nav>
       </div>
 
       {/* Menú desplegable en móvil */}
       {menuAbierto && (
         <div className="sm:hidden bg-institucional border-t border-white px-6 pb-4">
-          <nav className="flex flex-col gap-3 text-sm font-medium">
-            <Link to="/" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Inicio</Link>
-            <a href="https://lapresentaciongirardota.edu.co/index.php" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Presentación</a>
-            <Link to="/estado-inscripcion" onClick={handleLinkClick} className="hover:text-yellow-400 transition">Estado de Inscripción</Link>
+          <nav className="flex flex-col gap-4 text-sm font-medium">
+            <Link to="/" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Inicio</Link>
+            <a href="https://lapresentaciongirardota.edu.co/index.php" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Presentación</a>
+            <Link to="/estado-inscripcion" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200">Estado de Inscripción</Link>
           </nav>
         </div>
       )}

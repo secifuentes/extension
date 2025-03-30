@@ -16,15 +16,15 @@ const Header = () => {
           <img src="/logo.svg" alt="Extensión La Presentación" className="h-10" />
         </div>
 
-        {/* Menú de navegación a la izquierda del logo */}
-        <nav className="flex gap-10 text-sm font-medium ml-8"> {/* ml-8 agrega separación entre el logo y el menú */}
+        {/* Menú de navegación justo al lado del logo */}
+        <nav className="flex gap-6 text-sm font-medium ml-4"> {/* Espaciado moderado con gap-6 */}
           <Link to="/" className="hover:text-yellow-400 transition duration-200">Inicio</Link>
           <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200">Presentación</a>
           <Link to="/cursos" className="hover:text-yellow-400 transition duration-200">Cursos</Link>
         </nav>
 
         {/* Botón de Estado de Inscripción a la derecha */}
-        <div className="flex gap-4 mr-8"> {/* mr-8 agrega margen a la derecha para separar el botón del borde */}
+        <div className="flex gap-4 mr-8"> {/* Espaciado desde el borde derecho */}
           <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>

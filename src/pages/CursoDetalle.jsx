@@ -231,12 +231,17 @@ useEffect(() => {
   </p>
 </div>
 
-{/* Banner informativo con ícono */}
-<div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 flex items-center">
-  <div className="mr-3 text-xl">
-    <i className="fas fa-info-circle"></i> {/* Ícono de información */}
+{/* Banner informativo con ícono estilizado y texto atractivo */}
+<div className="bg-gradient-to-r from-blue-100 to-blue-200 border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
+  <div className="mr-4 text-3xl">
+    <i className="fas fa-info-circle"></i> {/* Ícono de información estilizado */}
   </div>
-  <p className="font-semibold">Ingresa los datos de la persona que realizará el curso</p>
+  <div>
+    <p className="text-xl font-semibold">Inscríbete al curso y asegura tu cupo</p>
+    <p className="text-sm mt-1 text-gray-600">
+    Ingresa los datos de la persona que realizará el curso
+    </p>
+  </div>
 </div>
 
 {/* Formulario de inscripción */}

@@ -32,7 +32,7 @@ const Header = () => {
         </div>
 
         {/* Botón de Menú con fondo rosado, al lado derecho */}
-        <div className="flex items-center sm:hidden">
+        <div className="flex items-center">
           <button 
             onClick={toggleMenu} 
             className="bg-[#FF007F] text-white px-4 py-2 rounded-md hover:bg-[#FF2A8F] transition duration-200"
@@ -45,7 +45,7 @@ const Header = () => {
       {/* Menú de pantalla completa (se activa cuando el menú está abierto) */}
       {menuAbierto && (
         <div className="fixed inset-0 bg-white text-institucional z-50 flex justify-center items-center">
-          <div className="flex flex-col items-center space-y-6">
+          <div className="flex flex-col items-center space-y-6 w-full p-4">
             <Link to="/cursos" onClick={handleLinkClick} className="text-2xl hover:text-mostaza transition duration-200">Cursos</Link>
             <Link to="/colegio" onClick={handleLinkClick} className="text-2xl hover:text-mostaza transition duration-200">Colegio</Link>
             <Link to="/comunidad" onClick={handleLinkClick} className="text-2xl hover:text-mostaza transition duration-200">Comunidad</Link>

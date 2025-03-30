@@ -24,7 +24,7 @@ const Header = () => {
         </nav>
 
         {/* Botón de Estado de Inscripción a la derecha */}
-        <div className="flex gap-4 ml-auto"> {/* ml-auto alinea el botón a la derecha */}
+        <div className="flex gap-4 mr-20"> {/* ml-auto alinea el botón a la derecha */}
           <Link to="/estado" className="bg-[#0052CC] text-white px-4 py-2 rounded-full hover:bg-[#003C99] transition duration-200">
             Estado de Inscripción
           </Link>

@@ -19,10 +19,10 @@ const Header = () => {
           </div>
 
           {/* Menú de navegación justo al lado del logo */}
-          <nav className="flex gap-8 text-lg font-medium ml-6"> {/* Aquí cambié text-sm a text-lg */}
-            <Link to="/" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Inicio</Link> {/* Añadí padding para mayor tamaño */}
-            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Presentación</a>
-            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-4 py-2">Cursos</Link>
+          <nav className="flex gap-6 text-base font-medium ml-6"> {/* Ajusté el tamaño del texto a text-base */}
+            <Link to="/" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Inicio</Link> {/* Ajusté el padding */}
+            <a href="https://lapresentaciongirardota.edu.co/index.php" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Presentación</a>
+            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-2">Cursos</Link>
           </nav>
         </div>
 

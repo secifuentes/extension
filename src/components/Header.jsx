@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-white text-institucional shadow-md z-50">
+    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50"> {/* Cambié bg-white por bg-institucional */}
       {/* Menú */}
       <div className="flex justify-between items-center px-4 py-1 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}
@@ -30,7 +30,7 @@ const Header = () => {
 
         {/* Botón de Estado de Inscripción con un border-radius moderado */}
         <div className="flex gap-4 mr-20">
-          <Link to="/estado" className="bg-institucional text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
+          <Link to="/estado" className="bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
             Estado de Inscripción
           </Link>
         </div>
@@ -38,7 +38,7 @@ const Header = () => {
 
       {/* Menú desplegable en móvil */}
       {menuAbierto && (
-        <div className="sm:hidden bg-white border-t border-institucional px-4 pb-4">
+        <div className="sm:hidden bg-institucional border-t border-white px-4 pb-4"> {/* Cambié bg-white por bg-institucional */}
           <nav className="flex flex-col gap-2 text-sm font-medium">
             <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Cursos</Link>
             <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</Link>

@@ -26,21 +26,22 @@ const CursoDetalle = () => {
   const { slug } = useParams();
   const [curso, setCurso] = useState(null);
 
-useEffect(() => {
-  const fetchCurso = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
-      const data = await res.json();
-      console.log('Datos recibidos:', data);  // Esto imprime los datos recibidos
-      const cursoEncontrado = data.find(c => c.slug === slug);
-      setCurso(cursoEncontrado);
-    } catch (err) {
-      console.error('❌ Error al cargar el curso:', err);
-    }
-  };
-
-  fetchCurso();
-}, [slug]);
+  useEffect(() => {
+    const fetchCurso = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
+        const data = await res.json();
+        const cursoEncontrado = data.find(c => c.slug === slug);
+        setCurso(cursoEncontrado);
+      } catch (err) {
+        console.error('❌ Error al cargar el curso:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchCurso();
+  }, [slug]);
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [documento, setDocumento] = useState('');
@@ -108,7 +109,8 @@ useEffect(() => {
 
   total = parseInt(total.toFixed(0));
 
-  if (!curso) return <p className="p-10 text-center">Curso no encontrado</p>;
+  if (loading) return <p className="p-10 text-center">Cargando curso...</p>;
+if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontrado</p>;
   return (
     <div className="pt-[72px]">
       <div className="max-w-7xl mx-auto px-6 mt-2">

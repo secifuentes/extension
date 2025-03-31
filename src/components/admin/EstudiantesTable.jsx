@@ -4,10 +4,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {
   const [inscripciones, setInscripciones] = useState([]);
-  const [searchNombre, setSearchNombre] = useState('');
-  const [searchCurso, setSearchCurso] = useState('');
-  const [searchFamilia, setSearchFamilia] = useState('');
-  const [searchPago, setSearchPago] = useState('');
 
   const cargarInscripciones = async () => {
     try {
@@ -22,14 +18,6 @@ const InscripcionesTable = () => {
   useEffect(() => {
     cargarInscripciones();
   }, []);
-
-  const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-CO', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
 
   const confirmarPago = async (id) => {
     try {
@@ -68,63 +56,47 @@ const InscripcionesTable = () => {
     }
   };
 
-  const filteredInscripciones = inscripciones.filter((ins) => {
-    const nombreFilter =
-      ins.nombres.toLowerCase().includes(searchNombre.toLowerCase()) ||
-      ins.apellidos.toLowerCase().includes(searchNombre.toLowerCase());
-    const cursoFilter = ins.cursoNombre.toLowerCase().includes(searchCurso.toLowerCase());
-    const familiaFilter = searchFamilia === '' || (searchFamilia === 'sí' ? ins.esEstudiante : !ins.esEstudiante);
-    const pagoFilter =
-      searchPago === '' ||
-      (searchPago === 'mensual' && ins.formaPago === 'mensual') ||
-      (searchPago === 'completo' && ins.formaPago !== 'mensual');
-    return nombreFilter && cursoFilter && familiaFilter && pagoFilter;
-  });
+  const formatearFecha = (fecha) => {
+    return new Date(fecha).toLocaleDateString('es-CO', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const eliminarTodasInscripciones = async () => {
+    const confirmacion1 = window.confirm('¿Estás seguro de que quieres eliminar todas las inscripciones?');
+    if (!confirmacion1) return; // Si el usuario cancela, no hace nada.
+
+    const confirmacion2 = window.confirm('¡Atención! Esta acción no se puede deshacer. ¿Estás seguro de que deseas continuar?');
+    if (!confirmacion2) return; // Si el usuario cancela, no hace nada.
+
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones`, {
+        method: 'DELETE',
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert('✅ Todas las inscripciones han sido eliminadas');
+        cargarInscripciones(); // Actualiza la lista de inscripciones
+      } else {
+        alert('❌ Error al eliminar las inscripciones');
+      }
+    } catch (err) {
+      console.error('Error al eliminar inscripciones:', err);
+      alert('❌ No se pudo eliminar las inscripciones');
+    }
+  };
 
   return (
     <div className="overflow-x-auto p-4">
       <h2 className="text-2xl font-bold mb-4 text-institucional">Inscripciones registradas</h2>
-
-      {/* Filtros de búsqueda */}
-      <div className="mb-4 flex gap-4">
-        {/* Filtro por Nombre */}
-        <input
-          type="text"
-          placeholder="Buscar por nombre"
-          value={searchNombre}
-          onChange={(e) => setSearchNombre(e.target.value)}
-          className="px-4 py-2 border rounded"
-        />
-        {/* Filtro por Curso */}
-        <input
-          type="text"
-          placeholder="Buscar por curso"
-          value={searchCurso}
-          onChange={(e) => setSearchCurso(e.target.value)}
-          className="px-4 py-2 border rounded"
-        />
-        {/* Filtro por Familia */}
-        <select
-          value={searchFamilia}
-          onChange={(e) => setSearchFamilia(e.target.value)}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">¿Familia Presentación?</option>
-          <option value="sí">Sí</option>
-          <option value="no">No</option>
-        </select>
-        {/* Filtro por Forma de Pago */}
-        <select
-          value={searchPago}
-          onChange={(e) => setSearchPago(e.target.value)}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">Forma de pago</option>
-          <option value="mensual">Mensual</option>
-          <option value="completo">Curso Completo</option>
-        </select>
-      </div>
-
+      <button
+        onClick={eliminarTodasInscripciones}
+        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 mb-4"
+      >
+        Eliminar todas las inscripciones
+      </button>
       <table className="min-w-full bg-white border border-gray-200 text-sm">
         <thead className="bg-gray-100 text-gray-700">
           <tr>
@@ -142,7 +114,7 @@ const InscripcionesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredInscripciones.map((ins) => (
+          {inscripciones.map((ins) => (
             <tr key={ins._id}>
               <td className="px-4 py-2 border">{ins.nombres} {ins.apellidos}</td>
               <td className="px-4 py-2 border">{ins.tipoDocumento?.toUpperCase()} {ins.documento}</td>

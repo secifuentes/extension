@@ -1,18 +1,39 @@
-import React from 'react';
-import Sidebar from '../components/admin/Sidebar';
-import Header from '../components/admin/Header';
-import EstudiantesTable from '../components/admin/EstudiantesTable';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AdminEstudiantes = () => {
+  const [estudiantes, setEstudiantes] = useState([]);
+
+  useEffect(() => {
+    // Solicitar datos al backend
+    axios.get('http://localhost:5050/api/estudiantes')
+      .then(response => setEstudiantes(response.data))
+      .catch(error => console.error('Error al obtener estudiantes:', error));
+  }, []);
+
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="p-6 overflow-y-auto">
-          <EstudiantesTable />
-        </main>
-      </div>
+    <div>
+      <h1>Estudiantes</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo de Documento</th>
+            <th>Documento</th>
+            <th>Correo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {estudiantes.map(estudiante => (
+            <tr key={estudiante._id}>
+              <td>{estudiante.nombres} {estudiante.apellidos}</td>
+              <td>{estudiante.tipoDocumento}</td>
+              <td>{estudiante.documento}</td>
+              <td>{estudiante.correo}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

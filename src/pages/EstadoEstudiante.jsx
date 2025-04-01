@@ -17,7 +17,6 @@ const EstadoEstudiante = () => {
     setResultado(null);
     if (!tipoDoc || !documento) return alert('Por favor selecciona el tipo de documento y escribe el número');
 
-    // Mapeo de códigos a nombres completos
     const tipoDocMap = {
       rc: 'Registro Civil',
       ti: 'Tarjeta de Identidad',
@@ -59,85 +58,83 @@ const EstadoEstudiante = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
-        <h2 className="text-3xl font-bold text-institucional">Consulta tu estado de inscripción</h2>
-        <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
+    <div className="max-w-3xl mx-auto px-6 py-16 space-y-6">
+      <h2 className="text-3xl font-bold text-institucional">Consulta tu estado de inscripción</h2>
+      <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-          <div>
-            <label className="block text-sm mb-1 font-semibold">Tipo de documento</label>
-            <select
-              className="w-full border rounded p-2"
-              value={tipoDoc}
-              onChange={(e) => setTipoDoc(e.target.value)}
-            >
-              <option value="">Selecciona</option>
-              <option value="rc">Registro Civil</option>
-              <option value="ti">Tarjeta de Identidad</option>
-              <option value="cc">Cédula de Ciudadanía</option>
-              <option value="ce">Cédula de Extranjería</option>
-              <option value="pa">Pasaporte</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm mb-1 font-semibold">Número de documento</label>
-            <input
-              type="text"
-              className="w-full border rounded p-2"
-              value={documento}
-              onChange={(e) => setDocumento(e.target.value)}
-            />
-          </div>
-
-          <button
-            onClick={buscarEstado}
-            className="bg-institucional hover:bg-presentacionDark text-white px-6 py-2 rounded mt-2 sm:mt-0"
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+        <div>
+          <label className="block text-sm mb-1 font-semibold">Tipo de documento</label>
+          <select
+            className="w-full border rounded p-2"
+            value={tipoDoc}
+            onChange={(e) => setTipoDoc(e.target.value)}
           >
-            Consultar
-          </button>
+            <option value="">Selecciona</option>
+            <option value="rc">Registro Civil</option>
+            <option value="ti">Tarjeta de Identidad</option>
+            <option value="cc">Cédula de Ciudadanía</option>
+            <option value="ce">Cédula de Extranjería</option>
+            <option value="pa">Pasaporte</option>
+          </select>
         </div>
 
-        {/* Resultado */}
-        {resultado?.tipo === 'no-encontrado' && (
-          <div className="text-red-600 bg-red-100 border border-red-300 p-4 rounded">
-            No encontramos registros con ese documento.
-          </div>
-        )}
+        <div>
+          <label className="block text-sm mb-1 font-semibold">Número de documento</label>
+          <input
+            type="text"
+            className="w-full border rounded p-2"
+            value={documento}
+            onChange={(e) => setDocumento(e.target.value)}
+          />
+        </div>
 
-        {resultado?.tipo === 'error' && (
-          <div className="text-red-700 bg-red-100 border p-4 rounded">
-            Ocurrió un error al consultar. Intenta nuevamente.
-          </div>
-        )}
-
-        {resultado?.tipo !== 'no-encontrado' && resultado?.cursos?.length > 0 && (
-          <div className="bg-gray-50 p-4 border rounded space-y-3">
-            <p><strong>Nombre:</strong> {resultado.nombres} {resultado.apellidos}</p>
-            <p><strong>Correo:</strong> {resultado.correo || 'No disponible'}</p>
-
-            <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
-            <ul className="space-y-2">
-              {resultado.cursos.map((c, i) => (
-                <li key={i} className="border p-3 rounded text-sm bg-white">
-                  <p><strong>Curso:</strong> {c.cursoNombre}</p>
-                  <p><strong>Forma de pago:</strong> {c.formaPago}</p>
-                  <p>
-                    <strong>Estado del pago:</strong>{' '}
-                    {c.pagoConfirmado ? (
-                      <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
-                    ) : (
-                      <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
-                    )}
-                  </p>
-                  <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <button
+          onClick={buscarEstado}
+          className="bg-institucional hover:bg-presentacionDark text-white px-6 py-2 rounded mt-2 sm:mt-0"
+        >
+          Consultar
+        </button>
       </div>
+
+      {/* Resultado */}
+      {resultado?.tipo === 'no-encontrado' && (
+        <div className="text-red-600 bg-red-100 border border-red-300 p-4 rounded">
+          No encontramos registros con ese documento.
+        </div>
+      )}
+
+      {resultado?.tipo === 'error' && (
+        <div className="text-red-700 bg-red-100 border p-4 rounded">
+          Ocurrió un error al consultar. Intenta nuevamente.
+        </div>
+      )}
+
+      {resultado?.tipo !== 'no-encontrado' && resultado?.cursos?.length > 0 && (
+        <div className="bg-gray-50 p-4 border rounded space-y-3">
+          <p><strong>Nombre:</strong> {resultado.nombres} {resultado.apellidos}</p>
+          <p><strong>Correo:</strong> {resultado.correo || 'No disponible'}</p>
+
+          <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
+          <ul className="space-y-2">
+            {resultado.cursos.map((c, i) => (
+              <li key={i} className="border p-3 rounded text-sm bg-white">
+                <p><strong>Curso:</strong> {c.cursoNombre}</p>
+                <p><strong>Forma de pago:</strong> {c.formaPago}</p>
+                <p>
+                  <strong>Estado del pago:</strong>{' '}
+                  {c.pagoConfirmado ? (
+                    <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
+                  ) : (
+                    <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
+                  )}
+                </p>
+                <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Acceso oculto para admin */}
       <div className="mt-10 text-center">

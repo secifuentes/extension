@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { estudiantesRegistrados } from '../data/estudiantes';
 import { inscripciones } from '../data/inscripciones';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -64,21 +63,32 @@ const CursoDetalle = () => {
     return (cumple ? edad : edad - 1) < 18;
   };
 
-  const verificarEstudiante = () => {
-    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === curso._id);
+  const verificarEstudiante = async () => {
+    const yaExiste = inscripciones.find(
+      (i) => i.documento === documento && i.cursoId === curso._id
+    );
+  
     if (yaExiste) {
       setYaInscrito(true);
       setMostrarFormulario(false);
       return;
     }
-
-    const estudiante = estudiantesRegistrados.find(
-      (e) => e.documento === documento && e.tipoDocumento === tipoDoc
-    );
-
-    setDatosEstudiante(estudiante || null);
-    setYaInscrito(false);
-    setMostrarFormulario(true);
+  
+    try {
+      const res = await fetch(`${API_URL}/api/estudiantes/${tipoDoc}/${documento}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDatosEstudiante(data);
+      } else {
+        setDatosEstudiante(null);
+      }
+      setYaInscrito(false);
+      setMostrarFormulario(true);
+    } catch (err) {
+      console.error('❌ Error al buscar estudiante en Mongo:', err);
+      setDatosEstudiante(null);
+      setMostrarFormulario(true);
+    }
   };
 
   const valorMensual = curso ? curso.precio : 0;

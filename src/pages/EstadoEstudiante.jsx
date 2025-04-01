@@ -1,171 +1,165 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-const adminCredenciales = {
-  usuario: 'secifuentes',
-  clave: '1624Scc$',
-};
-
 const EstadoEstudiante = () => {
-  const [tipoDoc, setTipoDoc] = useState('rc');
+  const [tipoDoc, setTipoDoc] = useState('');
   const [documento, setDocumento] = useState('');
   const [resultado, setResultado] = useState(null);
-  const [mostrarLogin, setMostrarLogin] = useState(false);
-  const [correoAdmin, setCorreoAdmin] = useState('');
-  const [clave, setClave] = useState('');
+  const [mostrarAdmin, setMostrarAdmin] = useState(false);
+  const [adminUsuario, setAdminUsuario] = useState('');
+  const [adminClave, setAdminClave] = useState('');
   const [errorLogin, setErrorLogin] = useState('');
-  const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const buscarEstado = async () => {
-    setCargando(true);
     setResultado(null);
+    if (!tipoDoc || !documento) return alert('Por favor selecciona el tipo de documento y escribe el número');
 
     try {
-      const estudianteRes = await fetch(`${API_URL}/api/estudiantes/${tipoDoc}/${documento}`);
-      const estudiante = estudianteRes.ok ? await estudianteRes.json() : null;
-
-      const inscripcionesRes = await fetch(`${API_URL}/api/inscripciones`);
-      const todasInscripciones = await inscripcionesRes.json();
-      const inscrito = todasInscripciones.filter(i => i.documento === documento);
-
-      if (!estudiante && inscrito.length === 0) {
-        setResultado({ tipo: 'no-encontrado' });
+      const res = await fetch(`${API_URL}/api/inscripciones/estado/${tipoDoc}/${documento}`);
+      const data = await res.json();
+      if (res.ok) {
+        setResultado(data);
       } else {
-        setResultado({
-          tipo: 'ok',
-          nombre: estudiante ? `${estudiante.nombres} ${estudiante.apellidos}` : 'No registrado',
-          correo: estudiante?.correo || '',
-          estado: estudiante ? 'Activo' : 'No registrado',
-          cursos: inscrito,
-        });
+        setResultado({ tipo: 'no-encontrado' });
       }
-    } catch (error) {
-      console.error('❌ Error al buscar:', error);
-      alert('Error al buscar la información. Intenta nuevamente.');
-    } finally {
-      setCargando(false);
+    } catch (err) {
+      console.error('Error al consultar estado:', err);
+      setResultado({ tipo: 'error' });
     }
   };
 
   const validarAdmin = () => {
-    if (correoAdmin === adminCredenciales.usuario && clave === adminCredenciales.clave) {
+    if (adminUsuario === 'secifuentes' && adminClave === '1624Scc$') {
       navigate('/admin');
     } else {
-      setErrorLogin('Usuario o contraseña incorrectos.');
+      setErrorLogin('Usuario o contraseña incorrectos');
     }
   };
 
-  return (
-    <div className="max-w-2xl mx-auto py-16 px-4">
-      <h2 className="text-3xl font-bold text-institucional mb-4">Consulta tu estado de inscripción</h2>
-      <p className="mb-6 text-sm text-gray-600">
-        Ingresa tu número de documento para saber si estás inscrito a un curso.
-      </p>
+  const formatearFecha = (fecha) => {
+    return new Date(fecha).toLocaleDateString('es-CO', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
 
-      {/* Formulario de búsqueda */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <select
-          value={tipoDoc}
-          onChange={(e) => setTipoDoc(e.target.value)}
-          className="border p-2 rounded"
-        >
-          <option value="rc">Registro Civil</option>
-          <option value="ti">Tarjeta de Identidad</option>
-          <option value="cc">Cédula de Ciudadanía</option>
-          <option value="ce">Cédula de Extranjería</option>
-          <option value="pa">Pasaporte</option>
-        </select>
-        <input
-          type="text"
-          value={documento}
-          onChange={(e) => setDocumento(e.target.value)}
-          placeholder="Número de documento"
-          className="flex-1 border p-2 rounded"
-        />
-        <button
-          onClick={buscarEstado}
-          className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
-        >
-          {cargando ? 'Consultando...' : 'Consultar'}
-        </button>
+  return (
+    <div className="max-w-3xl mx-auto px-6 py-16">
+      <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
+        <h2 className="text-3xl font-bold text-institucional">Consulta tu estado de inscripción</h2>
+        <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+          <div>
+            <label className="block text-sm mb-1 font-semibold">Tipo de documento</label>
+            <select
+              className="w-full border rounded p-2"
+              value={tipoDoc}
+              onChange={(e) => setTipoDoc(e.target.value)}
+            >
+              <option value="">Selecciona</option>
+              <option value="rc">Registro Civil</option>
+              <option value="ti">Tarjeta de Identidad</option>
+              <option value="cc">Cédula de Ciudadanía</option>
+              <option value="ce">Cédula de Extranjería</option>
+              <option value="pa">Pasaporte</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 font-semibold">Número de documento</label>
+            <input
+              type="text"
+              className="w-full border rounded p-2"
+              value={documento}
+              onChange={(e) => setDocumento(e.target.value)}
+            />
+          </div>
+
+          <button
+            onClick={buscarEstado}
+            className="bg-institucional hover:bg-presentacionDark text-white px-6 py-2 rounded mt-2 sm:mt-0"
+          >
+            Consultar
+          </button>
+        </div>
+
+        {/* Resultado */}
+        {resultado?.tipo === 'no-encontrado' && (
+          <div className="text-red-600 bg-red-100 border border-red-300 p-4 rounded">
+            No encontramos registros con ese documento.
+          </div>
+        )}
+
+        {resultado?.tipo === 'error' && (
+          <div className="text-red-700 bg-red-100 border p-4 rounded">
+            Ocurrió un error al consultar. Intenta nuevamente.
+          </div>
+        )}
+
+        {resultado?.tipo !== 'no-encontrado' && resultado?.cursos?.length > 0 && (
+          <div className="bg-gray-50 p-4 border rounded space-y-3">
+            <p><strong>Nombre:</strong> {resultado.nombres} {resultado.apellidos}</p>
+            <p><strong>Correo:</strong> {resultado.correo || 'No disponible'}</p>
+
+            <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
+            <ul className="space-y-2">
+              {resultado.cursos.map((c, i) => (
+                <li key={i} className="border p-3 rounded text-sm bg-white">
+                  <p><strong>Curso:</strong> {c.cursoNombre}</p>
+                  <p><strong>Forma de pago:</strong> {c.formaPago}</p>
+                  <p>
+                    <strong>Estado del pago:</strong>{' '}
+                    {c.pagoConfirmado ? (
+                      <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
+                    ) : (
+                      <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
+                    )}
+                  </p>
+                  <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
-      {/* Resultado */}
-      {resultado?.tipo === 'no-encontrado' && (
-        <div className="text-red-600 bg-red-100 border border-red-200 p-4 rounded">
-          No encontramos registros con ese número de documento.
-        </div>
-      )}
-
-      {resultado?.tipo === 'ok' && (
-        <div className="bg-white border p-4 rounded shadow space-y-4">
-          <p><strong>Nombre:</strong> {resultado.nombre}</p>
-          <p><strong>Correo:</strong> {resultado.correo}</p>
-          <p><strong>Estado:</strong> <span className="text-green-600 font-medium">{resultado.estado}</span></p>
-
-          {resultado.cursos.length > 0 ? (
-            <>
-              <h4 className="text-lg font-semibold mt-4">Cursos inscritos:</h4>
-              <ul className="space-y-2">
-                {resultado.cursos.map((c, i) => (
-                  <li key={i} className="border rounded p-3 text-sm bg-gray-50">
-                    <p><strong>Curso:</strong> {c.cursoNombre}</p>
-                    <p>
-                      <strong>Pago:</strong>{' '}
-                      {c.pagoConfirmado ? (
-                        <span className="text-green-600 font-semibold">Confirmado ✅</span>
-                      ) : (
-                        <span className="text-yellow-600 font-semibold">Pendiente de verificación ⏳</span>
-                      )}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p>No estás inscrito en ningún curso actualmente.</p>
-          )}
-        </div>
-      )}
-
-      {/* Acceso admin con doble clic sutil */}
+      {/* Acceso oculto para admin */}
       <div className="mt-10 text-center">
-        {!mostrarLogin ? (
+        {!mostrarAdmin ? (
           <button
-            onDoubleClick={() => setMostrarLogin(true)}
-            className="text-xs text-gray-400 underline"
-            title="Acceso oculto"
+            onClick={() => setMostrarAdmin(true)}
+            className="text-xs text-gray-500 hover:underline"
           >
-            .
+            ℹ️ Acceso restringido
           </button>
         ) : (
-          <div className="space-y-3 max-w-md mx-auto border p-4 rounded shadow mt-6">
-            <h4 className="text-md font-semibold">Acceso administrador</h4>
+          <div className="mt-4 max-w-md mx-auto bg-white border rounded p-4 space-y-2 shadow">
+            <h4 className="font-semibold text-sm">Panel administrativo</h4>
             <input
               type="text"
               placeholder="Usuario"
-              value={correoAdmin}
-              onChange={(e) => setCorreoAdmin(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border rounded p-2 text-sm"
+              value={adminUsuario}
+              onChange={(e) => setAdminUsuario(e.target.value)}
             />
             <input
               type="password"
               placeholder="Contraseña"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border rounded p-2 text-sm"
+              value={adminClave}
+              onChange={(e) => setAdminClave(e.target.value)}
             />
-            {errorLogin && (
-              <div className="text-red-600 text-sm">{errorLogin}</div>
-            )}
+            {errorLogin && <p className="text-red-600 text-xs">{errorLogin}</p>}
             <button
               onClick={validarAdmin}
-              className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
+              className="bg-institucional text-white px-4 py-1.5 rounded hover:bg-presentacionDark w-full text-sm"
             >
-              Entrar
+              Ingresar
             </button>
           </div>
         )}

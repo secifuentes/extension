@@ -91,6 +91,62 @@ const EstudiantesInscritosTable = () => {
     });
   };
 
+  const exportarExcel = () => {
+    const datos = filtrados.map((est) => ({
+      'Tipo Documento': est.tipoDocumento,
+      Documento: est.documento,
+      Nombres: est.nombres,
+      Apellidos: est.apellidos,
+      Correo: est.correo,
+      Teléfono: est.telefono,
+      Curso: est.cursoNombre,
+      'Presentación': est.esEstudiante ? 'Sí' : 'No',
+      'Forma de Pago': est.formaPago,
+      'Valor Pagado': est.valorPagado,
+      'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(datos);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Inscripciones');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'inscripciones.xlsx');
+  };
+
+  const exportarPDF = () => {
+    const doc = new jsPDF();
+    const columnas = [
+      'Tipo Doc', 'Documento', 'Nombre', 'Correo',
+      'Teléfono', 'Curso', 'Presentación',
+      'Pago', 'Valor', 'Fecha'
+    ];
+
+    const filas = filtrados.map((est) => [
+      est.tipoDocumento,
+      est.documento,
+      `${est.nombres} ${est.apellidos}`,
+      est.correo,
+      est.telefono,
+      est.cursoNombre,
+      est.esEstudiante ? 'Sí' : 'No',
+      est.formaPago,
+      `$${est.valorPagado}`,
+      formatearFecha(est.fechaInscripcion)
+    ]);
+
+    doc.autoTable({
+      head: [columnas],
+      body: filas,
+      startY: 20,
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [33, 20, 95] },
+    });
+
+    doc.text('Listado de Estudiantes Inscritos', 14, 15);
+    doc.save('inscripciones.pdf');
+  };
+
   // 🔎 Filtros
   const filtrados = inscripciones.filter((est) => {
     const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
@@ -113,7 +169,6 @@ const EstudiantesInscritosTable = () => {
     return coincideBusqueda && coincideCurso && coincidePago && coincidePresentacion;
   });
 
-  // Obtener cursos únicos para el filtro
   const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
 
   return (
@@ -172,28 +227,29 @@ const EstudiantesInscritosTable = () => {
         </select>
       </div>
 
-      {/* 📄 Botones y resumen de resultados */}
-<div className="flex flex-wrap justify-between items-center mb-4 text-sm text-gray-700">
-  <p>
-    Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos
-  </p>
+      {/* 📄 Exportar y resumen */}
+      <div className="flex flex-wrap justify-between items-center mb-4 text-sm text-gray-700">
+        <p>
+          Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos
+        </p>
 
-  <div className="flex gap-2">
-    <button
-      onClick={exportarExcel}
-      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-    >
-      Exportar Excel
-    </button>
-    <button
-      onClick={exportarPDF}
-      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-    >
-      Exportar PDF
-    </button>
-  </div>
-</div>
+        <div className="flex gap-2">
+          <button
+            onClick={exportarExcel}
+            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+          >
+            Exportar Excel
+          </button>
+          <button
+            onClick={exportarPDF}
+            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+          >
+            Exportar PDF
+          </button>
+        </div>
+      </div>
 
+      {/* 🧾 Tabla */}
       <table className="min-w-full bg-white border border-gray-300 text-sm">
         <thead className="bg-gray-100 text-gray-700">
           <tr>
@@ -220,9 +276,7 @@ const EstudiantesInscritosTable = () => {
               <td className="border px-2 py-2">{est.correo}</td>
               <td className="border px-2 py-2">{est.telefono}</td>
               <td className="border px-2 py-2">{est.cursoNombre}</td>
-              <td className="border px-2 py-2 text-center">
-                {est.esEstudiante ? '✅' : '—'}
-              </td>
+              <td className="border px-2 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
               <td className="border px-2 py-2 capitalize">{est.formaPago}</td>
               <td className="border px-2 py-2">${est.valorPagado?.toLocaleString()}</td>
               <td className="border px-2 py-2">

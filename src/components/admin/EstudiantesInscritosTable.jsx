@@ -103,4 +103,48 @@ const EstudiantesInscritosTable = () => {
               </td>
               <td className="border px-4 py-2 capitalize">{est.formaPago}</td>
               <td className="border px-4 py-2">${est.valorPagado?.toLocaleString()}</td>
-              <td className="border px-
+              <td className="border px-4 py-2">
+                {est.comprobante ? (
+                  <a
+                    href={`data:image/png;base64,${est.comprobante}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={`data:image/png;base64,${est.comprobante}`}
+                      alt="Comprobante"
+                      className="w-12 h-12 object-contain rounded shadow"
+                    />
+                  </a>
+                ) : (
+                  <span className="text-gray-400">No cargado</span>
+                )}
+              </td>
+              <td className="border px-4 py-2">{formatearFecha(est.fechaInscripcion)}</td>
+              <td className="border px-4 py-2 flex flex-col gap-2">
+                {!est.pagoConfirmado && (
+                  <>
+                    <button
+                      onClick={() => confirmarPago(est._id)}
+                      className="bg-green-600 text-white text-xs px-2 py-1 rounded hover:bg-green-800"
+                    >
+                      Confirmar pago
+                    </button>
+                    <button
+                      onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+                      className="bg-yellow-500 text-white text-xs px-2 py-1 rounded hover:bg-yellow-600"
+                    >
+                      Enviar recordatorio
+                    </button>
+                  </>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default EstudiantesInscritosTable;

@@ -53,6 +53,7 @@ const CursoDetalle = () => {
   const [modoPago, setModoPago] = useState('trimestral');
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
+  const [loading, setLoading] = useState(true);
 
   const calcularSiEsMenor = (fechaNacimiento) => {
     const hoy = new Date();

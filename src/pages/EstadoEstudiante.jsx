@@ -4,7 +4,7 @@ import { estudiantesRegistrados } from '../data/estudiantes';
 import { useNavigate } from 'react-router-dom';
 
 const adminCredenciales = {
-  usuario: 'secifuentes',  // Cambiamos correo por 'secifuentes' como usuario
+  usuario: 'secifuentes',
   clave: '1624Scc$',
 };
 
@@ -39,10 +39,7 @@ const EstadoEstudiante = () => {
   };
 
   const validarAdmin = () => {
-    if (
-      correoAdmin === adminCredenciales.usuario &&  // Comparamos con 'secifuentes' como usuario
-      clave === adminCredenciales.clave
-    ) {
+    if (correoAdmin === adminCredenciales.usuario && clave === adminCredenciales.clave) {
       navigate('/admin');
     } else {
       setErrorLogin('Usuario o contraseña incorrectos.');
@@ -51,18 +48,18 @@ const EstadoEstudiante = () => {
 
   return (
     <div className="max-w-2xl mx-auto py-16 px-4">
-      <h2 className="text-3xl font-bold text-institucional mb-4">Consulta tu estado</h2>
-      <p className="mb-6 text-sm text-gray-600">
-        Ingresa tu número de documento para consultar si estás inscrito y tu estado actual.
+      <h2 className="text-3xl font-bold text-institucional mb-4 text-center">Consulta tu estado de inscripción</h2>
+      <p className="mb-6 text-center text-gray-600">
+        Ingresa tu número de documento para ver tus cursos y el estado del proceso.
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
         <input
           type="text"
           value={documento}
           onChange={(e) => setDocumento(e.target.value)}
           placeholder="Número de documento"
-          className="flex-1 border p-2 rounded"
+          className="flex-1 border p-2 rounded text-center"
         />
         <button
           onClick={buscarEstado}
@@ -72,31 +69,35 @@ const EstadoEstudiante = () => {
         </button>
       </div>
 
-      {/* Resultado si no se encuentra */}
       {resultado?.tipo === 'no-encontrado' && (
-        <div className="text-red-600 bg-red-100 border border-red-200 p-4 rounded">
+        <div className="text-red-600 bg-red-100 border border-red-200 p-4 rounded text-center">
           No encontramos registros con ese número de documento.
         </div>
       )}
 
-      {/* Resultado si se encuentra */}
       {resultado?.tipo === 'ok' && (
         <div className="bg-white border p-4 rounded shadow space-y-4">
-          <p><strong>Nombre:</strong> {resultado.nombre}</p>
-          <p><strong>Correo:</strong> {resultado.correo}</p>
-          <p><strong>Estado:</strong> <span className="text-green-600 font-medium">{resultado.estado}</span></p>
+          <p className="text-lg"><strong>Nombre:</strong> {resultado.nombre}</p>
+          <p className="text-sm text-gray-600"><strong>Correo:</strong> {resultado.correo}</p>
 
           {resultado.cursos.length > 0 ? (
             <>
-              <h4 className="text-lg font-semibold mt-4">Cursos inscritos:</h4>
-              <ul className="space-y-2">
+              <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
+              <div className="space-y-4">
                 {resultado.cursos.map((c, i) => (
-                  <li key={i} className="border rounded p-3 text-sm">
-                    <p><strong>Curso:</strong> {c.curso.nombre}</p>
-                    <p><strong>Estado del pago:</strong> {c.pagoConfirmado ? 'Pago confirmado ✅' : 'Pago pendiente ⏳'}</p>
-                  </li>
+                  <div key={i} className="border rounded p-4 bg-gray-50 shadow-sm">
+                    <p className="text-institucional font-semibold">{c.curso.nombre}</p>
+                    <p className="mt-1 text-sm text-gray-700">
+                      Estado del pago:{' '}
+                      {c.pagoConfirmado ? (
+                        <span className="text-green-600 font-semibold">✅ Confirmado</span>
+                      ) : (
+                        <span className="text-yellow-600 font-semibold">⏳ En proceso de verificación</span>
+                      )}
+                    </p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </>
           ) : (
             <p>No estás inscrito en ningún curso actualmente.</p>
@@ -104,20 +105,20 @@ const EstadoEstudiante = () => {
         </div>
       )}
 
-      {/* LOGIN ADMIN SIEMPRE VISIBLE ABAJO */}
-      <div className="mt-10 border-t pt-6">
+      {/* Login admin camuflado */}
+      <div className="mt-10 text-center text-sm">
         {!mostrarLogin ? (
           <button
             onClick={() => setMostrarLogin(true)}
-            className="text-sm text-institucional underline hover:text-presentacionDark"
+            className="text-gray-500 underline hover:text-institucional"
           >
-            ¿Eres administrador? Iniciar sesión
+            ¿Tienes acceso especial?
           </button>
         ) : (
-          <div className="space-y-3">
-            <h4 className="text-md font-semibold">Acceso para administradores</h4>
+          <div className="mt-4 space-y-3 bg-white p-4 border rounded shadow-sm">
+            <h4 className="text-md font-semibold text-institucional">Acceso administrativo</h4>
             <input
-              type="text"  // Cambiamos el input de correo a nombre de usuario
+              type="text"
               placeholder="Usuario"
               value={correoAdmin}
               onChange={(e) => setCorreoAdmin(e.target.value)}
@@ -130,14 +131,12 @@ const EstadoEstudiante = () => {
               onChange={(e) => setClave(e.target.value)}
               className="w-full border p-2 rounded"
             />
-            {errorLogin && (
-              <div className="text-red-600 text-sm">{errorLogin}</div>
-            )}
+            {errorLogin && <div className="text-red-600 text-sm">{errorLogin}</div>}
             <button
               onClick={validarAdmin}
-              className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
+              className="w-full bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
             >
-              Acceder al panel
+              Entrar
             </button>
           </div>
         )}

@@ -16,7 +16,7 @@ const Header = () => {
         <div className="flex items-center">
           <div className="font-extrabold text-lg tracking-wide ml-20"> {/* Tamaño del logo moderado */}
             <Link to="/">
-              <img src="/logo.svg" alt="Extensión La Presentación" className="h-8" /> {/* Logo de tamaño adecuado */}
+              <img src="/logo.svg" alt="Extensión La Presentación" className="h-9" /> {/* Logo de tamaño adecuado */}
             </Link>
           </div>
 

@@ -17,8 +17,19 @@ const EstadoEstudiante = () => {
     setResultado(null);
     if (!tipoDoc || !documento) return alert('Por favor selecciona el tipo de documento y escribe el número');
 
+    // Mapeo de códigos a nombres completos
+    const tipoDocMap = {
+      rc: 'Registro Civil',
+      ti: 'Tarjeta de Identidad',
+      cc: 'Cédula de Ciudadanía',
+      ce: 'Cédula de Extranjería',
+      pa: 'Pasaporte',
+    };
+
+    const tipoDocNombre = tipoDocMap[tipoDoc];
+
     try {
-      const res = await fetch(`${API_URL}/api/inscripciones/estado/${tipoDoc}/${documento}`);
+      const res = await fetch(`${API_URL}/api/inscripciones/estado/${tipoDocNombre}/${documento}`);
       const data = await res.json();
       if (res.ok) {
         setResultado(data);

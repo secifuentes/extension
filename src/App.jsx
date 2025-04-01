@@ -17,6 +17,7 @@ import ScrollToTop from './components/ScrollToTop'; // 👈 importa
 import AdminCursos from './pages/AdminCursos';
 import CrearCurso from './pages/CrearCurso';
 import EditarCurso from './pages/EditarCurso';
+import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
 
 const App = () => {
   return (
@@ -32,7 +33,7 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/inscripciones" element={<AdminInscripciones />} />
         <Route path="/admin/docentes" element={<AdminDocentes />} />
-        <Route path="/admin/estudiantes" element={<AdminEstudiantes />} />
+        <Route path="/admin/estudiantes" element={<EstudiantesInscritosTable />} />
         <Route path="/admin/certificados" element={<AdminCertificados />} />
         <Route path="/admin/contabilidad" element={<AdminContabilidad />} />
         <Route path="/admin/cursos" element={<AdminCursos />} />

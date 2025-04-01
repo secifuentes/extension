@@ -14,7 +14,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-4 py-1 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}
         <div className="flex items-center">
-          <div className="font-extrabold text-lg tracking-wide ml-20">
+          <div className="font-extrabold text-lg tracking-wide ml-4 sm:ml-10 md:ml-20">
             <Link to="/">
               <img src="/logo.svg" alt="Extensión La Presentación" className="h-8" />
             </Link>
@@ -29,7 +29,7 @@ const Header = () => {
         </div>
 
         {/* Botón de Estado de Inscripción + botón menú móvil */}
-        <div className="flex gap-4 items-center mr-20">
+        <div className="flex gap-4 items-center mr-4 sm:mr-10 md:mr-20">
           <Link to="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
             Estado de Inscripción
           </Link>

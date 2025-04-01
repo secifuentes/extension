@@ -64,28 +64,31 @@ const CursoDetalle = () => {
   };
 
   const verificarEstudiante = async () => {
-    const yaExiste = inscripciones.find(
-      (i) => i.documento === documento && i.cursoId === curso._id
-    );
-  
+    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === curso._id);
     if (yaExiste) {
       setYaInscrito(true);
       setMostrarFormulario(false);
       return;
     }
   
+    // Paso 4: Mostrar qué se está buscando
+    console.log("🔎 Buscando estudiante con:", tipoDoc, documento);
+  
     try {
-      const res = await fetch(`${API_URL}/api/estudiantes/${tipoDoc}/${documento}`);
-      if (res.ok) {
-        const data = await res.json();
-        setDatosEstudiante(data);
-      } else {
+      const res = await fetch(`${API_URL}/api/estudiantes/${encodeURIComponent(tipoDoc)}/${documento}`);
+      if (!res.ok) {
+        console.log("❌ Estudiante no encontrado en la base de datos");
         setDatosEstudiante(null);
+        setMostrarFormulario(true);
+        return;
       }
-      setYaInscrito(false);
+  
+      const estudiante = await res.json();
+      setDatosEstudiante(estudiante);
       setMostrarFormulario(true);
-    } catch (err) {
-      console.error('❌ Error al buscar estudiante en Mongo:', err);
+      setYaInscrito(false);
+    } catch (error) {
+      console.error("❌ Error al buscar estudiante:", error);
       setDatosEstudiante(null);
       setMostrarFormulario(true);
     }
@@ -258,11 +261,11 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
     required
   >
     <option value="">Selecciona tipo</option>
-    <option value="rc">Registro Civil</option>
-    <option value="ti">Tarjeta de Identidad</option>
-    <option value="cc">Cédula de Ciudadanía</option>
-    <option value="ce">Cédula de Extranjería</option>
-    <option value="pa">Pasaporte</option>
+    <option value="Registro Civil">Registro Civil</option>
+    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+    <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+    <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+    <option value="Pasaporte">Pasaporte</option>
   </select>
 
   <label className="block font-semibold mt-2">Número de documento:</label>

@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -167,6 +171,28 @@ const EstudiantesInscritosTable = () => {
           <option value="no">Externos</option>
         </select>
       </div>
+
+      {/* 📄 Botones y resumen de resultados */}
+<div className="flex flex-wrap justify-between items-center mb-4 text-sm text-gray-700">
+  <p>
+    Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos
+  </p>
+
+  <div className="flex gap-2">
+    <button
+      onClick={exportarExcel}
+      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+    >
+      Exportar Excel
+    </button>
+    <button
+      onClick={exportarPDF}
+      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+    >
+      Exportar PDF
+    </button>
+  </div>
+</div>
 
       <table className="min-w-full bg-white border border-gray-300 text-sm">
         <thead className="bg-gray-100 text-gray-700">

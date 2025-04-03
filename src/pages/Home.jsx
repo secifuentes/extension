@@ -35,7 +35,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="pt-0">
+    <div className="pt-20 sm:pt-24">
       {/* Banner */}
       <div className="w-full h-[600px] relative">
         <img

@@ -60,6 +60,18 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
+      {/* Que es */}
+      <section className="bg-white py-10">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-institucional mb-4">¿Qué son los Cursos de Extensión?</h2>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            Son espacios de aprendizaje diseñados para que cualquier persona, sin importar si hace parte o no del Colegio La Presentación, 
+            pueda desarrollar nuevas habilidades, descubrir talentos o potenciar sus conocimientos. Están abiertos a toda la comunidad 
+            y se realizan en nuestras instalaciones, con docentes calificados y una metodología divertida y flexible.
+            </p>
+            </div>
+            </section>
 
       {/* Cursos */}
       <section id="cursos" className="max-w-7xl mx-auto px-4 py-14">

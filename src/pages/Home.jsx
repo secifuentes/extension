@@ -47,11 +47,16 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 flex items-center justify-center px-4 text-center">
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-              Cursos de extensión para todos
+              Cursos de Extensión para todos
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
               No importa si no eres parte de nuestra Familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
             </p>
+            <a
+            href="#cursos"
+            className="mt-6 inline-block bg-white text-institucional font-bold px-6 py-3 rounded-full hover:bg-institucional hover:text-white transition">
+              Ver cursos disponibles
+            </a>
           </div>
         </div>
       </div>

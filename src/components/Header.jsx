@@ -29,7 +29,7 @@ const Header = () => {
 
         {/* Botón de Estado de Inscripción + botón menú móvil */}
         <div className="flex gap-4 items-center mr-4 sm:mr-10 md:mr-20">
-          <a href="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
+          <a href="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-white hover:text-blue-700 transition duration-200 text-base border border-transparent hover:border-blue-700">
             Estado de Inscripción
           </a>
 

@@ -57,7 +57,7 @@ const Home = () => {
       </div>
 
       {/* Cursos */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section id="cursos" className="max-w-7xl mx-auto px-4 py-14">
         <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {cursos.map((curso) => (

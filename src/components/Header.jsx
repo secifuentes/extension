@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -15,24 +14,24 @@ const Header = () => {
         {/* Contenedor para logo y menú, alineados a la izquierda */}
         <div className="flex items-center">
           <div className="font-extrabold text-lg tracking-wide ml-4 sm:ml-10 md:ml-20">
-            <Link to="/">
+            <a href="/">
               <img src="/logo.svg" alt="Extensión La Presentación" className="h-8" />
-            </Link>
+            </a>
           </div>
 
           {/* Menú de navegación justo al lado del logo (versión escritorio) */}
           <nav className="flex gap-3 text-sm font-medium ml-6 hidden sm:flex">
-            <Link to="/cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Cursos</Link>
-            <Link to="/colegio" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Colegio</Link>
-            <Link to="/comunidad" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Comunidad</Link>
+            <a href="#cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Cursos</a>
+            <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Colegio</a>
+            <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Comunidad</a>
           </nav>
         </div>
 
         {/* Botón de Estado de Inscripción + botón menú móvil */}
         <div className="flex gap-4 items-center mr-4 sm:mr-10 md:mr-20">
-          <Link to="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
+          <a href="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-presentacionDark transition duration-200 text-base">
             Estado de Inscripción
-          </Link>
+          </a>
 
           {/* Botón hamburguesa solo móvil */}
           <button
@@ -57,12 +56,12 @@ const Header = () => {
       {menuAbierto && (
         <div className="sm:hidden bg-institucional border-t border-white px-4 pb-4">
           <nav className="flex flex-col gap-2 text-sm font-medium pt-2">
-            <Link to="/cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Cursos</Link>
-            <Link to="/colegio" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</Link>
-            <Link to="/comunidad" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Comunidad</Link>
-            <Link to="/estado" onClick={handleLinkClick} className="bg-yellow-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-presentacionDark transition duration-200">
+            <a href="#cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Cursos</a>
+            <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</a>
+            <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Comunidad</a>
+            <a href="/estado" onClick={handleLinkClick} className="bg-yellow-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-presentacionDark transition duration-200">
               Estado de Inscripción
-            </Link>
+            </a>
           </nav>
         </div>
       )}

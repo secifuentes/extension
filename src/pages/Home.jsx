@@ -133,6 +133,74 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <section className="bg-gray-50 py-14">
+  <div className="max-w-4xl mx-auto px-4">
+    <h3 className="text-3xl font-bold text-center mb-10 text-institucional">
+      Preguntas frecuentes
+    </h3>
+
+    <div className="space-y-6">
+      {/* Pregunta 1 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Tengo que estudiar en el colegio para inscribirme?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          ¡Para nada! Nuestros cursos de extensión están <strong>abiertos a toda la comunidad</strong>. Si eres de Girardota o alrededores y quieres aprender algo nuevo, ¡este espacio también es para ti!
+        </p>
+      </div>
+
+      {/* Pregunta 2 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Cuánto dura cada curso?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          Todos nuestros cursos duran <strong>3 meses</strong>, con clases semanales dinámicas y muy prácticas. ¡El tiempo justo para aprender, disfrutar y lograr algo grande!
+        </p>
+      </div>
+
+      {/* Pregunta 3 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Cómo se paga el curso?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          ¡Tú eliges cómo! Puedes hacer un solo pago por el curso completo o dividirlo en <strong>pagos mensuales</strong>. Queremos que sea fácil para ti y tu familia acceder a todo lo que ofrecemos.
+        </p>
+      </div>
+
+      {/* Pregunta 4 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Qué pasa al finalizar el curso?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          Al finalizar, cada estudiante participará en una <strong>actividad especial, presentación o proyecto</strong> donde pondrá en práctica todo lo aprendido. ¡Es el momento de mostrar su talento!
+        </p>
+      </div>
+
+      {/* Pregunta 5 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Entregan certificados?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          ¡Claro que sí! Al completar y aprobar el curso, podrás <strong>descargar tu certificado directamente desde nuestra página web</strong>. Un reconocimiento valioso para tu crecimiento.
+        </p>
+      </div>
+
+      {/* Pregunta 6 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Hay beneficios para los estudiantes del colegio?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          Sí, quienes hacen parte de la <strong>Familia Presentación</strong> tienen <strong>descuentos especiales</strong> en nuestros cursos. ¡Es nuestra forma de seguir apoyando su formación!
+        </p>
+      </div>
+
+      {/* Pregunta 7 */}
+      <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition">
+        <h4 className="font-semibold text-lg text-institucional mb-2">¿Quiénes dictan los cursos?</h4>
+        <p className="text-gray-700 leading-relaxed">
+          ¡Profes verdaderos cracks en lo que hacen! Cada curso es liderado por <strong>docentes especializados</strong>, con experiencia real y pasión por enseñar. Aprenderás con los mejores.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
     </div>
   );
 };

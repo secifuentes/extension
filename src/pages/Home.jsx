@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FaqItem from '../components/FaqItem';
-import useScrollFadeIn from '../hooks/useScrollFadeIn';
 
 const imagenesBanner = [
   '/banner/banner1.jpg',
@@ -12,9 +11,6 @@ const imagenesBanner = [
 const Home = () => {
   const [imagenActual, setImagenActual] = useState(0);
   const [cursos, setCursos] = useState([]);
-  const cursosAnim = useScrollFadeIn();
-  const beneficiosAnim = useScrollFadeIn();
-  const faqAnim = useScrollFadeIn();
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -67,7 +63,7 @@ const Home = () => {
       </div>
 
       {/* Cursos */}
-      <section id="cursos" {...cursosAnim} className="max-w-7xl mx-auto px-4 py-14">
+      <section id="cursos" className="max-w-7xl mx-auto px-4 py-14">
         <h2 className="text-3xl font-bold text-center mb-10 text-institucional">Conoce nuestros cursos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {cursos.map((curso) => (
@@ -98,7 +94,7 @@ const Home = () => {
       </section>
 
       {/* Beneficios */}
-      <section {...beneficiosAnim} className="py-16 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold text-institucional mb-8">
             ¿Por qué elegir nuestros Cursos de Extensión?
@@ -139,7 +135,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section {...faqAnim} className="bg-gray-50 py-16">
+      <section className="bg-gray-50 py-16">
   <div className="max-w-6xl mx-auto px-4">
     <h2 className="text-3xl font-bold text-center mb-12 text-institucional">
       Preguntas frecuentes

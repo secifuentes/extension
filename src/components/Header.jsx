@@ -20,7 +20,7 @@ const Header = () => {
           </div>
 
           {/* Menú de navegación justo al lado del logo (versión escritorio) */}
-          <nav className="flex gap-3 text-sm font-medium ml-6 hidden sm:flex">
+          <nav className="flex gap-2 text-sm font-medium ml-6 hidden sm:flex">
             <a href="#cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Cursos</a>
             <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Colegio</a>
             <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Comunidad</a>

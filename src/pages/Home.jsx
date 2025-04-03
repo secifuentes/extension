@@ -134,13 +134,14 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="bg-gray-50 py-14">
-  <div className="max-w-3xl mx-auto px-4">
-    <h3 className="text-3xl font-bold text-center mb-10 text-institucional">
-      Preguntas frecuentes
-    </h3>
 
-    <div className="space-y-4">
+      <section className="bg-gray-50 py-16">
+  <div className="max-w-6xl mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center mb-12 text-institucional">
+      Preguntas frecuentes
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <FaqItem
         pregunta="¿Tengo que estudiar en el colegio para inscribirme?"
         respuesta="¡Para nada! Nuestros cursos de extensión están abiertos a toda la comunidad. Si eres de Girardota o alrededores y quieres aprender algo nuevo, ¡este espacio también es para ti!"
@@ -172,7 +173,6 @@ const Home = () => {
     </div>
   </div>
 </section>
-
 
     </div>
   );

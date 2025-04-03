@@ -4,19 +4,19 @@ const FaqItem = ({ pregunta, respuesta }) => {
   const [abierto, setAbierto] = useState(false);
 
   return (
-    <div className="border-b border-gray-300 py-4">
+    <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm transition hover:shadow-md">
       <button
         onClick={() => setAbierto(!abierto)}
         className="w-full text-left flex justify-between items-center text-institucional font-semibold text-lg focus:outline-none"
       >
-        {pregunta}
+        <span>{pregunta}</span>
         <span className="text-xl transition-transform duration-300">
           {abierto ? '−' : '+'}
         </span>
       </button>
 
       <div
-        className={`mt-2 text-gray-700 transition-all duration-300 ease-in-out ${
+        className={`mt-3 text-gray-700 text-base transition-all duration-300 ease-in-out ${
           abierto ? 'max-h-96 opacity-100' : 'max-h-0 overflow-hidden opacity-0'
         }`}
       >

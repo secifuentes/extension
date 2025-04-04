@@ -1,106 +1,145 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 
-const EstudiantesInscritosTable = () => {
-  const [inscripciones, setInscripciones] = useState([]);
+const InscripcionesTable = () => {
+  const [data, setData] = useState([]);
+  const [cursos, setCursos] = useState([]);
 
   useEffect(() => {
-    const fetchInscripciones = async () => {
+    const cargarInscripciones = async () => {
       try {
         const res = await fetch(`${API_URL}/api/inscripciones`);
         const data = await res.json();
-        setInscripciones(data);
-      } catch (err) {
-        console.error('❌ Error al cargar inscripciones:', err);
+        setData(data);
+      } catch (error) {
+        console.error('Error al cargar inscripciones:', error);
       }
     };
 
-    fetchInscripciones();
+    const cargarCursos = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/cursos`);
+        const cursosData = await res.json();
+        setCursos(cursosData);
+      } catch (error) {
+        console.error('Error al cargar cursos:', error);
+      }
+    };
+
+    cargarInscripciones();
+    cargarCursos();
   }, []);
 
-  const confirmarPago = async (id) => {
+  const confirmarPago = async (index) => {
+    const inscripcion = data[index];
+
     try {
-      const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${id}`, {
+      const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${inscripcion._id}`, {
         method: 'PUT',
       });
 
       if (res.ok) {
-        alert('✅ Pago confirmado');
-        const actualizadas = inscripciones.map((i) =>
-          i._id === id ? { ...i, pagoConfirmado: true } : i
-        );
-        setInscripciones(actualizadas);
+        const actualizado = [...data];
+        actualizado[index].pagoConfirmado = true;
+        setData(actualizado);
+        alert('✅ Pago confirmado correctamente y correo enviado.');
       } else {
-        alert('❌ No se pudo confirmar el pago');
+        alert('❌ Error al confirmar el pago');
       }
     } catch (err) {
-      console.error('Error confirmando pago:', err);
+      console.error('Error al confirmar el pago:', err);
+      alert('❌ No se pudo conectar con el servidor');
     }
   };
 
-  const enviarRecordatorio = async (correo, cursoNombre) => {
+  const eliminarEstudiante = async (id) => {
+    const confirmar = window.confirm('¿Estás seguro de eliminar esta inscripción?');
+    if (!confirmar) return;
+
     try {
-      const res = await fetch(`${API_URL}/api/recordatorio`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ correo, cursoNombre }),
+      const res = await fetch(`${API_URL}/api/inscripciones/${id}`, {
+        method: 'DELETE',
       });
 
       if (res.ok) {
-        alert(`📩 Recordatorio enviado a ${correo}`);
+        setData((prev) => prev.filter((i) => i._id !== id));
+        alert('✅ Inscripción eliminada correctamente.');
       } else {
-        alert('❌ Error al enviar el recordatorio');
+        alert('❌ Error al eliminar inscripción');
       }
     } catch (err) {
-      console.error('Error enviando recordatorio:', err);
+      console.error('Error al eliminar inscripción:', err);
+      alert('❌ No se pudo conectar con el servidor');
     }
   };
 
-  const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-CO', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
-
   return (
-    <div className="p-4 overflow-x-auto">
-      <h2 className="text-2xl font-bold mb-4 text-institucional">Estudiantes Inscritos</h2>
-      <table className="min-w-full bg-white border border-gray-300 text-sm">
+    <div className="bg-white p-6 rounded shadow w-full overflow-x-auto">
+      <h3 className="text-lg font-semibold mb-4 text-institucional">Listado de Inscripciones</h3>
+
+      <table className="min-w-full text-sm text-left border">
         <thead className="bg-gray-100 text-gray-700">
           <tr>
-            <th className="border px-4 py-2">Tipo Doc</th>
-            <th className="border px-4 py-2">Documento</th>
-            <th className="border px-4 py-2">Nombre</th>
-            <th className="border px-4 py-2">Correo</th>
-            <th className="border px-4 py-2">Teléfono</th>
-            <th className="border px-4 py-2">Curso</th>
-            <th className="border px-4 py-2">Presentación</th>
-            <th className="border px-4 py-2">Forma de Pago</th>
-            <th className="border px-4 py-2">Valor Pagado</th>
-            <th className="border px-4 py-2">Comprobante</th>
-            <th className="border px-4 py-2">Fecha</th>
-            <th className="border px-4 py-2">Acciones</th>
+            <th className="p-3 border">#</th>
+            <th className="p-3 border">Documento</th>
+            <th className="p-3 border">Curso</th>
+            <th className="p-3 border">Presentación</th>
+            <th className="p-3 border">Acudiente</th>
+            <th className="p-3 border">Estado de Pago</th>
+            <th className="p-3 border">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {inscripciones.map((est) => (
-            <tr key={est._id} className="hover:bg-gray-50">
-              <td className="border px-4 py-2">{est.tipoDocumento}</td>
-              <td className="border px-4 py-2">{est.documento}</td>
-              <td className="border px-4 py-2">{est.nombres} {est.apellidos}</td>
-              <td className="border px-4 py-2">{est.correo}</td>
-              <td className="border px-4 py-2">{est.telefono}</td>
-              <td className="border px-4 py-2">{est.cursoNombre}</td>
-              <td className="border px-4 py-2">
-                {est.esEstudiante ? (
-                  <span className="text-green-600 font-semibold">Sí</span>
-                ) : (
-                  <span className="text-gray-500">No</span>
-                )}
-              </td>
-              <td className="border px-4 py-2 capitalize">{est.formaPago}</td>
-              <td className="border px-4 py-2">${est.valorPagado?.toLocaleString()}</td>
-              <td className="border px-
+          {data.map((insc, index) => {
+            const curso = cursos.find((c) => c._id === insc.cursoId);
+
+            return (
+              <tr key={index} className="border-b hover:bg-gray-50">
+                <td className="p-3 border">{index + 1}</td>
+                <td className="p-3 border">{insc.documento}</td>
+                <td className="p-3 border">{curso?.nombre || 'Curso no encontrado'}</td>
+                <td className="p-3 border">
+                  {insc.esEstudiante ? (
+                    <span className="text-green-600 font-medium">Sí</span>
+                  ) : (
+                    <span className="text-red-500 font-medium">No</span>
+                  )}
+                </td>
+                <td className="p-3 border">
+                  {insc.acudiente
+                    ? `${insc.acudiente} - ${insc.telefonoAcudiente}`
+                    : '—'}
+                </td>
+                <td className="p-3 border">
+                  {insc.pagoConfirmado ? (
+                    <span className="text-green-700">✔ Confirmado</span>
+                  ) : (
+                    <span className="text-red-600">❌ Pendiente</span>
+                  )}
+                </td>
+                <td className="p-3 border space-x-2">
+                  {!insc.pagoConfirmado && (
+                    <button
+                      onClick={() => confirmarPago(index)}
+                      className="text-sm bg-institucional text-white px-3 py-1 rounded hover:bg-presentacionDark"
+                    >
+                      Confirmar pago
+                    </button>
+                  )}
+                  <button
+                    onClick={() => eliminarEstudiante(insc._id)}
+                    className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default InscripcionesTable;

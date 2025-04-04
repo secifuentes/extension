@@ -408,6 +408,12 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     </div>
                   </div>
 
+                  <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded shadow text-sm space-y-1">
+  <p className="font-semibold text-blue-700">Forma de pago:</p>
+  <p>Consignación o transferencia a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong>, a nombre del <strong>Instituto Parroquial Nuestra Señora de la Presentación</strong>.</p>
+  <p className="mt-2">Adjunta el comprobante para validar tu inscripción.</p>
+</div>
+
                   <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
                     Finalizar inscripción
                   </button>

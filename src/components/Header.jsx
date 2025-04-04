@@ -23,6 +23,7 @@ const Header = () => {
           <nav className="flex gap-1 text-sm font-medium ml-6 hidden sm:flex">
             <a href="#cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Cursos</a>
             <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Colegio</a>
+            <a href="#faq" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Preguntas</a>
             <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Comunidad</a>
           </nav>
         </div>
@@ -58,6 +59,7 @@ const Header = () => {
           <nav className="flex flex-col gap-2 text-sm font-medium pt-2">
             <a href="#cursos" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Cursos</a>
             <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</a>
+            <a href="#faq" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Preguntas</a>
             <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Comunidad</a>
             <a href="/estado" onClick={handleLinkClick} className="bg-yellow-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-presentacionDark transition duration-200">
               Estado de Inscripción

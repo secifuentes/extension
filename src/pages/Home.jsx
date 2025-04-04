@@ -145,7 +145,7 @@ const Home = () => {
   </div>
 </section>
 
-      <section className="bg-gray-50 py-16">
+      <section id="faq" className="bg-gray-50 py-16">
   <div className="max-w-6xl mx-auto px-4">
     <h2 className="text-3xl font-bold text-center mb-12 text-institucional">
       Preguntas frecuentes

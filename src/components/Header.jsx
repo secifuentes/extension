@@ -30,7 +30,7 @@ const Header = () => {
 
         {/* Botón de Estado de Inscripción + botón menú móvil */}
         <div className="flex gap-4 items-center mr-4 sm:mr-10 md:mr-20">
-          <a href="/estado" className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-white hover:text-blue-700 transition duration-200 text-base border border-transparent hover:border-blue-700">
+          <a href="/estado" target='_blank' className="hidden sm:block bg-yellow-500 text-white px-4 py-1 rounded-md hover:bg-white hover:text-blue-700 transition duration-200 text-base border border-transparent hover:border-blue-700">
             Estado de Inscripción
           </a>
 
@@ -61,7 +61,7 @@ const Header = () => {
             <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Colegio</a>
             <a href="/#faq" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Preguntas</a>
             <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick} className="hover:text-yellow-400 transition duration-200 py-1.5">Comunidad</a>
-            <a href="/estado" onClick={handleLinkClick} className="bg-yellow-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-presentacionDark transition duration-200">
+            <a href="/estado" target='_blank' onClick={handleLinkClick} className="bg-yellow-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-presentacionDark transition duration-200">
               Estado de Inscripción
             </a>
           </nav>

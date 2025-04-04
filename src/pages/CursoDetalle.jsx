@@ -252,7 +252,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 </div>
 
 {/* Formulario de inscripción */}
-<div className="mt-6 space-y-2">
+<div className="mt-2 space-y-2">
   <label className="block font-semibold">Tipo de documento:</label>
   <select
     className="w-full border p-2 rounded"

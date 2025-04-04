@@ -37,11 +37,14 @@ const Footer = () => {
               <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
                 <FaInstagram />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+              <a href="https://www.facebook.com/presentaciondegirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
                 <FaFacebookF />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+              <a href="https://www.youtube.com/@Presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
                 <FaYoutube />
+              </a>
+              <a href="https://www.tiktok.com/@presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+                <FaTiktTok />
               </a>
             </div>
           </div>

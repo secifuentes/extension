@@ -21,10 +21,10 @@ const Header = () => {
 
           {/* Menú de navegación justo al lado del logo (versión escritorio) */}
           <nav className="flex gap-1 text-sm font-medium ml-6 hidden sm:flex">
-            <a href="#cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-sm">Cursos</a>
-            <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-sm">Colegio</a>
-            <a href="#faq" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-sm">Preguntas</a>
-            <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-sm">Comunidad</a>
+            <a href="#cursos" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Cursos</a>
+            <a href="https://lapresentaciongirardota.edu.co" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Colegio</a>
+            <a href="#faq" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Preguntas</a>
+            <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition duration-200 px-3 py-1.5 text-base">Comunidad</a>
           </nav>
         </div>
 

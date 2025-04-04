@@ -238,53 +238,152 @@ return (
         </div>
 
         {/* Inscripción + Formulario */}
-        <div className="bg-white border-l-4 border-blue-600 text-blue-700 p-6 mb-6 rounded-lg shadow-lg">
-          <div className="flex items-start gap-4">
-            <div className="text-3xl mt-1">💡</div>
-            <div className="flex-1">
-              <p className="text-xl font-semibold">Inscríbete al curso y asegura tu cupo</p>
-              <p className="text-sm mt-1 text-gray-600">Ingresa los datos de la persona que realizará el curso:</p>
+<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-6 mb-6 rounded-lg shadow-lg">
+  <div className="flex items-start gap-4">
+    <div className="text-3xl mt-1">💡</div>
+    <div className="flex-1">
+      <p className="text-xl font-semibold">Inscríbete al curso y asegura tu cupo</p>
+      <p className="text-sm mt-1 text-gray-600">Ingresa los datos de la persona que realizará el curso:</p>
 
-              {/* Paso 1 */}
-              <div className="mt-4 space-y-3 text-gray-800">
-                <div>
-                  <label className="block font-semibold">Tipo de documento:</label>
-                  <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
-                    <option value="">Selecciona tipo</option>
-                    <option value="Registro Civil">Registro Civil</option>
-                    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
-                    <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
-                    <option value="Cédula de Extranjería">Cédula de Extranjería</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                  </select>
-                </div>
+      {/* Paso 1 */}
+      <div className="mt-4 space-y-3 text-gray-800">
+        <div>
+          <label className="block font-semibold">Tipo de documento:</label>
+          <select className="w-full border p-2 rounded" value={tipoDoc} onChange={(e) => setTipoDoc(e.target.value)} required>
+            <option value="">Selecciona tipo</option>
+            <option value="Registro Civil">Registro Civil</option>
+            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+            <option value="Pasaporte">Pasaporte</option>
+          </select>
+        </div>
 
-                <div>
-                  <label className="block font-semibold">Número de documento:</label>
-                  <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
-                </div>
+        <div>
+          <label className="block font-semibold">Número de documento:</label>
+          <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
+        </div>
 
-                <button className="w-full mt-2 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark" onClick={verificarEstudiante}>
-                  Inscribirme
-                </button>
+        <button className="w-full mt-2 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark" onClick={verificarEstudiante}>
+          Inscribirme
+        </button>
+      </div>
+
+      {/* Ya inscrito */}
+      {yaInscrito && (
+        <div className="mt-4 bg-red-100 text-red-700 border border-red-300 p-4 rounded">
+          Ya estás inscrito en este curso 🎓
+        </div>
+      )}
+
+      {/* Formulario visible */}
+      {mostrarFormulario && !yaInscrito && (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const form = e.target;
+
+            const data = {
+              nombres: datosEstudiante?.nombres || form.nombres.value,
+              apellidos: datosEstudiante?.apellidos || form.apellidos.value,
+              documento,
+              tipoDocumento: tipoDoc,
+              correo: datosEstudiante?.correo || form.correo.value,
+              telefono: datosEstudiante?.telefono || form.telefono.value,
+              fechaNacimiento: form.fechaNacimiento.value,
+              cursoId: curso._id,
+              cursoNombre: curso.nombre,
+              esEstudiante: !!datosEstudiante,
+              formaPago: modoPago,
+              valorPagado: total,
+              pagoConfirmado: false,
+              comprobante: comprobanteBase64,
+            };
+
+            try {
+              const res = await fetch(`${API_URL}/api/inscripciones`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              });
+
+              if (res.ok) {
+                setInscripcionExitosa(true);
+              } else {
+                alert('Error al guardar inscripción');
+              }
+            } catch (err) {
+              console.error('❌ Error al enviar inscripción:', err);
+              alert('No se pudo conectar con el servidor');
+            }
+          }}
+          className="mt-6 space-y-4 bg-gray-50 p-4 rounded border"
+        >
+          <label className="block font-semibold">Forma de pago:</label>
+          <select className="w-full border p-2 rounded" value={modoPago} onChange={(e) => setModoPago(e.target.value)}>
+            <option value="trimestral">Curso completo (3 meses)</option>
+            <option value="mensual">Pago mensual</option>
+          </select>
+
+          <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
+          <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
+          <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
+          <input name="telefono" type="tel" placeholder="Celular" className="w-full p-2 border rounded" defaultValue={datosEstudiante?.telefono || ''} required />
+          <label className="block font-semibold text-gray-700">Fecha de nacimiento:</label>
+          <input type="date" name="fechaNacimiento" className="w-full p-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-institucional" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} />
+
+          {esMenor && (
+            <>
+              <input name="acudiente" type="text" placeholder="Nombre del acudiente" className="w-full p-2 border rounded" required />
+              <input name="telefonoAcudiente" type="tel" placeholder="Teléfono del acudiente" className="w-full p-2 border rounded" required />
+            </>
+          )}
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setComprobanteBase64(reader.result.split(',')[1]);
+              };
+              reader.readAsDataURL(file);
+            }}
+            className="w-full p-2 border rounded"
+            required
+          />
+
+          {/* Resumen del pago */}
+          <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">
+            <p className="font-semibold mb-2 text-institucional text-base">Resumen del pago</p>
+            <p><strong>Curso:</strong> {curso.nombre}</p>
+            <p><strong>Forma de pago:</strong> {modoPago === 'mensual' ? 'Pago mensual' : 'Curso completo (3 meses)'}</p>
+            <p><strong>Valor original:</strong> ${modoPago === 'mensual' ? valorMensual.toLocaleString() : valorTrimestral.toLocaleString()}</p>
+            <p><strong>Descuento aplicado:</strong> {textoDescuento}</p>
+
+            {datosEstudiante && modoPago === 'trimestral' && (
+              <div className="bg-green-50 border border-green-200 p-3 rounded text-sm text-green-800 font-medium">
+                Obtuviste un <strong>10% de descuento</strong> por ser parte de la Familia Presentación y pagar el curso completo.
+                <br />
+                <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
               </div>
+            )}
 
-              {yaInscrito && (
-                <div className="mt-4 bg-red-100 text-red-700 border border-red-300 p-4 rounded">
-                  Ya estás inscrito en este curso 🎓
-                </div>
-              )}
-
-              {mostrarFormulario && !yaInscrito && (
-                <div className="mt-6 p-4 bg-gray-100 rounded-lg border text-gray-800">
-                  {/* Aquí va tu formulario completo tal como ya lo tienes */}
-                  {/* Lo puedes mantener pegado aquí o dividir en componentes si deseas */}
-                  {/* ... */}
-                </div>
-              )}
+            <div className="mt-3 pt-3 border-t">
+              <p className="text-lg font-bold text-institucional">Total a pagar: ${total.toLocaleString()}</p>
             </div>
           </div>
-        </div>
+
+          <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
+            Finalizar inscripción
+          </button>
+        </form>
+      )}
+    </div>
+  </div>
+</div>
       </div>
     </div>
   </div>

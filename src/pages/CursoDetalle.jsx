@@ -175,7 +175,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
             <AccordionItem title="Implementos necesarios" content={curso.implementos} />
             <AccordionItem title="Beneficios" content={curso.beneficios} />
             <AccordionItem title="Edad" content={curso.edad} />
-            <AccordionItem title="Curso con reserva previa" content={curso.reserva} />
+            <AccordionItem title="Métodos de pago" content="Puedes realizar tu pago por consignación o transferencia a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong> a nombre del <strong>Instituto Parroquial Nuestra Señora de la Presentación</strong>. Recuerda subir el comprobante en el formulario de inscripción para completar tu proceso. Este curso se abrirá solo si se alcanza el número mínimo de inscritos." />
           </div>
         </div>
 

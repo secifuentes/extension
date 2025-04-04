@@ -184,6 +184,10 @@ const Home = () => {
       pregunta="¿Cómo realizo el pago del curso?"
       respuesta='Puedes pagar por consignación o transferencia a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong> a nombre del <strong>Instituto Parroquial Nuestra Señora de la Presentación</strong>. No olvides subir tu comprobante en el formulario para validar tu inscripción.'
       />
+      <FaqItem
+      pregunta="¿Qué pasa si no se completa el cupo mínimo para abrir el curso?"
+      respuesta='Cada curso necesita un mínimo de 10 a 15 estudiantes inscritos, dependiendo del tipo de curso. Si no se alcanza este número, nos comunicaremos contigo y realizaremos la devolución completa de tu dinero. ¡Tu confianza y tranquilidad son muy importantes para nosotros!'
+      />
     </div>
   </div>
 </section>

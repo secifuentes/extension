@@ -99,7 +99,7 @@ const InscripcionesTable = () => {
                 <td className="p-3 border">{insc.documento}</td>
                 <td className="p-3 border">{curso?.nombre || 'Curso no encontrado'}</td>
                 <td className="p-3 border">
-                  {insc.estudiante ? (
+                  {insc.esEstudiante ? (
                     <span className="text-green-600 font-medium">Sí</span>
                   ) : (
                     <span className="text-red-500 font-medium">No</span>
@@ -117,7 +117,7 @@ const InscripcionesTable = () => {
                     <span className="text-red-600">❌ Pendiente</span>
                   )}
                 </td>
-                <td className="p-3 border space-x-2">
+                <td className="p-3 border space-y-1 space-x-1">
                   {!insc.pagoConfirmado && (
                     <button
                       onClick={() => confirmarPago(index)}

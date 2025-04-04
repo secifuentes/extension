@@ -13,9 +13,11 @@ const AccordionItem = ({ title, content }) => {
         <span className="text-xl font-bold text-institucional">{open ? '−' : '+'}</span>
       </div>
       {open && (
-        <p className="mt-2 text-sm text-gray-600" style={{ whiteSpace: 'pre-line' }}>
-          {content}
-        </p>
+        <div
+          className="mt-2 text-sm text-gray-600"
+          style={{ whiteSpace: 'pre-line' }}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
       )}
     </div>
   );

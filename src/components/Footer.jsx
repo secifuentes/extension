@@ -6,10 +6,11 @@ const Footer = () => {
     <footer className="bg-gray-100 text-gray-800 pt-10 pb-6 mt-12">
       {/* Contenido principal */}
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-sm items-start">
+        
         {/* Columna 1: Contacto */}
-        <div>
+        <div className="text-sm leading-relaxed">
           <h4 className="font-bold mb-3 text-lg">Contáctanos</h4>
-          <p>Instituto Parroquial Nuestra Señora de la Presentación</p>
+          <p className="font-semibold">Instituto Parroquial Nuestra Señora de la Presentación</p>
           <p>Dirección: Calle 7 No. 18 - 92</p>
           <p>Girardota, Antioquia</p>
           <p>Teléfonos: 604 424 41 00 - 01 - 02</p>
@@ -27,23 +28,28 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Columna 3: Redes + Logo */}
-        <div className="flex flex-col items-center text-center">
+        {/* Columna 3: Redes sociales y logo */}
+        <div className="flex flex-col items-center text-center justify-between h-full">
           {/* Redes sociales */}
-          <div className="flex space-x-4 mb-4">
-            <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
-              <FaInstagram />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
-              <FaFacebookF />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
-              <FaYoutube />
-            </a>
+          <div>
+            <h4 className="font-bold mb-2 text-lg">Redes sociales</h4>
+            <div className="flex space-x-4 mb-6">
+              <a href="https://instagram.com/presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+                <FaInstagram />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+                <FaFacebookF />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
+                <FaYoutube />
+              </a>
+            </div>
           </div>
 
-          {/* Logo */}
-          <img src="/lfooter.svg" alt="Logo Colegio" className="w-40 sm:w-48 mb-2" />
+          {/* Logo centrado abajo */}
+          <div className="flex-grow flex items-end">
+            <img src="/lfooter.svg" alt="Logo Colegio" className="w-40 sm:w-48 mx-auto" />
+          </div>
         </div>
       </div>
 

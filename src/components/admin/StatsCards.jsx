@@ -8,21 +8,27 @@ const StatsCards = () => {
     docentes: 0,
   });
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchEstadisticas = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/estadisticas`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/estadisticas`);
         const data = await res.json();
         setStats(data);
-      } catch (err) {
-        console.error('❌ Error al obtener estadísticas:', err);
+      } catch (error) {
+        console.error('❌ Error al cargar estadísticas:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchStats();
+    fetchEstadisticas();
   }, []);
+
+  if (loading) {
+    return <p className="p-4 text-center text-gray-500">Cargando estadísticas...</p>;
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">

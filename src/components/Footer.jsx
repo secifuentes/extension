@@ -43,9 +43,6 @@ const Footer = () => {
               <a href="https://www.youtube.com/@Presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
                 <FaYoutube />
               </a>
-              <a href="https://www.tiktok.com/@presentaciongirardota" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-yellow-500 text-xl">
-                <FaTiktTok />
-              </a>
             </div>
           </div>
 

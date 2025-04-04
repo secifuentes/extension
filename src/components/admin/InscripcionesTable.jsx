@@ -3,9 +3,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const InscripcionesTable = () => {
   const [data, setData] = useState([]);
-  const [cursos, setCursos] = useState([]); // Nuevo estado para almacenar los cursos
+  const [cursos, setCursos] = useState([]);
 
-  // Cargar inscripciones desde el backend
   useEffect(() => {
     const cargarInscripciones = async () => {
       try {
@@ -21,7 +20,7 @@ const InscripcionesTable = () => {
       try {
         const res = await fetch(`${API_URL}/api/cursos`);
         const cursosData = await res.json();
-        setCursos(cursosData); // Establecer los cursos en el estado
+        setCursos(cursosData);
       } catch (error) {
         console.error('Error al cargar cursos:', error);
       }
@@ -53,6 +52,27 @@ const InscripcionesTable = () => {
     }
   };
 
+  const eliminarEstudiante = async (id) => {
+    const confirmar = window.confirm('¿Estás seguro de eliminar esta inscripción?');
+    if (!confirmar) return;
+
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        setData((prev) => prev.filter((i) => i._id !== id));
+        alert('✅ Inscripción eliminada correctamente.');
+      } else {
+        alert('❌ Error al eliminar inscripción');
+      }
+    } catch (err) {
+      console.error('Error al eliminar inscripción:', err);
+      alert('❌ No se pudo conectar con el servidor');
+    }
+  };
+
   return (
     <div className="bg-white p-6 rounded shadow w-full overflow-x-auto">
       <h3 className="text-lg font-semibold mb-4 text-institucional">Listado de Inscripciones</h3>
@@ -64,13 +84,14 @@ const InscripcionesTable = () => {
             <th className="p-3 border">Documento</th>
             <th className="p-3 border">Curso</th>
             <th className="p-3 border">Presentación</th>
+            <th className="p-3 border">Acudiente</th>
             <th className="p-3 border">Estado de Pago</th>
             <th className="p-3 border">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {data.map((insc, index) => {
-            const curso = cursos.find((c) => c._id === insc.cursoId); // Buscar el curso en los cursos cargados
+            const curso = cursos.find((c) => c._id === insc.cursoId);
 
             return (
               <tr key={index} className="border-b hover:bg-gray-50">
@@ -85,13 +106,18 @@ const InscripcionesTable = () => {
                   )}
                 </td>
                 <td className="p-3 border">
+                  {insc.acudiente
+                    ? `${insc.acudiente} - ${insc.telefonoAcudiente}`
+                    : '—'}
+                </td>
+                <td className="p-3 border">
                   {insc.pagoConfirmado ? (
                     <span className="text-green-700">✔ Confirmado</span>
                   ) : (
                     <span className="text-red-600">❌ Pendiente</span>
                   )}
                 </td>
-                <td className="p-3 border">
+                <td className="p-3 border space-x-2">
                   {!insc.pagoConfirmado && (
                     <button
                       onClick={() => confirmarPago(index)}
@@ -100,6 +126,12 @@ const InscripcionesTable = () => {
                       Confirmar pago
                     </button>
                   )}
+                  <button
+                    onClick={() => eliminarEstudiante(insc._id)}
+                    className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             );

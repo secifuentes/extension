@@ -238,45 +238,54 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   </p>
 </div>
 
-{/* Banner informativo con ícono estilizado y texto atractivo */}
-<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
-  <div className="mr-4 text-3xl">
-    <i className="fas fa-info-circle"></i> {/* Ícono de información estilizado */}
+{/* Bloque con ícono + formulario básico */}
+<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-6 mb-6 rounded-lg shadow-lg">
+  <div className="flex items-start gap-4">
+    <div className="text-3xl mt-1">💡</div>
+    <div className="flex-1">
+      <p className="text-xl font-semibold">Inscríbete al curso y asegura tu cupo</p>
+      <p className="text-sm mt-1 text-gray-600">
+        Ingresa los datos de la persona que realizará el curso:
+      </p>
+
+      <div className="mt-4 space-y-3 text-gray-800">
+        <div>
+          <label className="block font-semibold">Tipo de documento:</label>
+          <select
+            className="w-full border p-2 rounded"
+            value={tipoDoc}
+            onChange={(e) => setTipoDoc(e.target.value)}
+            required
+          >
+            <option value="">Selecciona tipo</option>
+            <option value="Registro Civil">Registro Civil</option>
+            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+            <option value="Pasaporte">Pasaporte</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block font-semibold">Número de documento:</label>
+          <input
+            type="tel"
+            className="w-full border p-2 rounded"
+            value={documento}
+            onChange={(e) => setDocumento(e.target.value)}
+            required
+          />
+        </div>
+
+        <button
+          className="w-full mt-2 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+          onClick={verificarEstudiante}
+        >
+          Inscribirme
+        </button>
+      </div>
+    </div>
   </div>
-  <div>
-    <p className="text-xl font-semibold">Inscríbete al curso y asegura tu cupo</p>
-    <p className="text-sm mt-1 text-gray-600">
-    Ingresa los datos de la persona que realizará el curso
-    </p>
-  </div>
-</div>
-
-{/* Formulario de inscripción */}
-<div className="mt-6 space-y-2">
-  <label className="block font-semibold">Tipo de documento:</label>
-  <select
-    className="w-full border p-2 rounded"
-    value={tipoDoc}
-    onChange={(e) => setTipoDoc(e.target.value)}
-    required
-  >
-    <option value="">Selecciona tipo</option>
-    <option value="Registro Civil">Registro Civil</option>
-    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
-    <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
-    <option value="Cédula de Extranjería">Cédula de Extranjería</option>
-    <option value="Pasaporte">Pasaporte</option>
-  </select>
-
-  <label className="block font-semibold mt-2">Número de documento:</label>
-  <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
-
-  <button
-    className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
-    onClick={verificarEstudiante}
-  >
-    Inscribirme
-  </button>
 </div>
 
           {yaInscrito && (

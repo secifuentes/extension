@@ -180,6 +180,10 @@ const Home = () => {
         pregunta="¿Quiénes dictan los cursos?"
         respuesta="¡Profes verdaderos cracks en lo que hacen! Cada curso es liderado por docentes especializados, con experiencia real y pasión por enseñar. Aprenderás con los mejores."
       />
+      <FaqItem
+      pregunta="¿Cómo realizo el pago del curso?"
+      respuesta='Puedes pagar por consignación o transferencia a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong> a nombre del <strong>Instituto Parroquial Nuestra Señora de la Presentación</strong>. No olvides subir tu comprobante en el formulario para validar tu inscripción.'
+      />
     </div>
   </div>
 </section>

@@ -20,7 +20,10 @@ const FaqItem = ({ pregunta, respuesta }) => {
           abierto ? 'max-h-96 opacity-100' : 'max-h-0 overflow-hidden opacity-0'
         }`}
       >
-        <p className="pt-2 leading-relaxed">{respuesta}</p>
+        <p
+          className="pt-2 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: respuesta }}
+        />
       </div>
     </div>
   );

@@ -50,17 +50,20 @@ const Home = () => {
   {/* Overlay con texto abajo */}
   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16">
     <div>
-      <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-        Cursos de Extensión para todos
+    <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+      Cursos de Extensión para todos
       </h1>
       <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
-        No importa si no eres parte de nuestra Familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
+        Aunque no seas parte de la Familia Presentación, este espacio también es para ti.
       </p>
+      <p className="mt-2 text-white text-base opacity-80">
+        Más que cursos, experiencias que inspiran.
+        </p>
       <a
         href="#cursos"
         className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
-      >
-        Ver cursos disponibles
+        >
+          Descubre lo que tenemos para ti
       </a>
     </div>
   </div>

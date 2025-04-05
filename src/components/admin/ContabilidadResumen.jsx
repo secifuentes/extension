@@ -1,41 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { inscripciones } from '../../data/inscripciones'; // Suponiendo que las inscripciones se mantienen así
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ContabilidadResumen = () => {
-  const [cursos, setCursos] = useState([]);  // Estado para almacenar los cursos
+  const [inscripciones, setInscripciones] = useState([]);
+  const [cursos, setCursos] = useState([]);
+  const [costos, setCostos] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
-  // Cargar cursos desde la API o base de datos
   useEffect(() => {
-    const fetchCursos = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos`);
-      const data = await res.json();
-      setCursos(data); // Establecer los cursos en el estado
+    const fetchData = async () => {
+      setCargando(true);
+      try {
+        const [resCursos, resInscripciones, resCostos] = await Promise.all([
+          fetch(`${API_URL}/api/cursos`),
+          fetch(`${API_URL}/api/inscripciones`),
+          fetch(`${API_URL}/api/costos`),
+        ]);
+
+        const dataCursos = await resCursos.json();
+        const dataInscripciones = await resInscripciones.json();
+        const dataCostos = await resCostos.json();
+
+        setCursos(dataCursos);
+        setInscripciones(dataInscripciones);
+        setCostos(dataCostos);
+      } catch (err) {
+        console.error('❌ Error al cargar contabilidad:', err);
+      } finally {
+        setCargando(false);
+      }
     };
 
-    fetchCursos();
+    fetchData();
   }, []);
 
-  // Si los cursos no han cargado aún, mostrar un mensaje
-  if (cursos.length === 0) {
-    return <div>Cargando cursos...</div>;
-  }
-
-  // Filtrar inscripciones confirmadas y pendientes
   const confirmados = inscripciones.filter(i => i.pagoConfirmado);
   const pendientes = inscripciones.filter(i => !i.pagoConfirmado);
 
-  // Calcular total de ingresos confirmados
   const totalIngresos = confirmados.reduce((acc, curr) => {
-    const curso = cursos.find(c => c._id === curr.cursoId); // Obtener el curso correspondiente
-    const precio = curso ? curso.precio : 0;
+    const curso = cursos.find(c => c._id === curr.cursoId);
+    const precio = curso?.precio || 0;
     const descuento = curr.esEstudiante ? 0.9 : 1;
     return acc + precio * descuento;
   }, 0);
 
-  // Calcular ingresos por curso
+  const totalCostos = costos.reduce((acc, curr) => acc + curr.valor, 0);
+  const utilidadNeta = totalIngresos - totalCostos;
+
   const ingresosPorCurso = cursos.map((curso) => {
     const ingresos = confirmados
-      .filter(i => i.cursoId.toString() === curso._id.toString())
+      .filter(i => i.cursoId === curso._id)
       .reduce((acc, i) => {
         const descuento = i.esEstudiante ? 0.9 : 1;
         return acc + curso.precio * descuento;
@@ -47,35 +62,59 @@ const ContabilidadResumen = () => {
   });
 
   return (
-    <div className="bg-white p-6 rounded shadow w-full space-y-6">
-      <h3 className="text-lg font-semibold text-institucional">Resumen Contable</h3>
+    <div className="bg-gray-50 p-4 sm:p-6 rounded-md min-h-screen">
+      <h2 className="text-2xl font-bold text-institucional mb-6">Panel de Contabilidad</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-        <div className="bg-[#21145F] text-white p-4 rounded">
-          <p>Total ingresos confirmados</p>
-          <p className="text-2xl font-bold">${totalIngresos.toLocaleString()}</p>
-        </div>
-        <div className="bg-yellow-400 text-black p-4 rounded">
-          <p>Pagos pendientes</p>
-          <p className="text-2xl font-bold">{pendientes.length}</p>
-        </div>
-        <div className="bg-green-500 text-white p-4 rounded">
-          <p>Pagos confirmados</p>
-          <p className="text-2xl font-bold">{confirmados.length}</p>
-        </div>
-      </div>
+      {cargando ? (
+        <p className="text-center text-gray-600">Cargando información contable...</p>
+      ) : (
+        <>
+          {/* Totales */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-white text-sm font-medium mb-10">
+            <div className="bg-[#21145F] p-4 rounded shadow">
+              <p>Total ingresos confirmados</p>
+              <p className="text-2xl font-bold">${totalIngresos.toLocaleString()}</p>
+            </div>
+            <div className="bg-yellow-500 text-black p-4 rounded shadow">
+              <p>Total costos (egresos)</p>
+              <p className="text-2xl font-bold">${totalCostos.toLocaleString()}</p>
+            </div>
+            <div className="bg-green-600 p-4 rounded shadow">
+              <p>Utilidad neta</p>
+              <p className="text-2xl font-bold">${utilidadNeta.toLocaleString()}</p>
+            </div>
+          </div>
 
-      <div className="mt-8">
-        <h4 className="font-bold text-institucional mb-2">Ingresos por curso:</h4>
-        <ul className="space-y-2">
-          {ingresosPorCurso.map((c, i) => (
-            <li key={i} className="border-b py-2 flex justify-between">
-              <span>{c.nombre}</span>
-              <span className="font-medium">${c.ingresos.toLocaleString()}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+          {/* Ingresos por curso */}
+          <div className="mb-8">
+            <h3 className="text-lg font-bold mb-3 text-institucional">Ingresos por Curso</h3>
+            <div className="bg-white border rounded-md divide-y">
+              {ingresosPorCurso.map((curso, i) => (
+                <div key={i} className="flex justify-between px-4 py-3">
+                  <span>{curso.nombre}</span>
+                  <span className="font-semibold">${curso.ingresos.toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Costos detallados */}
+          <div>
+            <h3 className="text-lg font-bold mb-3 text-institucional">Costos registrados</h3>
+            <div className="bg-white border rounded-md divide-y">
+              {costos.map((costo, i) => (
+                <div key={i} className="flex justify-between px-4 py-3 text-sm">
+                  <div>
+                    <p className="font-medium">{costo.descripcion}</p>
+                    <p className="text-gray-500">{new Date(costo.fecha).toLocaleDateString()}</p>
+                  </div>
+                  <p className="font-semibold">${costo.valor.toLocaleString()}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -24,7 +24,7 @@ import AdminInscripciones from './pages/AdminInscripciones';
 import AdminDocentes from './pages/AdminDocentes';
 import AdminEstudiantes from './pages/AdminEstudiantes';
 import AdminCertificados from './pages/AdminCertificados';
-import AdminContabilidad from './pages/AdminContabilidad';
+import AdminContabilidad from './components/admin/ContabilidadResumen';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
 
 import ScrollToTop from './components/ScrollToTop';

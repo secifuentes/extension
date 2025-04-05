@@ -123,15 +123,15 @@ const StatsCards = () => {
         <StatCard icon={FaBookOpen} label="Cursos activos" value={stats.cursos} />
         <StatCard icon={FaDollarSign} label="Ingresos" value={`$${stats.ingresos.toLocaleString()}`} isPrivate />
         <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
-        <StatCard icon={FaChartBar} label="Total inscripciones" value={stats.inscripcionesTotales} />
-        <StatCard icon={FaEye} label="Usuarios en línea" value={usuariosOnline} />
       </div>
 
-      {/* Estadísticas de visitas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {/* Visitas y usuarios en línea */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <StatCard icon={FaChartBar} label="Total inscripciones" value={stats.inscripcionesTotales} />
         <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
         <StatCard icon={FaEye} label="Visitas este mes" value={visitas.mes} />
         <StatCard icon={FaEye} label="Total visitas" value={visitas.total} />
+        <StatCard icon={FaUserClock} label="Usuarios en línea" value={usuariosOnline} />
       </div>
 
       {/* Accesos rápidos */}

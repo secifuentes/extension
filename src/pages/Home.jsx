@@ -163,7 +163,7 @@ const Home = () => {
   </div>
 </section>
 
-<section className="bg-white py-14">
+<section className="bg-gray-100 py-14">
   <div className="text-center max-w-4xl mx-auto px-4">
     <div className="mb-4 w-16 h-1 mx-auto bg-institucional rounded-full" />
     <p className="text-2xl md:text-3xl font-bold italic text-institucional">

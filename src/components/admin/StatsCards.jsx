@@ -8,6 +8,12 @@ const StatsCards = () => {
     docentes: 0,
   });
 
+  const [visitas, setVisitas] = useState({
+    hoy: 0,
+    mes: 0,
+    total: 0,
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +29,18 @@ const StatsCards = () => {
       }
     };
 
+    const fetchVisitas = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/estadisticas`);
+        const data = await res.json();
+        setVisitas(data);
+      } catch (error) {
+        console.error('❌ Error al cargar visitas:', error);
+      }
+    };
+
     fetchEstadisticas();
+    fetchVisitas();
   }, []);
 
   if (loading) {
@@ -47,6 +64,20 @@ const StatsCards = () => {
       <div className="bg-white p-6 rounded shadow text-center">
         <h3 className="text-lg font-semibold text-institucional">Docentes asignados</h3>
         <p className="text-3xl font-bold mt-2">{stats.docentes}</p>
+      </div>
+
+      {/* Nuevas tarjetas de visitas */}
+      <div className="bg-white p-6 rounded shadow text-center">
+        <h3 className="text-lg font-semibold text-institucional">Visitas hoy</h3>
+        <p className="text-3xl font-bold mt-2">{visitas.hoy}</p>
+      </div>
+      <div className="bg-white p-6 rounded shadow text-center">
+        <h3 className="text-lg font-semibold text-institucional">Visitas este mes</h3>
+        <p className="text-3xl font-bold mt-2">{visitas.mes}</p>
+      </div>
+      <div className="bg-white p-6 rounded shadow text-center">
+        <h3 className="text-lg font-semibold text-institucional">Total visitas</h3>
+        <p className="text-3xl font-bold mt-2">{visitas.total}</p>
       </div>
     </div>
   );

@@ -111,64 +111,6 @@ const EstudiantesInscritosTable = () => {
     });
   };
 
-  const exportarExcel = () => {
-    const datos = filtrados.map((est) => ({
-      'Tipo Documento': est.tipoDocumento,
-      Documento: est.documento,
-      Nombres: est.nombres,
-      Apellidos: est.apellidos,
-      Correo: est.correo,
-      Teléfono: est.telefono,
-      Curso: est.cursoNombre,
-      'Presentación': est.esEstudiante ? 'Sí' : 'No',
-      'Acudiente / Teléfono': est.acudiente
-        ? `${est.acudiente} - ${est.telefonoAcudiente}`
-        : '—',
-      'Valor Pagado': est.valorPagado,
-      'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Inscripciones');
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, 'inscripciones.xlsx');
-  };
-
-  const exportarPDF = () => {
-    const doc = new jsPDF();
-    const columnas = [
-      'Tipo Doc', 'Documento', 'Nombre', 'Correo',
-      'Teléfono', 'Curso', 'Presentación',
-      'Pago', 'Valor', 'Fecha'
-    ];
-
-    const filas = filtrados.map((est) => [
-      est.tipoDocumento,
-      est.documento,
-      `${est.nombres} ${est.apellidos}`,
-      est.correo,
-      est.telefono,
-      est.cursoNombre,
-      est.esEstudiante ? 'Sí' : 'No',
-      est.formaPago,
-      `$${est.valorPagado}`,
-      formatearFecha(est.fechaInscripcion)
-    ]);
-
-    doc.autoTable({
-      head: [columnas],
-      body: filas,
-      startY: 20,
-      styles: { fontSize: 8 },
-      headStyles: { fillColor: [33, 20, 95] },
-    });
-
-    doc.text('Listado de Estudiantes Inscritos', 14, 15);
-    doc.save('inscripciones.pdf');
-  };
-
   // 🔎 Filtros
   const filtrados = inscripciones.filter((est) => {
     const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
@@ -194,7 +136,7 @@ const EstudiantesInscritosTable = () => {
   const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
 
   return (
-    <div className="pt-10 p-4 overflow-x-auto bg-gray-50">
+    <div className="pt-10 p-4 bg-gray-50">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
         <h2 className="text-2xl font-bold text-institucional">Estudiantes Inscritos</h2>
         <button
@@ -272,7 +214,7 @@ const EstudiantesInscritosTable = () => {
       </div>
 
       {/* 🧾 Tabla */}
-      <div className="overflow-x-auto max-h-[70vh]"> {/* Limitar altura */}
+      <div className="overflow-x-auto"> {/* Contenedor para permitir scroll horizontal */}
         <table className="min-w-full bg-white border border-gray-300 text-sm rounded-lg shadow-md">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
@@ -300,7 +242,7 @@ const EstudiantesInscritosTable = () => {
                 <td className="px-4 py-2">{est.telefono}</td>
                 <td className="px-4 py-2">{est.cursoNombre}</td>
                 <td className="px-4 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
-                <td className="px-4 py-2">{est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>
+                <td className="px-4 py-2">{est.acudiente ? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>
                 <td className="px-4 py-2">${est.valorPagado?.toLocaleString()}</td>
                 <td className="px-4 py-2">
                   {est.comprobante ? (

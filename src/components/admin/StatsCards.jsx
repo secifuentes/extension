@@ -11,7 +11,7 @@ import {
   FaClipboardList,
   FaUserTie,
   FaFileInvoiceDollar,
-  FaEyeSlash,  // <---- AÑADIR ESTO
+  FaEyeSlash,  // Asegúrate de que este icono esté importado
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -70,7 +70,7 @@ const StatsCards = () => {
 
         setStats({
           ...dataStats,
-          inscripcionesTotales: dataStats.estudiantes * 2, // Para que se vea bien en el dashboard (debes ajustar esto según tu lógica)
+          inscripcionesTotales: dataStats.estudiantes * 2, // Ajustar según lógica de inscripciones
         });
 
         const resOnline = await fetch(`${API}/api/visitas/activos`);
@@ -92,8 +92,18 @@ const StatsCards = () => {
 
   return (
     <div className="space-y-10">
+      {/* Saludo al admin */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-institucional">
+          ¡Hola, Sebastián! 👋
+        </h1>
+        <p className="text-sm text-gray-500">
+          Bienvenido al panel administrativo, donde puedes gestionar los cursos, estudiantes y más.
+        </p>
+      </div>
+
       {/* Título */}
-      <h1 className="text-2xl font-bold text-institucional">Panel administrativo</h1>
+      <h1 className="text-2xl font-bold text-institucional mb-6">Panel Administrativo</h1>
 
       {/* Tarjetas principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">

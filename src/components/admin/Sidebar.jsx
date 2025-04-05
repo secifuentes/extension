@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 import {
   FaTachometerAlt,
   FaUserGraduate,
@@ -8,6 +9,7 @@ import {
   FaCertificate,
   FaCalculator,
   FaSignOutAlt,
+  FaBookOpen,
 } from 'react-icons/fa';
 
 const navItems = [
@@ -38,9 +40,11 @@ const Sidebar = () => {
       >
         {/* Logo */}
         <div className="p-4 flex items-center justify-center border-b border-white/10">
-          <span className="text-xl font-bold text-yellow-300 tracking-widest">
-            {expanded ? 'EXTENSIÓN' : 'EX'}
-          </span>
+        {expanded ? (
+          <span className="text-xl font-bold text-yellow-300 tracking-wide">EXTENSIÓN</span>
+        ) : (
+        <FaBookOpen className="text-2xl text-yellow-300" />
+        )}
         </div>
 
         {/* Navegación */}

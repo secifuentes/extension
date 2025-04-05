@@ -272,7 +272,7 @@ const EstudiantesInscritosTable = () => {
       </div>
 
       {/* 🧾 Tabla */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[70vh]"> {/* Limitar altura */}
         <table className="min-w-full bg-white border border-gray-300 text-sm rounded-lg shadow-md">
           <thead className="bg-gray-100 text-gray-700">
             <tr>

@@ -65,12 +65,12 @@ const EstudiantesInscritosTable = () => {
   const eliminarEstudiante = async (id) => {
     const confirmar = confirm('¿Eliminar este estudiante?');
     if (!confirmar) return;
-  
+
     try {
       const res = await fetch(`${API_URL}/api/inscripciones/${id}`, {
         method: 'DELETE',
       });
-  
+
       if (res.ok) {
         alert('✅ Estudiante eliminado');
         fetchInscripciones();
@@ -122,8 +122,8 @@ const EstudiantesInscritosTable = () => {
       Curso: est.cursoNombre,
       'Presentación': est.esEstudiante ? 'Sí' : 'No',
       'Acudiente / Teléfono': est.acudiente
-      ? `${est.acudiente} - ${est.telefonoAcudiente}`
-      : '—',
+        ? `${est.acudiente} - ${est.telefonoAcudiente}`
+        : '—',
       'Valor Pagado': est.valorPagado,
       'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
     }));
@@ -194,31 +194,31 @@ const EstudiantesInscritosTable = () => {
   const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
 
   return (
-    <div className="pt-16 p-4 overflow-x-auto">
+    <div className="pt-16 p-4 overflow-x-auto bg-gray-50">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
         <h2 className="text-2xl font-bold text-institucional">Estudiantes Inscritos</h2>
         <button
           onClick={eliminarTodas}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800"
+          className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition duration-300"
         >
           Eliminar todos
         </button>
       </div>
 
       {/* Buscador y filtros */}
-      <div className="flex flex-wrap gap-4 mb-4">
+      <div className="flex flex-wrap gap-4 mb-6">
         <input
           type="text"
           placeholder="Buscar por nombre, documento o correo"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="p-2 border rounded w-full sm:w-1/3"
+          className="p-3 border-2 border-gray-300 rounded-md w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-institucional"
         />
 
         <select
           value={filtroCurso}
           onChange={(e) => setFiltroCurso(e.target.value)}
-          className="p-2 border rounded"
+          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
         >
           <option value="">Todos los cursos</option>
           {cursosUnicos.map((curso, i) => (
@@ -231,7 +231,7 @@ const EstudiantesInscritosTable = () => {
         <select
           value={filtroPago}
           onChange={(e) => setFiltroPago(e.target.value)}
-          className="p-2 border rounded"
+          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
         >
           <option value="">Todos los pagos</option>
           <option value="confirmado">Pagos confirmados</option>
@@ -241,7 +241,7 @@ const EstudiantesInscritosTable = () => {
         <select
           value={filtroPresentacion}
           onChange={(e) => setFiltroPresentacion(e.target.value)}
-          className="p-2 border rounded"
+          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
         >
           <option value="">Todos</option>
           <option value="si">Familia Presentación</option>
@@ -250,21 +250,21 @@ const EstudiantesInscritosTable = () => {
       </div>
 
       {/* 📄 Exportar y resumen */}
-      <div className="flex flex-wrap justify-between items-center mb-4 text-sm text-gray-700">
+      <div className="flex flex-wrap justify-between items-center mb-6 text-sm text-gray-700">
         <p>
           Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos
         </p>
 
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <button
             onClick={exportarExcel}
-            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition duration-300"
           >
             Exportar Excel
           </button>
           <button
             onClick={exportarPDF}
-            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+            className="bg-red-600 text-white px-5 py-2 rounded-md hover:bg-red-700 transition duration-300"
           >
             Exportar PDF
           </button>
@@ -272,82 +272,83 @@ const EstudiantesInscritosTable = () => {
       </div>
 
       {/* 🧾 Tabla */}
-      <table className="min-w-full bg-white border border-gray-300 text-sm">
-        <thead className="bg-gray-100 text-gray-700">
-          <tr>
-            <th className="border px-2 py-2">Tipo Doc</th>
-            <th className="border px-2 py-2">Documento</th>
-            <th className="border px-2 py-2">Nombre</th>
-            <th className="border px-2 py-2">Correo</th>
-            <th className="border px-2 py-2">Teléfono</th>
-            <th className="border px-2 py-2">Curso</th>
-            <th className="border px-2 py-2">Presentación</th>
-            <th className="border px-2 py-2">Acudiente / Teléfono</th>
-            <th className="border px-2 py-2">Valor Pagado</th>
-            <th className="border px-2 py-2">Comprobante</th>
-            <th className="border px-2 py-2">Fecha</th>
-            <th className="border px-2 py-2">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtrados.map((est) => (
-            <tr key={est._id} className="hover:bg-gray-50">
-              <td className="border px-2 py-2">{est.tipoDocumento}</td>
-              <td className="border px-2 py-2">{est.documento}</td>
-              <td className="border px-2 py-2">{est.nombres} {est.apellidos}</td>
-              <td className="border px-2 py-2">{est.correo}</td>
-              <td className="border px-2 py-2">{est.telefono}</td>
-              <td className="border px-2 py-2">{est.cursoNombre}</td>
-              <td className="border px-2 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
-              <td className="border px-2 py-2"> {est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}`: '—'}</td>
-              <td className="border px-2 py-2">${est.valorPagado?.toLocaleString()}</td>
-              <td className="border px-2 py-2">
-                {est.comprobante ? (
-                  <a
-                    href={`data:image/png;base64,${est.comprobante}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={`data:image/png;base64,${est.comprobante}`}
-                      alt="Comprobante"
-                      className="w-12 h-12 object-contain rounded shadow"
-                    />
-                  </a>
-                ) : (
-                  <span className="text-gray-400">No cargado</span>
-                )}
-              </td>
-              <td className="border px-2 py-2">{formatearFecha(est.fechaInscripcion)}</td>
-              <td className="border px-2 py-2 flex flex-col gap-2">
-                {!est.pagoConfirmado && (
-                  <>
-                  <button
-                  onClick={() => confirmarPago(est._id)}
-                  className="bg-green-600 text-white text-xs px-2 py-1 rounded hover:bg-green-800"
-                  >
-                    Confirmar pago
-                    </button>
-                    <button
-                    onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                    className="bg-yellow-500 text-white text-xs px-2 py-1 rounded hover:bg-yellow-600"
-                    >
-                      Recordatorio
-                      </button>
-                      </>
-                    )}
-                    {/* Este aparece siempre */}
-                    <button
-                    onClick={() => eliminarEstudiante(est._id)}
-                    className="bg-red-600 text-white text-xs px-2 py-1 rounded hover:bg-red-800"
-                    >
-                      Eliminar
-                      </button>
-                      </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 text-sm rounded-lg shadow-md">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="px-4 py-2">Tipo Doc</th>
+              <th className="px-4 py-2">Documento</th>
+              <th className="px-4 py-2">Nombre</th>
+              <th className="px-4 py-2">Correo</th>
+              <th className="px-4 py-2">Teléfono</th>
+              <th className="px-4 py-2">Curso</th>
+              <th className="px-4 py-2">Presentación</th>
+              <th className="px-4 py-2">Acudiente / Teléfono</th>
+              <th className="px-4 py-2">Valor Pagado</th>
+              <th className="px-4 py-2">Comprobante</th>
+              <th className="px-4 py-2">Fecha</th>
+              <th className="px-4 py-2">Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtrados.map((est) => (
+              <tr key={est._id} className="hover:bg-gray-50">
+                <td className="px-4 py-2">{est.tipoDocumento}</td>
+                <td className="px-4 py-2">{est.documento}</td>
+                <td className="px-4 py-2">{est.nombres} {est.apellidos}</td>
+                <td className="px-4 py-2">{est.correo}</td>
+                <td className="px-4 py-2">{est.telefono}</td>
+                <td className="px-4 py-2">{est.cursoNombre}</td>
+                <td className="px-4 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
+                <td className="px-4 py-2">{est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>
+                <td className="px-4 py-2">${est.valorPagado?.toLocaleString()}</td>
+                <td className="px-4 py-2">
+                  {est.comprobante ? (
+                    <a
+                      href={`data:image/png;base64,${est.comprobante}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={`data:image/png;base64,${est.comprobante}`}
+                        alt="Comprobante"
+                        className="w-12 h-12 object-contain rounded shadow"
+                      />
+                    </a>
+                  ) : (
+                    <span className="text-gray-400">No cargado</span>
+                  )}
+                </td>
+                <td className="px-4 py-2">{formatearFecha(est.fechaInscripcion)}</td>
+                <td className="px-4 py-2 flex gap-2">
+                  {!est.pagoConfirmado && (
+                    <>
+                      <button
+                        onClick={() => confirmarPago(est._id)}
+                        className="bg-green-600 text-white text-xs px-3 py-1 rounded-md hover:bg-green-800 transition"
+                      >
+                        Confirmar pago
+                      </button>
+                      <button
+                        onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+                        className="bg-yellow-500 text-white text-xs px-3 py-1 rounded-md hover:bg-yellow-600 transition"
+                      >
+                        Recordatorio
+                      </button>
+                    </>
+                  )}
+                  <button
+                    onClick={() => eliminarEstudiante(est._id)}
+                    className="bg-red-600 text-white text-xs px-3 py-1 rounded-md hover:bg-red-700 transition"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

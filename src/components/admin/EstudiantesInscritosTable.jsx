@@ -13,6 +13,11 @@ const EstudiantesInscritosTable = () => {
   const [filtroPago, setFiltroPago] = useState('');
   const [filtroPresentacion, setFiltroPresentacion] = useState('');
 
+  // Estado para controlar las columnas ocultas
+  const [showCorreo, setShowCorreo] = useState(false);
+  const [showTelefono, setShowTelefono] = useState(false);
+  const [showAcudiente, setShowAcudiente] = useState(false);
+
   useEffect(() => {
     fetchInscripciones();
   }, []);
@@ -109,64 +114,6 @@ const EstudiantesInscritosTable = () => {
       month: 'short',
       year: 'numeric',
     });
-  };
-
-  const exportarExcel = () => {
-    const datos = filtrados.map((est) => ({
-      'Tipo Documento': est.tipoDocumento,
-      Documento: est.documento,
-      Nombres: est.nombres,
-      Apellidos: est.apellidos,
-      Correo: est.correo,
-      Teléfono: est.telefono,
-      Curso: est.cursoNombre,
-      'Presentación': est.esEstudiante ? 'Sí' : 'No',
-      'Acudiente / Teléfono': est.acudiente
-        ? `${est.acudiente} - ${est.telefonoAcudiente}`
-        : '—',
-      'Valor Pagado': est.valorPagado,
-      'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Inscripciones');
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, 'inscripciones.xlsx');
-  };
-
-  const exportarPDF = () => {
-    const doc = new jsPDF();
-    const columnas = [
-      'Tipo Doc', 'Documento', 'Nombre', 'Correo',
-      'Teléfono', 'Curso', 'Presentación',
-      'Pago', 'Valor', 'Fecha'
-    ];
-
-    const filas = filtrados.map((est) => [
-      est.tipoDocumento,
-      est.documento,
-      `${est.nombres} ${est.apellidos}`,
-      est.correo,
-      est.telefono,
-      est.cursoNombre,
-      est.esEstudiante ? 'Sí' : 'No',
-      est.formaPago,
-      `$${est.valorPagado}`,
-      formatearFecha(est.fechaInscripcion)
-    ]);
-
-    doc.autoTable({
-      head: [columnas],
-      body: filas,
-      startY: 20,
-      styles: { fontSize: 8 },
-      headStyles: { fillColor: [33, 20, 95] },
-    });
-
-    doc.text('Listado de Estudiantes Inscritos', 14, 15);
-    doc.save('inscripciones.pdf');
   };
 
   // 🔎 Filtros
@@ -279,11 +226,35 @@ const EstudiantesInscritosTable = () => {
               <th className="px-4 py-2">Tipo Doc</th>
               <th className="px-4 py-2">Documento</th>
               <th className="px-4 py-2">Nombre</th>
-              <th className="px-4 py-2">Correo</th>
-              <th className="px-4 py-2">Teléfono</th>
+              <th className="px-4 py-2">Correo
+                <button
+                  className="text-xs text-blue-600"
+                  onClick={() => setShowCorreo(!showCorreo)}
+                >
+                  {showCorreo ? '-' : '+'}
+                </button>
+              </th>
+              {showCorreo && <th className="px-4 py-2">Correo</th>}
+              <th className="px-4 py-2">Teléfono
+                <button
+                  className="text-xs text-blue-600"
+                  onClick={() => setShowTelefono(!showTelefono)}
+                >
+                  {showTelefono ? '-' : '+'}
+                </button>
+              </th>
+              {showTelefono && <th className="px-4 py-2">Teléfono</th>}
               <th className="px-4 py-2">Curso</th>
               <th className="px-4 py-2">Presentación</th>
-              <th className="px-4 py-2">Acudiente / Teléfono</th>
+              <th className="px-4 py-2">Acudiente / Teléfono
+                <button
+                  className="text-xs text-blue-600"
+                  onClick={() => setShowAcudiente(!showAcudiente)}
+                >
+                  {showAcudiente ? '-' : '+'}
+                </button>
+              </th>
+              {showAcudiente && <th className="px-4 py-2">Acudiente / Teléfono</th>}
               <th className="px-4 py-2">Valor Pagado</th>
               <th className="px-4 py-2">Comprobante</th>
               <th className="px-4 py-2">Fecha</th>
@@ -296,11 +267,11 @@ const EstudiantesInscritosTable = () => {
                 <td className="px-4 py-2">{est.tipoDocumento}</td>
                 <td className="px-4 py-2">{est.documento}</td>
                 <td className="px-4 py-2">{est.nombres} {est.apellidos}</td>
-                <td className="px-4 py-2">{est.correo}</td>
-                <td className="px-4 py-2">{est.telefono}</td>
+                {showCorreo && <td className="px-4 py-2">{est.correo}</td>}
+                {showTelefono && <td className="px-4 py-2">{est.telefono}</td>}
                 <td className="px-4 py-2">{est.cursoNombre}</td>
                 <td className="px-4 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
-                <td className="px-4 py-2">{est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>
+                {showAcudiente && <td className="px-4 py-2">{est.acudiente ? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>}
                 <td className="px-4 py-2">${est.valorPagado?.toLocaleString()}</td>
                 <td className="px-4 py-2">
                   {est.comprobante ? (

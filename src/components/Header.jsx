@@ -8,7 +8,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50 min-h-[72px]">
+    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50 h-[64px]">
       {/* Menú */}
       <div className="flex justify-between items-center px-4 py-1 sm:px-6 md:px-8">
         {/* Contenedor para logo y menú, alineados a la izquierda */}

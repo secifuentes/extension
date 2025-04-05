@@ -1,85 +1,111 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import {
-  FaTachometerAlt,
   FaUserGraduate,
-  FaBook,
-  FaClipboardList,
-  FaCertificate,
-  FaCalculator,
-  FaSignOutAlt,
+  FaBookOpen,
+  FaDollarSign,
+  FaChalkboardTeacher,
+  FaEye,
+  FaCalendarAlt,
+  FaChartBar,
+  FaUserClock,
 } from 'react-icons/fa';
 
-const navItems = [
-  { path: '/admin', label: 'Dashboard', icon: <FaTachometerAlt /> },
-  { path: '/admin/estudiantes', label: 'Estudiantes', icon: <FaUserGraduate /> },
-  { path: '/admin/cursos', label: 'Cursos', icon: <FaBook /> },
-  { path: '/admin/inscripciones', label: 'Inscripciones', icon: <FaClipboardList /> },
-  { path: '/admin/certificados', label: 'Certificados', icon: <FaCertificate /> },
-  { path: '/admin/contabilidad', label: 'Contabilidad', icon: <FaCalculator /> },
-];
+// Componente de tarjeta individual
+const StatCard = ({ icon: Icon, label, value }) => (
+  <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+    <div className="bg-institucional/10 text-institucional p-3 rounded-full text-xl">
+      <Icon />
+    </div>
+    <div>
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="text-2xl font-bold">{value}</p>
+    </div>
+  </div>
+);
 
-const Sidebar = () => {
-  const location = useLocation();
-  const [expanded, setExpanded] = useState(false);
+const Dashboard = () => {
+  const [stats, setStats] = useState({
+    estudiantes: 0,
+    cursos: 0,
+    ingresos: 0,
+    docentes: 0,
+  });
 
-  const handleLogout = () => {
-    // Aquí puedes colocar tu lógica de logout
-    alert('Cerrar sesión');
-  };
+  const [visitas, setVisitas] = useState({
+    hoy: 0,
+    mes: 0,
+    total: 0,
+  });
+
+  const [usuariosOnline, setUsuariosOnline] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEstadisticas = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/estadisticas`);
+        const data = await res.json();
+        setStats(data);
+      } catch (error) {
+        console.error('❌ Error al cargar estadísticas:', error);
+      }
+    };
+
+    const fetchVisitas = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/estadisticas`);
+        const data = await res.json();
+        setVisitas(data);
+      } catch (error) {
+        console.error('❌ Error al cargar visitas:', error);
+      }
+    };
+
+    const fetchOnline = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/activos`);
+        const data = await res.json();
+        setUsuariosOnline(data.enLinea);
+      } catch (error) {
+        console.error('❌ Error al cargar usuarios en línea:', error);
+      }
+    };
+
+    const cargarTodo = async () => {
+      setLoading(true);
+      await Promise.all([fetchEstadisticas(), fetchVisitas(), fetchOnline()]);
+      setLoading(false);
+    };
+
+    cargarTodo();
+
+    const interval = setInterval(() => {
+      cargarTodo();
+    }, 30000); // Actualiza cada 30s
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return <p className="p-4 text-center text-gray-500">Cargando estadísticas...</p>;
+  }
 
   return (
-    <aside
-      className={`bg-[#21145F] text-white shadow-md transition-all duration-300 ease-in-out
-      ${expanded ? 'w-64' : 'w-20'} hidden md:flex flex-col min-h-screen`}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
-    >
-      {/* Logo o título */}
-      <div className="p-4 flex items-center justify-center border-b border-white/10">
-        <span className="text-xl font-bold text-yellow-300 tracking-wide">
-          {expanded ? 'EXTENSIÓN' : 'EX'}
-        </span>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-institucional mb-6">Resumen General</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <StatCard icon={FaUserGraduate} label="Estudiantes activos" value={stats.estudiantes} />
+        <StatCard icon={FaBookOpen} label="Cursos activos" value={stats.cursos} />
+        <StatCard icon={FaDollarSign} label="Ingresos" value={`$${stats.ingresos.toLocaleString()}`} />
+        <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
+        <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
+        <StatCard icon={FaCalendarAlt} label="Visitas este mes" value={visitas.mes} />
+        <StatCard icon={FaChartBar} label="Total visitas" value={visitas.total} />
+        <StatCard icon={FaUserClock} label="Usuarios en línea" value={usuariosOnline} />
       </div>
-
-      {/* Sección principal */}
-      <nav className="flex flex-col gap-2 px-2 pt-4 text-sm font-medium">
-        <p className={`text-xs text-white/50 px-2 uppercase tracking-wide ${!expanded && 'hidden'}`}>
-          Administración
-        </p>
-
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              title={!expanded ? item.label : ''}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200
-                ${isActive ? 'bg-yellow-300 text-[#21145F] font-semibold' : 'hover:bg-yellow-400 hover:text-[#21145F]'}
-              `}
-            >
-              <span className="text-lg">{item.icon}</span>
-              {expanded && <span className="whitespace-nowrap">{item.label}</span>}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Separador y botón fijo abajo */}
-      <div className="mt-auto border-t border-white/10 px-3 py-4">
-        <button
-          onClick={handleLogout}
-          title={!expanded ? 'Cerrar sesión' : ''}
-          className="flex items-center gap-3 text-sm hover:text-yellow-400 transition"
-        >
-          <span className="text-lg"><FaSignOutAlt /></span>
-          {expanded && <span>Cerrar sesión</span>}
-        </button>
-      </div>
-    </aside>
+    </div>
   );
 };
 
-export default Sidebar;
+export default Dashboard;

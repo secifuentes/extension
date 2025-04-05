@@ -194,7 +194,7 @@ const EstudiantesInscritosTable = () => {
   const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
 
   return (
-    <div className="pt-10 p-4 overflow-x-auto bg-gray-50">
+    <div className="pt-4 p-4 overflow-x-auto bg-gray-50">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
         <h2 className="text-2xl font-bold text-institucional">Estudiantes Inscritos</h2>
         <button

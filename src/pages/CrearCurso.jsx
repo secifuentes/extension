@@ -37,71 +37,90 @@ const CrearCurso = () => {
       });
 
       if (res.ok) {
-        alert('✅ Curso creado correctamente');
+        alert('Curso creado correctamente');
         navigate('/admin/cursos');
       } else {
         const error = await res.json();
-        alert('❌ Error al crear curso: ' + error?.error);
+        alert('Error al crear curso: ' + error?.error);
       }
     } catch (err) {
-      console.error('❌ Error al crear curso:', err);
+      console.error('Error al crear curso:', err);
       alert('Error de conexión con el servidor');
     }
   };
 
+  const inputStyle =
+    'w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-institucional transition';
+
+  const labelStyle = 'block mb-1 font-medium text-gray-700';
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold text-institucional mb-6">Crear nuevo curso</h1>
+    <div className="max-w-4xl mx-auto pt-10 p-6">
+      <h1 className="text-3xl font-bold text-institucional mb-8 text-center md:text-left">
+        Crear nuevo curso
+      </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 shadow rounded">
-        {[
-          ['nombre', 'Nombre del curso'],
-          ['precio', 'Precio (solo número)'],
-          ['imagen', 'URL de la imagen (/cursos/archivo.jpg)'],
-          ['modalidad', 'Modalidad'],
-          ['duracion', 'Duración'],
-          ['ubicacion', 'Ubicación'],
-          ['horario', 'Horario'],
-          ['edad', 'Rango de edad'],
-          ['reserva', '¿Requiere reserva?'],
-        ].map(([name, label]) => (
-          <div key={name}>
-            <label className="block font-semibold">{label}</label>
-            <input
-              name={name}
-              value={curso[name]}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
-        ))}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-lg space-y-6"
+      >
+        {/* Inputs en dos columnas para pantallas grandes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            ['nombre', 'Nombre del curso'],
+            ['precio', 'Precio (solo número)'],
+            ['imagen', 'URL de la imagen (/cursos/archivo.jpg)'],
+            ['modalidad', 'Modalidad'],
+            ['duracion', 'Duración'],
+            ['ubicacion', 'Ubicación'],
+            ['horario', 'Horario'],
+            ['edad', 'Rango de edad'],
+            ['reserva', '¿Requiere reserva?'],
+          ].map(([name, label]) => (
+            <div key={name}>
+              <label className={labelStyle}>{label}</label>
+              <input
+                name={name}
+                value={curso[name]}
+                onChange={handleChange}
+                className={inputStyle}
+                required
+              />
+            </div>
+          ))}
+        </div>
 
-        {[
-          ['descripcion', 'Descripción'],
-          ['requisitos', 'Requisitos'],
-          ['implementos', 'Implementos necesarios'],
-          ['beneficios', 'Beneficios'],
-        ].map(([name, label]) => (
-          <div key={name}>
-            <label className="block font-semibold">{label}</label>
-            <textarea
-              name={name}
-              value={curso[name]}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              rows={3}
-              required
-            />
-          </div>
-        ))}
+        {/* Textareas (campos largos) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            ['descripcion', 'Descripción'],
+            ['requisitos', 'Requisitos'],
+            ['implementos', 'Implementos necesarios'],
+            ['beneficios', 'Beneficios'],
+          ].map(([name, label]) => (
+            <div key={name}>
+              <label className={labelStyle}>{label}</label>
+              <textarea
+                name={name}
+                value={curso[name]}
+                onChange={handleChange}
+                className={`${inputStyle} resize-none`}
+                rows={4}
+                required
+              />
+            </div>
+          ))}
+        </div>
 
-        <button
-          type="submit"
-          className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
-        >
-          Guardar curso
-        </button>
+        {/* Botón */}
+        <div className="text-center md:text-left pt-4">
+          <button
+            type="submit"
+            className="bg-institucional text-white px-8 py-3 rounded-md hover:bg-presentacionDark transition duration-300"
+          >
+            Guardar curso
+          </button>
+        </div>
       </form>
     </div>
   );

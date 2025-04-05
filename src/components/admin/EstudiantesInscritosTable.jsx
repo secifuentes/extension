@@ -12,6 +12,8 @@ const EstudiantesInscritosTable = () => {
   const [filtroCurso, setFiltroCurso] = useState('');
   const [filtroPago, setFiltroPago] = useState('');
   const [filtroPresentacion, setFiltroPresentacion] = useState('');
+  const [expandir, setExpandir] = useState(null);
+  const [modalImagen, setModalImagen] = useState(null);
 
   useEffect(() => {
     fetchInscripciones();
@@ -21,7 +23,10 @@ const EstudiantesInscritosTable = () => {
     try {
       const res = await fetch(`${API_URL}/api/inscripciones`);
       const data = await res.json();
-      setInscripciones(data);
+
+      // Ordenar por fecha de inscripción descendente
+      const ordenado = [...data].sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
+      setInscripciones(ordenado);
     } catch (err) {
       console.error('❌ Error al cargar inscripciones:', err);
     }
@@ -53,7 +58,7 @@ const EstudiantesInscritosTable = () => {
       });
 
       if (res.ok) {
-        alert(`Recordatorio enviado a ${correo}`);
+        alert(`📩 Recordatorio enviado a ${correo}`);
       } else {
         alert('❌ Error al enviar el recordatorio');
       }
@@ -111,19 +116,34 @@ const EstudiantesInscritosTable = () => {
     });
   };
 
+  const filtrados = inscripciones
+    .filter((est) => {
+      const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
+      return texto.includes(busqueda.toLowerCase());
+    })
+    .filter((est) => (filtroCurso ? est.cursoNombre === filtroCurso : true))
+    .filter((est) =>
+      filtroPago === 'pendiente' ? !est.pagoConfirmado :
+      filtroPago === 'confirmado' ? est.pagoConfirmado : true
+    )
+    .filter((est) =>
+      filtroPresentacion === 'si' ? est.esEstudiante :
+      filtroPresentacion === 'no' ? !est.esEstudiante : true
+    );
+
+  const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
+
   const exportarExcel = () => {
     const datos = filtrados.map((est) => ({
-      'Tipo Documento': est.tipoDocumento,
       Documento: est.documento,
       Nombres: est.nombres,
       Apellidos: est.apellidos,
       Correo: est.correo,
       Teléfono: est.telefono,
       Curso: est.cursoNombre,
-      'Presentación': est.esEstudiante ? 'Sí' : 'No',
+      Presentación: est.esEstudiante ? 'Sí' : 'No',
       'Acudiente / Teléfono': est.acudiente
-        ? `${est.acudiente} - ${est.telefonoAcudiente}`
-        : '—',
+        ? `${est.acudiente} - ${est.telefonoAcudiente}` : '—',
       'Valor Pagado': est.valorPagado,
       'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
     }));
@@ -138,30 +158,21 @@ const EstudiantesInscritosTable = () => {
 
   const exportarPDF = () => {
     const doc = new jsPDF();
-    const columnas = [
-      'Tipo Doc', 'Documento', 'Nombre', 'Correo',
-      'Teléfono', 'Curso', 'Presentación',
-      'Pago', 'Valor', 'Fecha'
-    ];
-
+    const columnas = ['Documento', 'Nombre', 'Correo', 'Curso', 'Presentación', 'Valor'];
     const filas = filtrados.map((est) => [
-      est.tipoDocumento,
       est.documento,
       `${est.nombres} ${est.apellidos}`,
       est.correo,
-      est.telefono,
       est.cursoNombre,
       est.esEstudiante ? 'Sí' : 'No',
-      est.formaPago,
       `$${est.valorPagado}`,
-      formatearFecha(est.fechaInscripcion)
     ]);
 
     doc.autoTable({
       head: [columnas],
       body: filas,
       startY: 20,
-      styles: { fontSize: 8 },
+      styles: { fontSize: 9 },
       headStyles: { fillColor: [33, 20, 95] },
     });
 
@@ -169,139 +180,82 @@ const EstudiantesInscritosTable = () => {
     doc.save('inscripciones.pdf');
   };
 
-  const filtrados = inscripciones.filter((est) => {
-    const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
-    const coincideBusqueda = texto.includes(busqueda.toLowerCase());
-
-    const coincideCurso = filtroCurso ? est.cursoNombre === filtroCurso : true;
-    const coincidePago =
-      filtroPago === 'pendiente'
-        ? !est.pagoConfirmado
-        : filtroPago === 'confirmado'
-        ? est.pagoConfirmado
-        : true;
-    const coincidePresentacion =
-      filtroPresentacion === 'si'
-        ? est.esEstudiante
-        : filtroPresentacion === 'no'
-        ? !est.esEstudiante
-        : true;
-
-    return coincideBusqueda && coincideCurso && coincidePago && coincidePresentacion;
-  });
-
-  const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
-
   return (
-    <div className="pt-6 p-4 bg-gray-50">
-      <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
+    <div className="pt-6 px-4 bg-gray-50 min-h-screen">
+      <div className="flex flex-wrap items-center justify-between mb-6 gap-2">
         <h2 className="text-2xl font-bold text-institucional">Estudiantes Inscritos</h2>
         <button
           onClick={eliminarTodas}
-          className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition duration-300"
+          className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
         >
           Eliminar todos
         </button>
       </div>
 
-      {/* Filtros y búsqueda */}
+      {/* Filtros */}
       <div className="flex flex-wrap gap-4 mb-6">
         <input
           type="text"
-          placeholder="Buscar por nombre, documento o correo"
+          placeholder="Buscar"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="p-3 border-2 border-gray-300 rounded-md w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-institucional"
+          className="p-3 border rounded-md w-full sm:w-1/3"
         />
-
-        <select
-          value={filtroCurso}
-          onChange={(e) => setFiltroCurso(e.target.value)}
-          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
-        >
+        <select value={filtroCurso} onChange={(e) => setFiltroCurso(e.target.value)} className="p-3 border rounded-md">
           <option value="">Todos los cursos</option>
           {cursosUnicos.map((curso, i) => (
             <option key={i} value={curso}>{curso}</option>
           ))}
         </select>
-
-        <select
-          value={filtroPago}
-          onChange={(e) => setFiltroPago(e.target.value)}
-          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
-        >
+        <select value={filtroPago} onChange={(e) => setFiltroPago(e.target.value)} className="p-3 border rounded-md">
           <option value="">Todos los pagos</option>
-          <option value="confirmado">Pagos confirmados</option>
-          <option value="pendiente">Pagos pendientes</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="pendiente">Pendiente</option>
         </select>
-
-        <select
-          value={filtroPresentacion}
-          onChange={(e) => setFiltroPresentacion(e.target.value)}
-          className="p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-institucional"
-        >
+        <select value={filtroPresentacion} onChange={(e) => setFiltroPresentacion(e.target.value)} className="p-3 border rounded-md">
           <option value="">Todos</option>
-          <option value="si">Familia Presentación</option>
+          <option value="si">Presentación</option>
           <option value="no">Externos</option>
         </select>
       </div>
 
       {/* Exportar */}
-      <div className="flex flex-wrap justify-between items-center mb-6 text-sm text-gray-700">
-        <p>
-          Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos
-        </p>
+      <div className="flex justify-between mb-4 text-sm text-gray-700">
+        <p>Mostrando <strong>{filtrados.length}</strong> de <strong>{inscripciones.length}</strong> inscritos</p>
         <div className="flex gap-4">
-          <button
-            onClick={exportarExcel}
-            className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-          >
-            Exportar Excel
-          </button>
-          <button
-            onClick={exportarPDF}
-            className="bg-red-600 text-white px-5 py-2 rounded-md hover:bg-red-700 transition duration-300"
-          >
-            Exportar PDF
-          </button>
+          <button onClick={exportarExcel} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Exportar Excel</button>
+          <button onClick={exportarPDF} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Exportar PDF</button>
         </div>
       </div>
 
-      {/* Tarjetas responsivas */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filtrados.map((est) => (
-          <div key={est._id} className="bg-white border border-gray-300 rounded-lg shadow p-4 space-y-2">
-            <div className="font-semibold text-lg text-gray-800">{est.nombres} {est.apellidos}</div>
-            <div className="text-sm text-gray-500">Documento: {est.documento}</div>
-            <div className="text-sm text-gray-500">Correo: {est.correo}</div>
-            <div className="text-sm text-gray-500">Teléfono: {est.telefono}</div>
-            <div className="text-sm text-gray-500">Curso: {est.cursoNombre}</div>
-            <div className="text-sm text-gray-500">Presentación: {est.esEstudiante ? 'Sí' : 'No'}</div>
-            <div className="text-sm text-gray-500">Acudiente: {est.acudiente ? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</div>
-            <div className="text-sm text-gray-500">Valor pagado: ${est.valorPagado?.toLocaleString()}</div>
-            <div className="text-sm text-gray-500">
-              Comprobante:{' '}
+      {/* Tarjetas */}
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {filtrados.map((est, idx) => (
+          <div key={est._id} className="bg-white border rounded-lg shadow p-4 relative">
+            <h3 className="font-bold text-lg mb-1">{est.nombres} {est.apellidos}</h3>
+            <p className="text-sm text-gray-600">{est.correo}</p>
+            <p className="text-sm"><strong>Curso:</strong> {est.cursoNombre}</p>
+            <p className="text-sm"><strong>Presentación:</strong> {est.esEstudiante ? 'Sí' : 'No'}</p>
+            <p className="text-sm"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
+
+            <div className="my-2">
               {est.comprobante ? (
-                <a href={`data:image/png;base64,${est.comprobante}`} target="_blank" rel="noreferrer">
-                  <img src={`data:image/png;base64,${est.comprobante}`} alt="Comprobante" className="w-16 h-16 object-contain mt-1 rounded shadow" />
-                </a>
-              ) : (
-                'No cargado'
-              )}
+                <button onClick={() => setModalImagen(est.comprobante)} className="text-blue-600 underline text-sm">Ver comprobante</button>
+              ) : <span className="text-gray-400 text-sm">Sin comprobante</span>}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2 mt-3">
+            <div className="flex flex-col gap-2 mt-2">
               {!est.pagoConfirmado && (
                 <>
                   <button
                     onClick={() => confirmarPago(est._id)}
-                    className="bg-green-600 text-white text-xs px-3 py-1 rounded-md hover:bg-green-700"
+                    className="bg-green-600 text-white text-xs py-1 rounded hover:bg-green-700"
                   >
                     Confirmar pago
                   </button>
                   <button
                     onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                    className="bg-yellow-500 text-white text-xs px-3 py-1 rounded-md hover:bg-yellow-600"
+                    className="bg-yellow-500 text-white text-xs py-1 rounded hover:bg-yellow-600"
                   >
                     Recordatorio
                   </button>
@@ -309,14 +263,41 @@ const EstudiantesInscritosTable = () => {
               )}
               <button
                 onClick={() => eliminarEstudiante(est._id)}
-                className="bg-red-600 text-white text-xs px-3 py-1 rounded-md hover:bg-red-700"
+                className="bg-red-600 text-white text-xs py-1 rounded hover:bg-red-700"
               >
                 Eliminar
               </button>
             </div>
+
+            <button
+              onClick={() => setExpandir(expandir === idx ? null : idx)}
+              className="text-blue-500 text-sm mt-3"
+            >
+              {expandir === idx ? 'Ver menos' : 'Ver más'}
+            </button>
+
+            {expandir === idx && (
+              <div className="mt-3 text-sm text-gray-600 space-y-1">
+                <p><strong>Documento:</strong> {est.documento}</p>
+                <p><strong>Teléfono:</strong> {est.telefono}</p>
+                <p><strong>Acudiente:</strong> {est.acudiente || '—'} {est.telefonoAcudiente && `- ${est.telefonoAcudiente}`}</p>
+                <p><strong>Forma de pago:</strong> {est.formaPago || '—'}</p>
+                <p><strong>Fecha de inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
+
+      {/* Modal imagen comprobante */}
+      {modalImagen && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded shadow-lg max-w-sm w-full relative">
+            <button onClick={() => setModalImagen(null)} className="absolute top-2 right-2 text-xl">&times;</button>
+            <img src={`data:image/png;base64,${modalImagen}`} alt="Comprobante" className="w-full rounded" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

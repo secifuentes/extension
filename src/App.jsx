@@ -1,24 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
+// Layouts
+import MainLayout from './layouts/MainLayout';
+import AdminLayout from './components/admin/AdminLayout';
+
+// Pages públicas
 import Home from './pages/Home';
 import CursoDetalle from './pages/CursoDetalle';
 import Login from './pages/Login';
+import EstadoEstudiante from './pages/EstadoEstudiante';
+
+// Paneles usuarios
 import EstudiantePanel from './pages/EstudiantePanel';
 import DocentePanel from './pages/DocentePanel';
-import EstadoEstudiante from './pages/EstadoEstudiante';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminInscripciones from './pages/AdminInscripciones';
-import AdminDocentes from './pages/AdminDocentes';
-import MainLayout from './layouts/MainLayout';
-import AdminEstudiantes from './pages/AdminEstudiantes';
-import AdminCertificados from './pages/AdminCertificados';
-import AdminContabilidad from './pages/AdminContabilidad';
-import ScrollToTop from './components/ScrollToTop'; // 👈 importa
+
+// Admin Pages
+import StatsCards from './pages/admin/StatsCards';
 import AdminCursos from './pages/AdminCursos';
 import CrearCurso from './pages/CrearCurso';
 import EditarCurso from './pages/EditarCurso';
+import AdminInscripciones from './pages/AdminInscripciones';
+import AdminDocentes from './pages/AdminDocentes';
+import AdminEstudiantes from './pages/AdminEstudiantes';
+import AdminCertificados from './pages/AdminCertificados';
+import AdminContabilidad from './pages/AdminContabilidad';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
-import { useEffect } from 'react';
+
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   useEffect(() => {
@@ -28,27 +37,39 @@ const App = () => {
       body: JSON.stringify({ pagina: window.location.pathname }),
     });
   }, []);
+
   return (
-    <MainLayout>
-      <ScrollToTop /> {/* 👈 aquí va */}
+    <>
+      <ScrollToTop />
+
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/curso/:slug" element={<CursoDetalle />} />
-        <Route path="/login" element={<Login />} />
+        {/* Rutas públicas con MainLayout */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/curso/:slug" element={<CursoDetalle />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/estado" element={<EstadoEstudiante />} />
+        </Route>
+
+        {/* Paneles independientes (no usan layouts) */}
         <Route path="/estudiante" element={<EstudiantePanel />} />
         <Route path="/docente" element={<DocentePanel />} />
-        <Route path="/estado" element={<EstadoEstudiante />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/inscripciones" element={<AdminInscripciones />} />
-        <Route path="/admin/docentes" element={<AdminDocentes />} />
-        <Route path="/admin/estudiantes" element={<EstudiantesInscritosTable />} />
-        <Route path="/admin/certificados" element={<AdminCertificados />} />
-        <Route path="/admin/contabilidad" element={<AdminContabilidad />} />
-        <Route path="/admin/cursos" element={<AdminCursos />} />
-        <Route path="/admin/crear-curso" element={<CrearCurso />} />
-        <Route path="/admin/editar-curso/:id" element={<EditarCurso />} />
+
+        {/* Rutas admin con AdminLayout */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<StatsCards />} />
+          <Route path="cursos" element={<AdminCursos />} />
+          <Route path="crear-curso" element={<CrearCurso />} />
+          <Route path="editar-curso/:id" element={<EditarCurso />} />
+          <Route path="inscripciones" element={<AdminInscripciones />} />
+          <Route path="docentes" element={<AdminDocentes />} />
+          <Route path="estudiantes" element={<AdminEstudiantes />} />
+          <Route path="certificados" element={<AdminCertificados />} />
+          <Route path="contabilidad" element={<AdminContabilidad />} />
+          <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
+        </Route>
       </Routes>
-    </MainLayout>
+    </>
   );
 };
 

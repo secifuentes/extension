@@ -63,33 +63,21 @@ const StatsCards = () => {
 
   useEffect(() => {
     const fetchEstadisticas = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/estadisticas`);
-        const data = await res.json();
-        setStats(data);
-      } catch (error) {
-        console.error('❌ Error al cargar estadísticas:', error);
-      }
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/estadisticas`);
+      const data = await res.json();
+      setStats(data);
     };
 
     const fetchVisitas = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/estadisticas`);
-        const data = await res.json();
-        setVisitas(data);
-      } catch (error) {
-        console.error('❌ Error al cargar visitas:', error);
-      }
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/estadisticas`);
+      const data = await res.json();
+      setVisitas(data);
     };
 
     const fetchOnline = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/activos`);
-        const data = await res.json();
-        setUsuariosOnline(data.enLinea || 0);
-      } catch (error) {
-        console.error('❌ Error al cargar usuarios en línea:', error);
-      }
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/activos`);
+      const data = await res.json();
+      setUsuariosOnline(data.enLinea || 0);
     };
 
     const cargarTodo = async () => {
@@ -99,10 +87,7 @@ const StatsCards = () => {
     };
 
     cargarTodo();
-    const interval = setInterval(() => {
-      cargarTodo();
-    }, 30000);
-
+    const interval = setInterval(cargarTodo, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -111,18 +96,13 @@ const StatsCards = () => {
   }
 
   return (
-    <div className="p-6 md:ml-20 xl:ml-64">
+    <div>
       <h1 className="text-2xl font-bold text-institucional mb-6">Resumen General</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard icon={FaUserGraduate} label="Estudiantes activos" value={stats.estudiantes} />
         <StatCard icon={FaBookOpen} label="Cursos activos" value={stats.cursos} />
-        <StatCard
-          icon={FaDollarSign}
-          label="Ingresos"
-          value={`$${stats.ingresos.toLocaleString()}`}
-          isPrivate
-        />
+        <StatCard icon={FaDollarSign} label="Ingresos" value={`$${stats.ingresos.toLocaleString()}`} isPrivate />
         <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
         <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
         <StatCard icon={FaCalendarAlt} label="Visitas este mes" value={visitas.mes} />

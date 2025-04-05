@@ -5,6 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminCursos = () => {
   const [cursos, setCursos] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
   const eliminarTodosLosCursos = async () => {
     const confirmacion = window.confirm('¿Estás seguro de eliminar TODOS los cursos? Esta acción no se puede deshacer.');
@@ -25,15 +26,22 @@ const AdminCursos = () => {
 
   useEffect(() => {
     const fetchCursos = async () => {
-      const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
-      const data = await res.json();
-      setCursos(data);
+      try {
+        setCargando(true);
+        const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
+        const data = await res.json();
+        setCursos(data);
+      } catch (err) {
+        console.error('Error cargando cursos:', err);
+      } finally {
+        setCargando(false);
+      }
     };
     fetchCursos();
   }, []);
 
   return (
-    <div className="pt-10 p-4 bg-gray-50 min-h-screen">
+    <div className="pt-4 p-4 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold text-institucional mb-6 text-center md:text-left">
         Gestión de Cursos
       </h1>
@@ -55,18 +63,21 @@ const AdminCursos = () => {
         </button>
       </div>
 
-      {cursos.length === 0 ? (
+      {/* Cargando */}
+      {cargando ? (
+        <p className="text-center text-gray-600 text-lg mt-10">Cargando cursos...</p>
+      ) : cursos.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">
           No hay cursos creados todavía.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {cursos.map((curso) => (
             <div key={curso._id} className="bg-white rounded-lg shadow border p-4 flex flex-col justify-between">
               <img
                 src={curso.imagen}
                 alt={curso.nombre}
-                className="w-full h-48 object-cover rounded-md mb-4"
+                className="w-full h-40 object-cover rounded-md mb-4"
               />
               <h2 className="text-lg font-bold text-institucional mb-1">{curso.nombre}</h2>
               <p className="text-sm text-gray-700 mb-1"><strong>Modalidad:</strong> {curso.modalidad}</p>

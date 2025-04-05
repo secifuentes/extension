@@ -8,8 +8,8 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50">
-      <div className="flex justify-between items-center h-[60px] px-4 sm:px-6 md:px-8">
+    <header className="w-full fixed top-0 bg-institucional text-white shadow-md z-50 h-[54px]">
+      <div className="flex justify-between items-center h-full px-4 sm:px-6 md:px-8">
         {/* Logo y menú de escritorio */}
         <div className="flex items-center">
           <div className="font-extrabold text-lg tracking-wide ml-4 sm:ml-10 md:ml-20">

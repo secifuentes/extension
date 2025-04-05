@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div className="pt-0">
       {/* Banner */}
-      <div className="w-full min-h-[500px] h-[calc(100vh-60px)] mt-[60px] relative">
+      <div className="w-full h-[calc(100vh-54px)] relative">
         <img
           src={imagenesBanner[imagenActual]}
           alt="Banner"

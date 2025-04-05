@@ -14,6 +14,7 @@ const StatsCards = () => {
     total: 0,
   });
 
+  const [usuariosOnline, setUsuariosOnline] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,8 +40,25 @@ const StatsCards = () => {
       }
     };
 
+    const fetchOnline = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/activos`);
+        const data = await res.json();
+        setUsuariosOnline(data.enLinea);
+      } catch (error) {
+        console.error('❌ Error al cargar usuarios en línea:', error);
+      }
+    };
+
     fetchEstadisticas();
     fetchVisitas();
+    fetchOnline();
+
+    const interval = setInterval(() => {
+      fetchOnline(); // se actualiza cada 30s
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -66,7 +84,7 @@ const StatsCards = () => {
         <p className="text-3xl font-bold mt-2">{stats.docentes}</p>
       </div>
 
-      {/* Nuevas tarjetas de visitas */}
+      {/* NUEVAS TARJETAS */}
       <div className="bg-white p-6 rounded shadow text-center">
         <h3 className="text-lg font-semibold text-institucional">Visitas hoy</h3>
         <p className="text-3xl font-bold mt-2">{visitas.hoy}</p>
@@ -78,6 +96,10 @@ const StatsCards = () => {
       <div className="bg-white p-6 rounded shadow text-center">
         <h3 className="text-lg font-semibold text-institucional">Total visitas</h3>
         <p className="text-3xl font-bold mt-2">{visitas.total}</p>
+      </div>
+      <div className="bg-white p-6 rounded shadow text-center">
+        <h3 className="text-lg font-semibold text-institucional">Usuarios en línea</h3>
+        <p className="text-3xl font-bold mt-2">{usuariosOnline}</p>
       </div>
     </div>
   );

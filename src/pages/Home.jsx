@@ -63,7 +63,7 @@ const Home = () => {
         href="#cursos"
         className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
         >
-          Descubre lo que tenemos para ti
+          Ver cursos disponibles
       </a>
     </div>
   </div>
@@ -163,6 +163,14 @@ const Home = () => {
         <p className="font-semibold text-lg">Cursos para todos, no importa si eres parte de nuestra familia o no.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section className="bg-white py-10">
+  <div className="text-center max-w-4xl mx-auto px-4">
+    <p className="text-xl md:text-2xl font-semibold italic text-institucional">
+      Más que cursos, experiencias que inspiran.
+    </p>
   </div>
 </section>
 

@@ -320,7 +320,7 @@ const EstudiantesInscritosTable = () => {
                   )}
                 </td>
                 <td className="px-4 py-2">{formatearFecha(est.fechaInscripcion)}</td>
-                <td className="px-4 py-2 flex gap-2">
+                <td className="px-4 py-2 flex flex-col gap-2">
                   {!est.pagoConfirmado && (
                     <>
                       <button

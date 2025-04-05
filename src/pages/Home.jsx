@@ -67,14 +67,16 @@ const Home = () => {
 
   {/* Indicadores del banner */}
   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-    {imagenesBanner.map((_, i) => (
-      <span
-        key={i}
-        className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
-          i === imagenActual ? 'bg-white' : 'bg-white/30'
-        }`}
-      />
-    ))}
+  {imagenesBanner.map((_, i) => (
+  <button
+    key={i}
+    onClick={() => setImagenActual(i)}
+    className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
+      i === imagenActual ? 'bg-white' : 'bg-white/30'
+    }`}
+    aria-label={`Cambiar al banner ${i + 1}`}
+  />
+))}
   </div>
 </div>
 

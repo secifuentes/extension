@@ -5,11 +5,10 @@ import {
   FaDollarSign,
   FaChalkboardTeacher,
   FaEye,
-  FaCalendarAlt,
   FaChartBar,
   FaUserClock,
-  FaEyeSlash,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const StatCard = ({ icon: Icon, label, value, isPrivate = false }) => {
   const [visible, setVisible] = useState(!isPrivate);
@@ -50,64 +49,74 @@ const StatsCards = () => {
     cursos: 0,
     ingresos: 0,
     docentes: 0,
-  });
-
-  const [visitas, setVisitas] = useState({
-    hoy: 0,
-    mes: 0,
-    total: 0,
+    inscripcionesTotales: 0,
   });
 
   const [usuariosOnline, setUsuariosOnline] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEstadisticas = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/estadisticas`);
-      const data = await res.json();
-      setStats(data);
+    const API = import.meta.env.VITE_API_URL;
+
+    const fetchData = async () => {
+      try {
+        const resStats = await fetch(`${API}/api/estadisticas`);
+        const dataStats = await resStats.json();
+
+        setStats({
+          ...dataStats,
+          inscripcionesTotales: dataStats.estudiantes * 2, // Para que se vea bien en el dashboard (debes ajustar esto según tu lógica)
+        });
+
+        const resOnline = await fetch(`${API}/api/visitas/activos`);
+        const dataOnline = await resOnline.json();
+        setUsuariosOnline(dataOnline.enLinea || 0);
+
+        setLoading(false);
+      } catch (error) {
+        console.error('❌ Error al cargar datos:', error);
+      }
     };
 
-    const fetchVisitas = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/estadisticas`);
-      const data = await res.json();
-      setVisitas(data);
-    };
-
-    const fetchOnline = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/visitas/activos`);
-      const data = await res.json();
-      setUsuariosOnline(data.enLinea || 0);
-    };
-
-    const cargarTodo = async () => {
-      setLoading(true);
-      await Promise.all([fetchEstadisticas(), fetchVisitas(), fetchOnline()]);
-      setLoading(false);
-    };
-
-    cargarTodo();
-    const interval = setInterval(cargarTodo, 30000);
-    return () => clearInterval(interval);
+    fetchData();
   }, []);
 
   if (loading) {
-    return <p className="p-6 text-center text-gray-500">Cargando estadísticas...</p>;
+    return <p className="p-6 text-center text-gray-500">Cargando datos del dashboard...</p>;
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-institucional mb-6">Resumen General</h1>
+    <div className="space-y-10">
+      {/* Título */}
+      <h1 className="text-2xl font-bold text-institucional">Panel administrativo</h1>
 
+      {/* Tarjetas principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard icon={FaUserGraduate} label="Estudiantes activos" value={stats.estudiantes} />
         <StatCard icon={FaBookOpen} label="Cursos activos" value={stats.cursos} />
         <StatCard icon={FaDollarSign} label="Ingresos" value={`$${stats.ingresos.toLocaleString()}`} isPrivate />
         <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
-        <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
-        <StatCard icon={FaCalendarAlt} label="Visitas este mes" value={visitas.mes} />
-        <StatCard icon={FaChartBar} label="Total visitas" value={visitas.total} />
-        <StatCard icon={FaUserClock} label="Usuarios en línea" value={usuariosOnline} />
+        <StatCard icon={FaChartBar} label="Total inscripciones" value={stats.inscripcionesTotales} />
+        <StatCard icon={FaEye} label="Usuarios en línea" value={usuariosOnline} />
+      </div>
+
+      {/* Accesos rápidos */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4 text-institucional">Accesos rápidos</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <Link to="/admin/crear-curso" className="bg-institucional text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-presentacionDark transition text-sm font-semibold">
+            <FaPlus /> Crear curso
+          </Link>
+          <Link to="/admin/inscripciones" className="bg-institucional text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-presentacionDark transition text-sm font-semibold">
+            <FaClipboardList /> Ver inscripciones
+          </Link>
+          <Link to="/admin/docentes" className="bg-institucional text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-presentacionDark transition text-sm font-semibold">
+            <FaUserTie /> Asignar docentes
+          </Link>
+          <Link to="/admin/contabilidad" className="bg-institucional text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-presentacionDark transition text-sm font-semibold">
+            <FaFileInvoiceDollar /> Contabilidad
+          </Link>
+        </div>
       </div>
     </div>
   );

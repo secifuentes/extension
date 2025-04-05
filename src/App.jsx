@@ -20,15 +20,14 @@ import EditarCurso from './pages/EditarCurso';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
 import { useEffect } from 'react';
 
-useEffect(() => {
-  fetch(`${import.meta.env.VITE_API_URL}/api/visitas`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pagina: window.location.pathname }),
-  });
-}, []);
-
 const App = () => {
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/visitas`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pagina: window.location.pathname }),
+    });
+  }, []);
   return (
     <MainLayout>
       <ScrollToTop /> {/* 👈 aquí va */}

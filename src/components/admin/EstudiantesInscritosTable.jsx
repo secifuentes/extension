@@ -296,8 +296,8 @@ const EstudiantesInscritosTable = () => {
                 <td className="px-4 py-2">{est.tipoDocumento}</td>
                 <td className="px-4 py-2">{est.documento}</td>
                 <td className="px-4 py-2">{est.nombres} {est.apellidos}</td>
-                <td className="px-4 py-2">{est.correo}</td>
-                <td className="px-4 py-2">{est.telefono}</td>
+                <td className="px-4 py-2 max-w-[180px] break-words">{est.correo}</td>
+                <td className="px-4 py-2 max-w-[150px] break-words">{est.telefono}</td>
                 <td className="px-4 py-2">{est.cursoNombre}</td>
                 <td className="px-4 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
                 <td className="px-4 py-2">{est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}` : '—'}</td>

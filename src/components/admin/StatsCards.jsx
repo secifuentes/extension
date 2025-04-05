@@ -7,10 +7,11 @@ import {
   FaEye,
   FaChartBar,
   FaUserClock,
-  FaPlus,  // <---- AÑADIR ESTO
+  FaPlus, 
   FaClipboardList,
   FaUserTie,
   FaFileInvoiceDollar,
+  FaEyeSlash,  // <---- AÑADIR ESTO
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 

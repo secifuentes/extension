@@ -16,7 +16,7 @@ import EstudiantePanel from './pages/EstudiantePanel';
 import DocentePanel from './pages/DocentePanel';
 
 // Admin Pages
-import StatsCards from './pages/admin/StatsCards';
+import StatsCards from './components/admin/StatsCards'; // ✅ Ruta corregida
 import AdminCursos from './pages/AdminCursos';
 import CrearCurso from './pages/CrearCurso';
 import EditarCurso from './pages/EditarCurso';
@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/estado" element={<EstadoEstudiante />} />
         </Route>
 
-        {/* Paneles independientes (no usan layouts) */}
+        {/* Paneles independientes */}
         <Route path="/estudiante" element={<EstudiantePanel />} />
         <Route path="/docente" element={<DocentePanel />} />
 

@@ -60,51 +60,35 @@ const AdminCursos = () => {
           No hay cursos creados todavía.
         </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-md overflow-hidden">
-            <thead className="bg-gray-100 text-gray-700 text-sm">
-              <tr>
-                <th className="p-3 text-left">Imagen</th>
-                <th className="p-3 text-left">Título</th>
-                <th className="p-3 text-left">Modalidad</th>
-                <th className="p-3 text-left">Duración</th>
-                <th className="p-3 text-left">Inscritos</th>
-                <th className="p-3 text-left">Valor Mensual</th>
-                <th className="p-3 text-left">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm">
-              {cursos.map((curso) => (
-                <tr key={curso._id} className="border-t hover:bg-gray-50 transition">
-                  <td className="p-3">
-                    <img
-                      src={curso.imagen}
-                      alt={curso.nombre}
-                      className="w-20 h-20 object-cover rounded-md shadow-sm"
-                    />
-                  </td>
-                  <td className="p-3 font-medium">{curso.nombre}</td>
-                  <td className="p-3">{curso.modalidad}</td>
-                  <td className="p-3">{curso.duracion}</td>
-                  <td className="p-3">{curso.inscritos}</td>
-                  <td className="p-3">${curso.precio.toLocaleString()}</td>
-                  <td className="p-3 flex flex-col gap-2">
-                    <Link
-                      to={`/admin/editar-curso/${curso._id}`}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded text-xs hover:bg-yellow-600 text-center"
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cursos.map((curso) => (
+            <div key={curso._id} className="bg-white rounded-lg shadow border p-4 flex flex-col justify-between">
+              <img
+                src={curso.imagen}
+                alt={curso.nombre}
+                className="w-full h-48 object-cover rounded-md mb-4"
+              />
+              <h2 className="text-lg font-bold text-institucional mb-1">{curso.nombre}</h2>
+              <p className="text-sm text-gray-700 mb-1"><strong>Modalidad:</strong> {curso.modalidad}</p>
+              <p className="text-sm text-gray-700 mb-1"><strong>Duración:</strong> {curso.duracion}</p>
+              <p className="text-sm text-gray-700 mb-1"><strong>Inscritos:</strong> {curso.inscritos}</p>
+              <p className="text-sm text-gray-700 mb-4"><strong>Valor mensual:</strong> ${curso.precio.toLocaleString()}</p>
+
+              <div className="flex flex-col gap-2 mt-auto">
+                <Link
+                  to={`/admin/editar-curso/${curso._id}`}
+                  className="bg-yellow-500 text-white text-sm px-4 py-2 rounded text-center hover:bg-yellow-600"
+                >
+                  Editar
+                </Link>
+                <button
+                  className="bg-red-600 text-white text-sm px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

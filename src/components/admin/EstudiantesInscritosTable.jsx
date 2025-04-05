@@ -12,8 +12,9 @@ const EstudiantesInscritosTable = () => {
   const [filtroCurso, setFiltroCurso] = useState('');
   const [filtroPago, setFiltroPago] = useState('');
   const [filtroPresentacion, setFiltroPresentacion] = useState('');
-  const [expandir, setExpandir] = useState(null);
+  const [expandirTarjeta, setExpandirTarjeta] = useState(null);
   const [modalImagen, setModalImagen] = useState(null);
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     fetchInscripciones();
@@ -21,14 +22,16 @@ const EstudiantesInscritosTable = () => {
 
   const fetchInscripciones = async () => {
     try {
+      setCargando(true);
       const res = await fetch(`${API_URL}/api/inscripciones`);
       const data = await res.json();
 
-      // Ordenar por fecha de inscripción descendente
       const ordenado = [...data].sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
       setInscripciones(ordenado);
     } catch (err) {
       console.error('❌ Error al cargar inscripciones:', err);
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -37,7 +40,6 @@ const EstudiantesInscritosTable = () => {
       const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${id}`, {
         method: 'PUT',
       });
-
       if (res.ok) {
         alert('✅ Pago confirmado');
         fetchInscripciones();
@@ -56,9 +58,8 @@ const EstudiantesInscritosTable = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, cursoNombre }),
       });
-
       if (res.ok) {
-        alert(`📩 Recordatorio enviado a ${correo}`);
+        alert(`Recordatorio enviado a ${correo}`);
       } else {
         alert('❌ Error al enviar el recordatorio');
       }
@@ -116,6 +117,8 @@ const EstudiantesInscritosTable = () => {
     });
   };
 
+  const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
+
   const filtrados = inscripciones
     .filter((est) => {
       const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
@@ -131,21 +134,14 @@ const EstudiantesInscritosTable = () => {
       filtroPresentacion === 'no' ? !est.esEstudiante : true
     );
 
-  const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
-
   const exportarExcel = () => {
     const datos = filtrados.map((est) => ({
+      Nombre: `${est.nombres} ${est.apellidos}`,
       Documento: est.documento,
-      Nombres: est.nombres,
-      Apellidos: est.apellidos,
       Correo: est.correo,
-      Teléfono: est.telefono,
       Curso: est.cursoNombre,
       Presentación: est.esEstudiante ? 'Sí' : 'No',
-      'Acudiente / Teléfono': est.acudiente
-        ? `${est.acudiente} - ${est.telefonoAcudiente}` : '—',
-      'Valor Pagado': est.valorPagado,
-      'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
+      Valor: est.valorPagado,
     }));
 
     const ws = XLSX.utils.json_to_sheet(datos);
@@ -158,14 +154,13 @@ const EstudiantesInscritosTable = () => {
 
   const exportarPDF = () => {
     const doc = new jsPDF();
-    const columnas = ['Documento', 'Nombre', 'Correo', 'Curso', 'Presentación', 'Valor'];
+    const columnas = ['Nombre', 'Curso', 'Correo', 'Valor', 'Presentación'];
     const filas = filtrados.map((est) => [
-      est.documento,
       `${est.nombres} ${est.apellidos}`,
-      est.correo,
       est.cursoNombre,
-      est.esEstudiante ? 'Sí' : 'No',
+      est.correo,
       `$${est.valorPagado}`,
+      est.esEstudiante ? 'Sí' : 'No',
     ]);
 
     doc.autoTable({
@@ -228,72 +223,79 @@ const EstudiantesInscritosTable = () => {
         </div>
       </div>
 
+      {/* Cargando */}
+      {cargando && (
+        <p className="text-center text-gray-600 mt-10 text-lg">Cargando estudiantes inscritos...</p>
+      )}
+
       {/* Tarjetas */}
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {filtrados.map((est, idx) => (
-          <div key={est._id} className="bg-white border rounded-lg shadow p-4 relative">
-            <h3 className="font-bold text-lg mb-1">{est.nombres} {est.apellidos}</h3>
-            <p className="text-sm text-gray-600">{est.correo}</p>
-            <p className="text-sm"><strong>Curso:</strong> {est.cursoNombre}</p>
-            <p className="text-sm"><strong>Presentación:</strong> {est.esEstudiante ? 'Sí' : 'No'}</p>
-            <p className="text-sm"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
+      {!cargando && (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtrados.map((est, idx) => (
+            <div key={est._id} className="bg-white border rounded-lg shadow p-4">
+              <h3 className="font-bold text-lg mb-1">{est.nombres} {est.apellidos}</h3>
+              <p className="text-sm"><strong>Curso:</strong> {est.cursoNombre}</p>
+              <p className="text-sm"><strong>Presentación:</strong> {est.esEstudiante ? 'Sí' : 'No'}</p>
+              <p className="text-sm"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
 
-            <div className="my-2">
-              {est.comprobante ? (
-                <button onClick={() => setModalImagen(est.comprobante)} className="text-blue-600 underline text-sm">Ver comprobante</button>
-              ) : <span className="text-gray-400 text-sm">Sin comprobante</span>}
-            </div>
-
-            <div className="flex flex-col gap-2 mt-2">
-              {!est.pagoConfirmado && (
-                <>
-                  <button
-                    onClick={() => confirmarPago(est._id)}
-                    className="bg-green-600 text-white text-xs py-1 rounded hover:bg-green-700"
-                  >
-                    Confirmar pago
-                  </button>
-                  <button
-                    onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                    className="bg-yellow-500 text-white text-xs py-1 rounded hover:bg-yellow-600"
-                  >
-                    Recordatorio
-                  </button>
-                </>
-              )}
-              <button
-                onClick={() => eliminarEstudiante(est._id)}
-                className="bg-red-600 text-white text-xs py-1 rounded hover:bg-red-700"
-              >
-                Eliminar
-              </button>
-            </div>
-
-            <button
-              onClick={() => setExpandir(expandir === idx ? null : idx)}
-              className="text-blue-500 text-sm mt-3"
-            >
-              {expandir === idx ? 'Ver menos' : 'Ver más'}
-            </button>
-
-            {expandir === idx && (
-              <div className="mt-3 text-sm text-gray-600 space-y-1">
-                <p><strong>Documento:</strong> {est.documento}</p>
-                <p><strong>Teléfono:</strong> {est.telefono}</p>
-                <p><strong>Acudiente:</strong> {est.acudiente || '—'} {est.telefonoAcudiente && `- ${est.telefonoAcudiente}`}</p>
-                <p><strong>Forma de pago:</strong> {est.formaPago || '—'}</p>
-                <p><strong>Fecha de inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
+              <div className="my-2">
+                {est.comprobante ? (
+                  <button onClick={() => setModalImagen(est.comprobante)} className="text-blue-600 underline text-sm">Ver comprobante</button>
+                ) : <span className="text-gray-400 text-sm">Sin comprobante</span>}
               </div>
-            )}
-          </div>
-        ))}
-      </div>
 
-      {/* Modal imagen comprobante */}
+              <div className="flex flex-col gap-2 mt-2 items-center">
+                {!est.pagoConfirmado && (
+                  <>
+                    <button
+                      onClick={() => confirmarPago(est._id)}
+                      className="bg-green-600 text-white text-xs py-1 px-3 rounded hover:bg-green-700"
+                    >
+                      Confirmar pago
+                    </button>
+                    <button
+                      onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+                      className="bg-yellow-500 text-white text-xs py-1 px-3 rounded hover:bg-yellow-600"
+                    >
+                      Recordatorio
+                    </button>
+                  </>
+                )}
+                <button
+                  onClick={() => eliminarEstudiante(est._id)}
+                  className="bg-red-600 text-white text-xs py-1 px-3 rounded hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
+              </div>
+
+              <button
+                onClick={() => setExpandirTarjeta(expandirTarjeta === idx ? null : idx)}
+                className="text-blue-500 text-sm mt-3"
+              >
+                {expandirTarjeta === idx ? 'Ver menos' : 'Ver más'}
+              </button>
+
+              {expandirTarjeta === idx && (
+                <div className="mt-3 text-sm text-gray-600 space-y-1 break-words max-w-full">
+                  <p><strong>Correo:</strong> {est.correo}</p>
+                  <p><strong>Documento:</strong> {est.documento}</p>
+                  <p><strong>Teléfono:</strong> {est.telefono}</p>
+                  <p><strong>Acudiente:</strong> {est.acudiente || '—'} {est.telefonoAcudiente && `- ${est.telefonoAcudiente}`}</p>
+                  <p><strong>Forma de pago:</strong> {est.formaPago || '—'}</p>
+                  <p><strong>Fecha inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modal comprobante */}
       {modalImagen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded shadow-lg max-w-sm w-full relative">
-            <button onClick={() => setModalImagen(null)} className="absolute top-2 right-2 text-xl">&times;</button>
+            <button onClick={() => setModalImagen(null)} className="absolute top-2 right-3 text-xl font-bold text-gray-600">&times;</button>
             <img src={`data:image/png;base64,${modalImagen}`} alt="Comprobante" className="w-full rounded" />
           </div>
         </div>

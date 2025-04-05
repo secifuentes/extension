@@ -49,13 +49,18 @@ const EditarCurso = () => {
     }
   };
 
-  if (!curso) return <p className="p-6">Cargando curso...</p>;
+  if (!curso) return <p className="text-center py-10 text-gray-500 text-lg">Cargando curso...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold text-institucional mb-6">Editar curso</h1>
+    <div className="max-w-4xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-semibold text-institucional mb-8 text-center sm:text-left">
+        Editar Curso
+      </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 shadow rounded">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-md"
+      >
         {[
           ['nombre', 'Nombre del curso'],
           ['precio', 'Precio'],
@@ -67,13 +72,13 @@ const EditarCurso = () => {
           ['edad', 'Edad'],
           ['reserva', 'Reserva'],
         ].map(([name, label]) => (
-          <div key={name}>
-            <label className="block font-semibold">{label}</label>
+          <div key={name} className="flex flex-col">
+            <label className="text-sm text-gray-700 mb-1">{label}</label>
             <input
               name={name}
               value={curso[name] || ''}
               onChange={handleChange}
-              className="w-full border p-2 rounded"
+              className="p-2 rounded border border-gray-300 focus:ring-2 focus:ring-institucional outline-none transition"
               required
             />
           </div>
@@ -85,25 +90,27 @@ const EditarCurso = () => {
           ['implementos', 'Implementos'],
           ['beneficios', 'Beneficios'],
         ].map(([name, label]) => (
-          <div key={name}>
-            <label className="block font-semibold">{label}</label>
+          <div key={name} className="sm:col-span-2 flex flex-col">
+            <label className="text-sm text-gray-700 mb-1">{label}</label>
             <textarea
               name={name}
               value={curso[name] || ''}
               onChange={handleChange}
-              className="w-full border p-2 rounded"
+              className="p-2 rounded border border-gray-300 focus:ring-2 focus:ring-institucional outline-none transition resize-none"
               rows={3}
               required
             />
           </div>
         ))}
 
-        <button
-          type="submit"
-          className="bg-institucional text-white px-6 py-2 rounded hover:bg-presentacionDark"
-        >
-          Guardar cambios
-        </button>
+        <div className="sm:col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-institucional text-white py-3 rounded-lg font-semibold hover:bg-presentacionDark transition"
+          >
+            Guardar cambios
+          </button>
+        </div>
       </form>
     </div>
   );

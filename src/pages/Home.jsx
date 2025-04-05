@@ -45,7 +45,7 @@ const Home = () => {
           className="w-full h-full object-cover transition-all duration-700"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 flex items-center justify-center px-4 text-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-center justify-center px-4 text-center">
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
               Cursos de Extensión para todos

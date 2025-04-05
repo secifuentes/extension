@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div className="pt-0">
       {/* Banner */}
-      <div className="w-full h-[600px] relative">
+      <div className="w-full h-[calc(100vh-72px)] mt-[72px] relative">
         <img
           src={imagenesBanner[imagenActual]}
           alt="Banner"
@@ -55,7 +55,8 @@ const Home = () => {
             </p>
             <a
             href="#cursos"
-            className="mt-6 inline-block bg-white text-institucional font-bold px-6 py-3 rounded-full hover:bg-institucional hover:text-white transition">
+            className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
+            >
               Ver cursos disponibles
             </a>
           </div>

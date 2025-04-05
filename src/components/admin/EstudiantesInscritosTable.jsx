@@ -230,7 +230,7 @@ const EstudiantesInscritosTable = () => {
 
       {/* Tarjetas */}
       {!cargando && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {filtrados.map((est, idx) => (
             <div key={est._id} className="bg-white border rounded-lg shadow p-4">
               <h3 className="font-bold text-lg mb-1">{est.nombres} {est.apellidos}</h3>
@@ -244,18 +244,19 @@ const EstudiantesInscritosTable = () => {
                 ) : <span className="text-gray-400 text-sm">Sin comprobante</span>}
               </div>
 
-              <div className="flex flex-col gap-2 mt-2 items-center">
+              <div className="flex flex-col gap-2 mt-2">
                 {!est.pagoConfirmado && (
                   <>
                     <button
-                      onClick={() => confirmarPago(est._id)}
-                      className="bg-green-600 text-white text-xs py-1 px-3 rounded hover:bg-green-700"
+                    onClick={() => confirmarPago(est._id)}
+                    className="w-full bg-green-600 text-white text-xs py-2 px-3 rounded hover:bg-green-700 transition"
                     >
                       Confirmar pago
                     </button>
+                    
                     <button
                       onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                      className="bg-yellow-500 text-white text-xs py-1 px-3 rounded hover:bg-yellow-600"
+                      className="w-full bg-yellow-500 text-white text-xs py-2 px-3 rounded hover:bg-yellow-600 transition"
                     >
                       Recordatorio
                     </button>
@@ -263,20 +264,20 @@ const EstudiantesInscritosTable = () => {
                 )}
                 <button
                   onClick={() => eliminarEstudiante(est._id)}
-                  className="bg-red-600 text-white text-xs py-1 px-3 rounded hover:bg-red-700"
+                  className="bw-full bg-red-600 text-white text-xs py-2 px-3 rounded hover:bg-red-700 transition"
                 >
                   Eliminar
                 </button>
               </div>
 
               <button
-                onClick={() => setExpandirTarjeta(expandirTarjeta === idx ? null : idx)}
+              onClick={() => setExpandirTarjeta(expandirTarjeta === est._id ? null : est._id)}
                 className="text-blue-500 text-sm mt-3"
               >
                 {expandirTarjeta === idx ? 'Ver menos' : 'Ver más'}
               </button>
 
-              {expandirTarjeta === idx && (
+              {expandirTarjeta === est._id && (
                 <div className="mt-3 text-sm text-gray-600 space-y-1 break-words max-w-full">
                   <p><strong>Correo:</strong> {est.correo}</p>
                   <p><strong>Documento:</strong> {est.documento}</p>

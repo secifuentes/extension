@@ -11,7 +11,7 @@ import {
   FaClipboardList,
   FaUserTie,
   FaFileInvoiceDollar,
-  FaEyeSlash,  // Asegúrate de que este icono esté importado
+  FaEyeSlash, 
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -57,6 +57,12 @@ const StatsCards = () => {
     inscripcionesTotales: 0,
   });
 
+  const [visitas, setVisitas] = useState({
+    hoy: 0,
+    mes: 0,
+    total: 0,
+  });
+
   const [usuariosOnline, setUsuariosOnline] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -71,6 +77,15 @@ const StatsCards = () => {
         setStats({
           ...dataStats,
           inscripcionesTotales: dataStats.estudiantes * 2, // Ajustar según lógica de inscripciones
+        });
+
+        // Obtención de las estadísticas de visitas (hoy, mes, total)
+        const resVisitas = await fetch(`${API}/api/visitas/estadisticas`);
+        const dataVisitas = await resVisitas.json();
+        setVisitas({
+          hoy: dataVisitas.hoy,
+          mes: dataVisitas.mes,
+          total: dataVisitas.total,
         });
 
         const resOnline = await fetch(`${API}/api/visitas/activos`);
@@ -95,11 +110,8 @@ const StatsCards = () => {
       {/* Saludo al admin */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-institucional">
-          ¡Hola, Sebastián! 👋
+          ¡Hola Admin, Sebastián! 👋
         </h1>
-        <p className="text-sm text-gray-500">
-          Bienvenido al panel administrativo, donde puedes gestionar los cursos, estudiantes y más.
-        </p>
       </div>
 
       {/* Título */}
@@ -113,6 +125,13 @@ const StatsCards = () => {
         <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
         <StatCard icon={FaChartBar} label="Total inscripciones" value={stats.inscripcionesTotales} />
         <StatCard icon={FaEye} label="Usuarios en línea" value={usuariosOnline} />
+      </div>
+
+      {/* Estadísticas de visitas */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
+        <StatCard icon={FaEye} label="Visitas este mes" value={visitas.mes} />
+        <StatCard icon={FaEye} label="Total visitas" value={visitas.total} />
       </div>
 
       {/* Accesos rápidos */}

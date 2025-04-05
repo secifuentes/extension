@@ -56,9 +56,6 @@ const Home = () => {
       <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
         Aunque no seas parte de la Familia Presentación, este espacio también es para ti.
       </p>
-      <p className="mt-2 text-lg text-white font-semibold opacity-90">
-        Más que cursos, experiencias que inspiran.
-      </p>
       <a
         href="#cursos"
         className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
@@ -166,11 +163,13 @@ const Home = () => {
   </div>
 </section>
 
-<section className="bg-white py-10">
+<section className="bg-white py-14">
   <div className="text-center max-w-4xl mx-auto px-4">
-    <p className="text-xl md:text-2xl font-semibold italic text-institucional">
+    <div className="mb-4 w-16 h-1 mx-auto bg-institucional rounded-full" />
+    <p className="text-2xl md:text-3xl font-bold italic text-institucional">
       Más que cursos, experiencias que inspiran.
     </p>
+    <div className="mt-4 w-16 h-1 mx-auto bg-institucional rounded-full" />
   </div>
 </section>
 

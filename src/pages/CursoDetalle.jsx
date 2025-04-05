@@ -322,6 +322,8 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       valorPagado: total,
                       pagoConfirmado: false,
                       comprobante: comprobanteBase64,
+                      acudiente: esMenor ? form.acudiente.value : '',
+                      telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
                     };
 
                     console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);

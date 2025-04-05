@@ -25,8 +25,6 @@ const StatsCards = () => {
         setStats(data);
       } catch (error) {
         console.error('❌ Error al cargar estadísticas:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -50,15 +48,19 @@ const StatsCards = () => {
       }
     };
 
-    fetchEstadisticas();
-    fetchVisitas();
-    fetchOnline();
+    const cargarTodo = async () => {
+      setLoading(true);
+      await Promise.all([fetchEstadisticas(), fetchVisitas(), fetchOnline()]);
+      setLoading(false);
+    };
+
+    cargarTodo(); // Primera carga
 
     const interval = setInterval(() => {
-      fetchOnline(); // se actualiza cada 30s
+      cargarTodo(); // Se actualiza cada 30s
     }, 30000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // limpia al desmontar
   }, []);
 
   if (loading) {
@@ -84,7 +86,7 @@ const StatsCards = () => {
         <p className="text-3xl font-bold mt-2">{stats.docentes}</p>
       </div>
 
-      {/* NUEVAS TARJETAS */}
+      {/* Nuevas tarjetas de visitas */}
       <div className="bg-white p-6 rounded shadow text-center">
         <h3 className="text-lg font-semibold text-institucional">Visitas hoy</h3>
         <p className="text-3xl font-bold mt-2">{visitas.hoy}</p>

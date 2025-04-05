@@ -8,20 +8,41 @@ import {
   FaCalendarAlt,
   FaChartBar,
   FaUserClock,
+  FaEyeSlash,
 } from 'react-icons/fa';
 
-// Componente para una tarjeta de estadística
-const StatCard = ({ icon: Icon, label, value }) => (
-  <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow hover:shadow-lg transition-all">
-    <div className="bg-institucional/10 text-institucional p-3 rounded-full text-xl">
-      <Icon />
+const StatCard = ({ icon: Icon, label, value, isPrivate = false }) => {
+  const [visible, setVisible] = useState(!isPrivate);
+
+  return (
+    <div className="flex items-center justify-between bg-white p-5 rounded-xl shadow hover:shadow-lg transition-all">
+      <div className="flex items-center gap-4">
+        <div className="bg-institucional/10 text-institucional p-3 rounded-full text-xl">
+          <Icon />
+        </div>
+        <div>
+          <p className="text-sm text-gray-500">{label}</p>
+          <p className="text-2xl font-bold">
+            {isPrivate
+              ? visible
+                ? value
+                : '****'
+              : value}
+          </p>
+        </div>
+      </div>
+      {isPrivate && (
+        <button
+          onClick={() => setVisible(!visible)}
+          className="text-gray-400 hover:text-institucional transition"
+          title={visible ? 'Ocultar' : 'Mostrar'}
+        >
+          {visible ? <FaEye /> : <FaEyeSlash />}
+        </button>
+      )}
     </div>
-    <div>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  </div>
-);
+  );
+};
 
 const StatsCards = () => {
   const [stats, setStats] = useState({
@@ -78,10 +99,9 @@ const StatsCards = () => {
     };
 
     cargarTodo();
-
     const interval = setInterval(() => {
       cargarTodo();
-    }, 30000); // cada 30 segundos
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -91,13 +111,18 @@ const StatsCards = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 md:ml-20 xl:ml-64">
       <h1 className="text-2xl font-bold text-institucional mb-6">Resumen General</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard icon={FaUserGraduate} label="Estudiantes activos" value={stats.estudiantes} />
         <StatCard icon={FaBookOpen} label="Cursos activos" value={stats.cursos} />
-        <StatCard icon={FaDollarSign} label="Ingresos" value={`$${stats.ingresos.toLocaleString()}`} />
+        <StatCard
+          icon={FaDollarSign}
+          label="Ingresos"
+          value={`$${stats.ingresos.toLocaleString()}`}
+          isPrivate
+        />
         <StatCard icon={FaChalkboardTeacher} label="Docentes asignados" value={stats.docentes} />
         <StatCard icon={FaEye} label="Visitas hoy" value={visitas.hoy} />
         <StatCard icon={FaCalendarAlt} label="Visitas este mes" value={visitas.mes} />

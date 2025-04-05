@@ -10,7 +10,7 @@ import {
   FaUserClock,
 } from 'react-icons/fa';
 
-// Tarjeta individual
+// Componente para una tarjeta de estadística
 const StatCard = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow hover:shadow-lg transition-all">
     <div className="bg-institucional/10 text-institucional p-3 rounded-full text-xl">
@@ -23,7 +23,7 @@ const StatCard = ({ icon: Icon, label, value }) => (
   </div>
 );
 
-const Dashboard = () => {
+const StatsCards = () => {
   const [stats, setStats] = useState({
     estudiantes: 0,
     cursos: 0,
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
     const interval = setInterval(() => {
       cargarTodo();
-    }, 30000); // Actualiza cada 30 segundos
+    }, 30000); // cada 30 segundos
 
     return () => clearInterval(interval);
   }, []);
@@ -108,4 +108,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default StatsCards;

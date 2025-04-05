@@ -44,14 +44,14 @@ const AdminCursos = () => {
           to="/admin/crear-curso"
           className="bg-institucional text-white px-6 py-2 rounded-md hover:bg-presentacionDark transition duration-300 text-center w-full sm:w-auto"
         >
-          ➕ Crear nuevo curso
+          Crear nuevo curso
         </Link>
 
         <button
           onClick={eliminarTodosLosCursos}
           className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition duration-300 w-full sm:w-auto"
         >
-          🗑️ Eliminar todos los cursos
+          Eliminar todos los cursos
         </button>
       </div>
 
@@ -93,12 +93,12 @@ const AdminCursos = () => {
                       to={`/admin/editar-curso/${curso._id}`}
                       className="bg-yellow-500 text-white px-3 py-1 rounded text-xs hover:bg-yellow-600 text-center"
                     >
-                      ✏️ Editar
+                      Editar
                     </Link>
                     <button
                       className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600"
                     >
-                      🗑️ Eliminar
+                      Eliminar
                     </button>
                   </td>
                 </tr>

@@ -101,7 +101,9 @@ const EstudiantesInscritosTable = () => {
       Teléfono: est.telefono,
       Curso: est.cursoNombre,
       'Presentación': est.esEstudiante ? 'Sí' : 'No',
-      'Forma de Pago': est.formaPago,
+      'Acudiente / Teléfono': est.acudiente
+      ? `${est.acudiente} - ${est.telefonoAcudiente}`
+      : '—',
       'Valor Pagado': est.valorPagado,
       'Fecha Inscripción': formatearFecha(est.fechaInscripcion),
     }));
@@ -260,7 +262,7 @@ const EstudiantesInscritosTable = () => {
             <th className="border px-2 py-2">Teléfono</th>
             <th className="border px-2 py-2">Curso</th>
             <th className="border px-2 py-2">Presentación</th>
-            <th className="border px-2 py-2">Forma de Pago</th>
+            <th className="border px-2 py-2">Acudiente / Teléfono</th>
             <th className="border px-2 py-2">Valor Pagado</th>
             <th className="border px-2 py-2">Comprobante</th>
             <th className="border px-2 py-2">Fecha</th>
@@ -277,7 +279,7 @@ const EstudiantesInscritosTable = () => {
               <td className="border px-2 py-2">{est.telefono}</td>
               <td className="border px-2 py-2">{est.cursoNombre}</td>
               <td className="border px-2 py-2 text-center">{est.esEstudiante ? '✅' : '—'}</td>
-              <td className="border px-2 py-2 capitalize">{est.formaPago}</td>
+              <td className="border px-2 py-2"> {est.acudiente? `${est.acudiente} - ${est.telefonoAcudiente}`: '—'}</td>
               <td className="border px-2 py-2">${est.valorPagado?.toLocaleString()}</td>
               <td className="border px-2 py-2">
                 {est.comprobante ? (

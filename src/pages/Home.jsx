@@ -38,30 +38,45 @@ const Home = () => {
   return (
     <div className="pt-0">
       {/* Banner */}
-      <div className="w-full h-[calc(100vh-54px)] relative">
-        <img
-          src={imagenesBanner[imagenActual]}
-          alt="Banner"
-          className="w-full h-full object-cover transition-all duration-700"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-center justify-center px-4 text-center">
-          <div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-              Cursos de Extensión para todos
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
-              No importa si no eres parte de nuestra Familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
-            </p>
-            <a
-            href="#cursos"
-            className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
-            >
-              Ver cursos disponibles
-            </a>
-          </div>
-        </div>
-      </div>
+<div className="w-full h-[calc(100vh-54px)] relative">
+  {/* Imagen del banner */}
+  <img
+    src={imagenesBanner[imagenActual]}
+    alt="Banner"
+    className="w-full h-full object-cover transition-all duration-700"
+    loading="lazy"
+  />
+
+  {/* Overlay con texto abajo */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16">
+    <div>
+      <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+        Cursos de Extensión para todos
+      </h1>
+      <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
+        No importa si no eres parte de nuestra Familia Presentación, ¡todos pueden inscribirse en nuestros cursos!
+      </p>
+      <a
+        href="#cursos"
+        className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
+      >
+        Ver cursos disponibles
+      </a>
+    </div>
+  </div>
+
+  {/* Indicadores del banner */}
+  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+    {imagenesBanner.map((_, i) => (
+      <span
+        key={i}
+        className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
+          i === imagenActual ? 'bg-white' : 'bg-white/30'
+        }`}
+      />
+    ))}
+  </div>
+</div>
 
       {/* Cursos */}
       <section id="cursos" className="max-w-7xl mx-auto px-4 py-14">

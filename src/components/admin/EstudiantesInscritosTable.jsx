@@ -62,6 +62,26 @@ const EstudiantesInscritosTable = () => {
     }
   };
 
+  const eliminarEstudiante = async (id) => {
+    const confirmar = confirm('¿Eliminar este estudiante?');
+    if (!confirmar) return;
+  
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (res.ok) {
+        alert('✅ Estudiante eliminado');
+        fetchInscripciones();
+      } else {
+        alert('❌ No se pudo eliminar');
+      }
+    } catch (err) {
+      console.error('Error eliminando estudiante:', err);
+    }
+  };
+
   const eliminarTodas = async () => {
     const c1 = confirm('¿Eliminar todas las inscripciones?');
     if (!c1) return;
@@ -302,21 +322,28 @@ const EstudiantesInscritosTable = () => {
               <td className="border px-2 py-2 flex flex-col gap-2">
                 {!est.pagoConfirmado && (
                   <>
-                    <button
-                      onClick={() => confirmarPago(est._id)}
-                      className="bg-green-600 text-white text-xs px-2 py-1 rounded hover:bg-green-800"
-                    >
-                      Confirmar pago
+                  <button
+                  onClick={() => confirmarPago(est._id)}
+                  className="bg-green-600 text-white text-xs px-2 py-1 rounded hover:bg-green-800"
+                  >
+                    Confirmar pago
                     </button>
                     <button
-                      onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                      className="bg-yellow-500 text-white text-xs px-2 py-1 rounded hover:bg-yellow-600"
+                    onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+                    className="bg-yellow-500 text-white text-xs px-2 py-1 rounded hover:bg-yellow-600"
                     >
                       Recordatorio
-                    </button>
-                  </>
-                )}
-              </td>
+                      </button>
+                      </>
+                    )}
+                    {/* Este aparece siempre */}
+                    <button
+                    onClick={() => eliminarEstudiante(est._id)}
+                    className="bg-red-600 text-white text-xs px-2 py-1 rounded hover:bg-red-800"
+                    >
+                      Eliminar
+                      </button>
+                      </td>
             </tr>
           ))}
         </tbody>

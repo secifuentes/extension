@@ -249,131 +249,151 @@ const EstudiantesInscritosTable = () => {
 {/* Tarjetas */}
 {!cargando && (
   <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-    {filtrados.map((est) => (
-      <div
-        key={est._id}
-        className="bg-white border rounded-lg shadow p-4 flex flex-col justify-between min-h-[500px]"
-      >
-        {/* Datos básicos */}
-        <div className="space-y-1 mb-2">
-          <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
-          <p className="text-sm"><strong>Curso:</strong> {est.cursoNombre}</p>
-          <p className="text-sm"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
-        </div>
+    {filtrados.map((est) => {
+      const mostrarSoportesMensuales = expandirTarjeta === est._id + '-mensual';
+      const expandirDetalles = expandirTarjeta === est._id;
 
-        {/* Comprobante inscripción */}
-        <div className="mb-2">
-          {est.comprobante ? (
-            <button
-              onClick={() => setModalImagen(est.comprobante)}
-              className="text-blue-600 underline text-sm"
-            >
-              Ver comprobante
-            </button>
-          ) : (
-            <span className="text-gray-400 text-sm">Sin comprobante</span>
-          )}
-        </div>
+      const tienePagosMensuales = est.formaPago === 'mensual' && est.pagosMensuales?.length > 0;
+      const algunoSubido = est.pagosMensuales?.some(p => p.comprobante);
 
-        {/* Botones de acción */}
-        <div className="flex flex-col gap-2 mt-2">
-          {!est.pagoConfirmado && (
-            <>
-              <button
-                onClick={() => confirmarPago(est._id)}
-                className="w-full bg-green-600 text-white text-sm py-2 rounded hover:bg-green-700"
-              >
-                Confirmar pago
-              </button>
-              <button
-                onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                className="w-full bg-yellow-500 text-white text-sm py-2 rounded hover:bg-yellow-600"
-              >
-                Enviar recordatorio
-              </button>
-            </>
-          )}
-          <button
-            onClick={() => eliminarEstudiante(est._id)}
-            className="w-full bg-red-600 text-white text-sm py-2 rounded hover:bg-red-700"
-          >
-            Eliminar
-          </button>
-        </div>
-
-        {/* Ver más */}
-        <button
-          onClick={() => setExpandirTarjeta(expandirTarjeta === est._id ? null : est._id)}
-          className="text-sm text-blue-500 mt-3"
+      return (
+        <div
+          key={est._id}
+          className="bg-white border rounded-lg shadow p-4 flex flex-col justify-between h-full"
         >
-          {expandirTarjeta === est._id ? 'Ver menos' : 'Ver más'}
-        </button>
-
-        {/* Detalles extendidos */}
-        {expandirTarjeta === est._id && (
-          <div className="mt-3 text-sm text-gray-600 space-y-1">
-            <p><strong>Correo:</strong> {est.correo}</p>
-            <p><strong>Documento:</strong> {est.documento}</p>
-            <p><strong>Teléfono:</strong> {est.telefono}</p>
-            <p><strong>Acudiente:</strong> {est.acudiente || '—'} {est.telefonoAcudiente && `- ${est.telefonoAcudiente}`}</p>
-            <p><strong>Forma de pago:</strong> {est.formaPago || '—'}</p>
-            <p><strong>Fecha inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
+          {/* Cabecera */}
+          <div className="space-y-1">
+            <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
+            <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
+            <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
           </div>
-        )}
 
-        {/* Pagos mensuales */}
-        {est.formaPago === 'mensual' && (
-          <div className="mt-4 pt-3 border-t text-center">
-            <p className="text-sm font-semibold text-institucional mb-3">Soportes pagos mensuales</p>
-            {[2, 3].map((mes) => {
-              const pago = est.pagosMensuales?.find((p) => p.mes === mes);
-              const tieneComprobante = !!pago?.comprobante;
-              const estaVerificado = pago?.estado === 'verificado';
-
-              return (
-                <div key={mes} className="mb-4">
-                  <p className="text-sm font-medium mb-1">Mes {mes}</p>
-
-                  {tieneComprobante ? (
-                    <button
-                      onClick={() => setModalImagen(pago.comprobante)}
-                      className="text-blue-600 underline text-sm"
-                    >
-                      Ver comprobante
-                    </button>
-                  ) : (
-                    <p className="text-sm text-gray-500">No enviado</p>
-                  )}
-
-                  {estaVerificado ? (
-                    <p className="text-green-700 font-semibold text-sm mt-1">✅ Confirmado</p>
-                  ) : (
-                    <button
-                      disabled={!tieneComprobante}
-                      onClick={() => confirmarPagoMensual(est._id, mes)}
-                      className={`w-full mt-2 py-2 text-sm rounded ${
-                        tieneComprobante
-                          ? 'bg-green-600 text-white hover:bg-green-700'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      Confirmar mes {mes}
-                    </button>
-                  )}
-                </div>
-              );
-            })}
+          {/* Comprobante principal */}
+          <div className="text-center my-3">
+            {est.comprobante ? (
+              <button
+                onClick={() => setModalImagen(est.comprobante)}
+                className="text-blue-600 underline text-sm"
+              >
+                Ver comprobante
+              </button>
+            ) : (
+              <span className="text-sm text-gray-400">Sin comprobante</span>
+            )}
           </div>
-        )}
 
-        {/* Espacio reservado para mantener altura en curso completo */}
-        {est.formaPago !== 'mensual' && (
-          <div className="opacity-0 h-[150px]"></div>
-        )}
-      </div>
-    ))}
+          {/* Acciones */}
+          <div className="flex flex-col gap-2">
+            {!est.pagoConfirmado && (
+              <>
+                <button
+                  onClick={() => confirmarPago(est._id)}
+                  className="w-full bg-green-600 text-white text-sm py-2 rounded hover:bg-green-700"
+                >
+                  Confirmar pago
+                </button>
+                <button
+                  onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+                  className="w-full bg-yellow-500 text-white text-sm py-2 rounded hover:bg-yellow-600"
+                >
+                  Enviar recordatorio
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => eliminarEstudiante(est._id)}
+              className="w-full bg-red-600 text-white text-sm py-2 rounded hover:bg-red-700"
+            >
+              Eliminar
+            </button>
+          </div>
+
+          {/* Botones de expansión */}
+          <div className="flex justify-between mt-3 text-sm">
+            <button
+              onClick={() =>
+                setExpandirTarjeta(expandirDetalles ? null : est._id)
+              }
+              className="text-blue-600 hover:underline"
+            >
+              {expandirDetalles ? 'Ocultar detalles' : 'Ver más'}
+            </button>
+
+            {est.formaPago === 'mensual' && (
+              <button
+                onClick={() =>
+                  setExpandirTarjeta(mostrarSoportesMensuales ? null : est._id + '-mensual')
+                }
+                className={`hover:underline ${
+                  algunoSubido ? 'text-green-600' : 'text-blue-600'
+                }`}
+              >
+                {mostrarSoportesMensuales ? 'Ocultar soportes' : 'Soportes pagos mensuales'}
+              </button>
+            )}
+          </div>
+
+          {/* Detalles */}
+          {expandirDetalles && (
+            <div className="mt-3 text-sm text-gray-600 space-y-1 border-t pt-3">
+              <p><strong>Correo:</strong> {est.correo}</p>
+              <p><strong>Documento:</strong> {est.documento}</p>
+              <p><strong>Teléfono:</strong> {est.telefono}</p>
+              <p><strong>Acudiente:</strong> {est.acudiente || '—'} {est.telefonoAcudiente && `- ${est.telefonoAcudiente}`}</p>
+              <p><strong>Forma de pago:</strong> {est.formaPago || '—'}</p>
+              <p><strong>Fecha inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
+            </div>
+          )}
+
+          {/* Soportes pagos mensuales */}
+          {mostrarSoportesMensuales && (
+            <div className="mt-4 border-t pt-4 text-center space-y-3">
+              <p className="text-sm font-semibold text-institucional">Soportes pagos mensuales</p>
+
+              {[2, 3].map((mes) => {
+                const pago = est.pagosMensuales?.find((p) => p.mes === mes);
+                const tieneComprobante = !!pago?.comprobante;
+                const estaVerificado = pago?.estado === 'verificado';
+
+                return (
+                  <div key={mes} className="space-y-1">
+                    <p className="text-sm font-medium">Mes {mes}</p>
+                    {tieneComprobante ? (
+                      <button
+                        onClick={() => setModalImagen(pago.comprobante)}
+                        className="text-blue-600 underline text-sm"
+                      >
+                        Ver comprobante
+                      </button>
+                    ) : (
+                      <p className="text-sm text-gray-400">No enviado</p>
+                    )}
+                    {estaVerificado ? (
+                      <p className="text-green-700 font-semibold text-sm">✅ Confirmado</p>
+                    ) : (
+                      <button
+                        disabled={!tieneComprobante}
+                        onClick={() => confirmarPagoMensual(est._id, mes)}
+                        className={`w-full mt-1 py-2 text-sm rounded ${
+                          tieneComprobante
+                            ? 'bg-green-600 text-white hover:bg-green-700'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        Confirmar mes {mes}
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    })}
   </div>
 )}
+
       {/* Modal comprobante */}
       {modalImagen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">

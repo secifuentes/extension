@@ -268,7 +268,7 @@ const EstadoEstudiante = () => {
                         const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
                           method: 'PUT',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ mes, comprobanteBase64: base64 }),
+                          body: JSON.stringify({ mes, comprobante: base64 }),
                         });
 
                         const data = await res.json();

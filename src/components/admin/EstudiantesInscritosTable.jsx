@@ -51,6 +51,25 @@ const EstudiantesInscritosTable = () => {
     }
   };
 
+  const confirmarPagoMensual = async (id, mes) => {
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${id}/confirmar`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mes })
+      });
+  
+      if (res.ok) {
+        alert(`✅ Pago del ${mes} confirmado`);
+        fetchInscripciones(); // Recarga los datos
+      } else {
+        alert('❌ Error al confirmar el pago');
+      }
+    } catch (err) {
+      console.error('Error confirmando pago mensual:', err);
+    }
+  };
+
   const enviarRecordatorio = async (correo, cursoNombre) => {
     try {
       const res = await fetch(`${API_URL}/api/recordatorio`, {
@@ -287,6 +306,68 @@ const EstudiantesInscritosTable = () => {
                   <p><strong>Fecha inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
                 </div>
               )}
+
+{est.formaPago === 'mensual' && (
+  <div className="mt-4 border-t pt-3 space-y-2">
+    <p className="text-sm font-semibold text-institucional">Pagos mensuales adicionales:</p>
+
+    {/* MES 2 */}
+    <div className="space-y-1">
+      <p><strong>Mes 2:</strong></p>
+      {est.pagosMensuales?.mes2?.comprobante ? (
+        <>
+          <button
+            onClick={() => setModalImagen(est.pagosMensuales.mes2.comprobante)}
+            className="text-blue-600 underline text-xs"
+          >
+            Ver comprobante mes 2
+          </button>
+          {!est.pagosMensuales.mes2.confirmado && (
+            <button
+              onClick={() => confirmarPagoMensual(est._id, 'mes2')}
+              className="ml-2 bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700"
+            >
+              Confirmar mes 2
+            </button>
+          )}
+          {est.pagosMensuales.mes2.confirmado && (
+            <span className="ml-2 text-green-700 font-semibold text-xs">✅ Confirmado</span>
+          )}
+        </>
+      ) : (
+        <p className="text-gray-500 text-xs">No subido</p>
+      )}
+    </div>
+
+    {/* MES 3 */}
+    <div className="space-y-1">
+      <p><strong>Mes 3:</strong></p>
+      {est.pagosMensuales?.mes3?.comprobante ? (
+        <>
+          <button
+            onClick={() => setModalImagen(est.pagosMensuales.mes3.comprobante)}
+            className="text-blue-600 underline text-xs"
+          >
+            Ver comprobante mes 3
+          </button>
+          {!est.pagosMensuales.mes3.confirmado && (
+            <button
+              onClick={() => confirmarPagoMensual(est._id, 'mes3')}
+              className="ml-2 bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700"
+            >
+              Confirmar mes 3
+            </button>
+          )}
+          {est.pagosMensuales.mes3.confirmado && (
+            <span className="ml-2 text-green-700 font-semibold text-xs">✅ Confirmado</span>
+          )}
+        </>
+      ) : (
+        <p className="text-gray-500 text-xs">No subido</p>
+      )}
+    </div>
+  </div>
+)}
             </div>
           ))}
         </div>

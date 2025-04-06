@@ -191,7 +191,7 @@ const EstadoEstudiante = () => {
                       >
                         Ver comprobante
                       </button>{' '}
-                      — {pago.estado === 'verificado' ? 'Confirmado' : 'Pendiente'}
+                      — {pago.estado === 'verificado' ? 'Pago confirmado' : 'Pendiente de verificación'}
                     </span>
                   ) : (
                     <label className="flex items-center space-x-2">

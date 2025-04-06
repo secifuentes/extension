@@ -254,7 +254,15 @@ const EstadoEstudiante = () => {
 
                     const reader = new FileReader();
                     reader.onloadend = async () => {
-                      const base64 = reader.result.split(',')[1];
+                      const base64 = reader.result?.split(',')[1];
+                      
+                      if (!base64) {
+                        console.error("❌ No se pudo leer el archivo en base64");
+                        alert("Error al leer el comprobante. Intenta con otro archivo.");
+                        return;
+                      }
+                      
+                      console.log("✅ Base64 generado:", base64.slice(0, 100)); // solo muestra los primeros 100 caracteres
 
                       for (const mes of mesesSeleccionados) {
                         const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {

@@ -11,9 +11,6 @@ const EstadoEstudiante = () => {
   const [errorLogin, setErrorLogin] = useState('');
   const [cargando, setCargando] = useState(false);
 
-  const [comprobanteMes2, setComprobanteMes2] = useState(null);
-  const [comprobanteMes3, setComprobanteMes3] = useState(null);
-
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -51,46 +48,6 @@ const EstadoEstudiante = () => {
     } finally {
       setCargando(false);
     }
-  };
-
-  const enviarComprobantesMensuales = async (inscripcionId) => {
-    const comprobantes = [
-      { mes: 'mes2', archivo: comprobanteMes2 },
-      { mes: 'mes3', archivo: comprobanteMes3 }
-    ];
-
-    for (const { mes, archivo } of comprobantes) {
-      if (!archivo) continue;
-
-      const reader = new FileReader();
-
-      await new Promise((resolve, reject) => {
-        reader.onloadend = async () => {
-          const base64 = reader.result.split(',')[1];
-
-          try {
-            const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${inscripcionId}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ mes, comprobanteBase64: base64 })
-            });
-
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Error al subir comprobante');
-            console.log(`✅ ${mes} subido:`, data.mensaje);
-          } catch (err) {
-            console.error(`❌ Error subiendo ${mes}:`, err.message);
-          }
-
-          resolve();
-        };
-
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(archivo);
-      });
-    }
-
-    alert('✅ Comprobantes enviados correctamente');
   };
 
   const validarAdmin = () => {
@@ -177,68 +134,143 @@ const EstadoEstudiante = () => {
 
           <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
           <ul className="space-y-2">
-            {resultado.cursos.map((c, i) => (
-              <li key={i} className="border p-4 rounded text-sm bg-white space-y-3">
-                <p><strong>Curso:</strong> {c.cursoNombre}</p>
-                <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : c.formaPago === 'trimestral' ? 'Curso completo (3 meses)' : 'No especificado'}</p>
-                <p>
-                  <strong>Estado del primer pago:</strong>{' '}
-                  {c.pagoConfirmado ? (
-                    <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
-                  ) : (
-                    <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
-                  )}
-                </p>
-                <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
+            {resultado.cursos.map((c, i) => {
+              const [mostrarOpcionesPago, setMostrarOpcionesPago] = useState(false);
+              const [mesesSeleccionados, setMesesSeleccionados] = useState([]);
+              const [comprobanteSeleccionado, setComprobanteSeleccionado] = useState(null);
+              const pagos = c.pagosMensuales || [];
 
-                {c.formaPago === 'mensual' && (
-  <div className="bg-blue-50 border border-blue-200 p-4 rounded-md space-y-4">
-    <h4 className="text-institucional font-semibold text-base">Pagos mensuales adicionales</h4>
+              const toggleMes = (mes) => {
+                setMesesSeleccionados(prev =>
+                  prev.includes(mes)
+                    ? prev.filter(m => m !== mes)
+                    : [...prev, mes]
+                );
+              };
 
-    {[2, 3].map((mes) => {
-      const pago = c.pagosMensuales?.find(p => p.mes === mes);
-
-      return (
-        <div key={mes}>
-          <label className="block text-sm font-medium mb-1">Comprobante - Mes {mes}:</label>
-
-          {pago ? (
-            <div className="text-sm space-y-1">
-              <p>📎 <a href={pago.comprobante} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Ver comprobante</a></p>
-              <p>Estado: {pago.estado === 'verificado' ? '✅ Verificado' : '⏳ Pendiente de verificación'}</p>
-            </div>
-          ) : (
-            <>
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                className="w-full border rounded p-2"
-                onChange={(e) =>
-                  mes === 2
-                    ? setComprobanteMes2(e.target.files[0])
-                    : setComprobanteMes3(e.target.files[0])
+              const subirComprobante = async () => {
+                if (!comprobanteSeleccionado || mesesSeleccionados.length === 0) {
+                  alert('Selecciona un mes y sube un comprobante.');
+                  return;
                 }
-              />
-              <p className="text-xs text-gray-500 mt-1">Estado: ❌ No enviado</p>
-            </>
-          )}
-        </div>
-      );
-    })}
 
-    {(comprobanteMes2 || comprobanteMes3) && (
-      <button
-        type="button"
-        className="bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
-        onClick={() => enviarComprobantesMensuales(c._id)}
-      >
-        Enviar comprobantes
-      </button>
-    )}
-  </div>
-)}
-              </li>
-            ))}
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                  const base64 = reader.result.split(',')[1];
+
+                  for (const mes of mesesSeleccionados) {
+                    const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ mes, comprobanteBase64: base64 })
+                    });
+
+                    const data = await res.json();
+                    if (!res.ok) {
+                      console.error(`❌ Error subiendo comprobante del mes ${mes}:`, data?.error || '');
+                    }
+                  }
+
+                  alert('✅ Comprobante(s) enviado(s) correctamente');
+                  window.location.reload();
+                };
+
+                reader.readAsDataURL(comprobanteSeleccionado);
+              };
+
+              return (
+                <li key={i} className="border p-4 rounded text-sm bg-white space-y-3">
+                  <p><strong>Curso:</strong> {c.cursoNombre}</p>
+                  <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : 'Curso completo (3 meses)'}</p>
+                  <p>
+                    <strong>Estado del primer pago:</strong>{' '}
+                    {c.pagoConfirmado ? (
+                      <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
+                    ) : (
+                      <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
+                    )}
+                  </p>
+                  <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
+
+                  {/* NUEVO BLOQUE FLUJO DE PAGOS MENSUALES */}
+                  {c.formaPago === 'mensual' && (
+                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-md space-y-4">
+                      {!mostrarOpcionesPago ? (
+                        <button
+                          className="bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
+                          onClick={() => setMostrarOpcionesPago(true)}
+                        >
+                          Pagar meses restantes
+                        </button>
+                      ) : (
+                        <>
+                          <h4 className="font-semibold text-institucional">Estado de pagos mensuales:</h4>
+                          {[2, 3].map(mes => {
+                            const pago = pagos.find(p => p.mes === mes);
+                            return (
+                              <div key={mes} className="flex justify-between items-center text-sm border-b py-2">
+                                <span>Mes {mes}</span>
+                                {pago ? (
+                                  <span>
+                                    📎{' '}
+                                    <a href={pago.comprobante} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                                      Ver comprobante
+                                    </a>{' '}
+                                    — {pago.estado === 'verificado' ? '✅ Confirmado' : '⏳ Pendiente'}
+                                  </span>
+                                ) : (
+                                  <label className="flex items-center space-x-2">
+                                    <input
+                                      type="checkbox"
+                                      className="accent-institucional"
+                                      checked={mesesSeleccionados.includes(mes)}
+                                      onChange={() => toggleMes(mes)}
+                                    />
+                                    <span>❌ No enviado</span>
+                                  </label>
+                                )}
+                              </div>
+                            );
+                          })}
+
+                          {mesesSeleccionados.length > 0 && (
+                            <>
+                              <div className="mt-4 bg-white p-4 border rounded">
+                                <p className="text-sm font-medium mb-2">💰 Valor a pagar:</p>
+                                <p className="text-lg font-semibold text-institucional">
+                                  ${mesesSeleccionados.length * 35000} COP
+                                </p>
+                                <p className="text-sm text-gray-600 mt-2">
+                                  Realiza el pago a la cuenta <strong>BanColombia - Ahorros 1234567890</strong> a nombre de
+                                  <strong> La Presentación Girardota</strong>.
+                                </p>
+                              </div>
+
+                              <div className="mt-4">
+                                <label className="block text-sm font-medium mb-1">📤 Subir comprobante:</label>
+                                <input
+                                  type="file"
+                                  accept="image/*,.pdf"
+                                  className="w-full border rounded p-2"
+                                  onChange={(e) => setComprobanteSeleccionado(e.target.files[0])}
+                                />
+                              </div>
+
+                              <button
+                                className="mt-4 bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
+                                onClick={subirComprobante}
+                              >
+                                Enviar comprobante(s)
+                              </button>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

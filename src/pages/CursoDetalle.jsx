@@ -305,6 +305,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
+                    setCargando(true); // activa el estado de carga
                     const form = e.target;
 
                     const data = {
@@ -337,7 +338,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                       });
-
+                    
                       const result = await res.json();
                       if (res.ok) {
                         setInscripcionExitosa(true);
@@ -347,6 +348,8 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     } catch (err) {
                       console.error('❌ Error al enviar inscripción:', err);
                       alert('No se pudo conectar con el servidor');
+                    } finally {
+                      setCargando(false); // 🟢 Esto se ejecuta SIEMPRE al final, para apagar el botón cargando
                     }
                   }}
                   className="space-y-4"

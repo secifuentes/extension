@@ -246,14 +246,13 @@ const EstudiantesInscritosTable = () => {
       {cargando && (
         <p className="text-center text-gray-600 mt-10 text-lg">Cargando estudiantes inscritos...</p>
       )}
+
 {/* Tarjetas */}
 {!cargando && (
   <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
     {filtrados.map((est) => {
-      const mostrarSoportesMensuales = expandirTarjeta === est._id + '-mensual';
       const expandirDetalles = expandirTarjeta === est._id;
-
-      const tienePagosMensuales = est.formaPago === 'mensual' && est.pagosMensuales?.length > 0;
+      const expandirPagosMensuales = expandirTarjeta === est._id + '-mensual';
       const algunoSubido = est.pagosMensuales?.some(p => p.comprobante);
 
       return (
@@ -262,14 +261,14 @@ const EstudiantesInscritosTable = () => {
           className="bg-white border rounded-lg shadow p-4 flex flex-col justify-between h-full"
         >
           {/* Cabecera */}
-          <div className="space-y-1">
+          <div className="space-y-1 mb-3">
             <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
             <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
             <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
           </div>
 
           {/* Comprobante principal */}
-          <div className="text-center my-3">
+          <div className="text-center mb-3">
             {est.comprobante ? (
               <button
                 onClick={() => setModalImagen(est.comprobante)}
@@ -308,13 +307,13 @@ const EstudiantesInscritosTable = () => {
             </button>
           </div>
 
-          {/* Botones de expansión */}
-          <div className="flex justify-between mt-3 text-sm">
+          {/* Botones inferiores: ver más / pagos mensuales */}
+          <div className="grid grid-cols-2 gap-2 mt-4">
             <button
               onClick={() =>
                 setExpandirTarjeta(expandirDetalles ? null : est._id)
               }
-              className="text-blue-600 hover:underline"
+              className="text-sm py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium"
             >
               {expandirDetalles ? 'Ocultar detalles' : 'Ver más'}
             </button>
@@ -322,13 +321,15 @@ const EstudiantesInscritosTable = () => {
             {est.formaPago === 'mensual' && (
               <button
                 onClick={() =>
-                  setExpandirTarjeta(mostrarSoportesMensuales ? null : est._id + '-mensual')
+                  setExpandirTarjeta(expandirPagosMensuales ? null : est._id + '-mensual')
                 }
-                className={`hover:underline ${
-                  algunoSubido ? 'text-green-600' : 'text-blue-600'
+                className={`text-sm py-2 rounded font-medium ${
+                  algunoSubido
+                    ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {mostrarSoportesMensuales ? 'Ocultar soportes' : 'Soportes pagos mensuales'}
+                {expandirPagosMensuales ? 'Ocultar pagos' : 'Pagos mensuales'}
               </button>
             )}
           </div>
@@ -346,7 +347,7 @@ const EstudiantesInscritosTable = () => {
           )}
 
           {/* Soportes pagos mensuales */}
-          {mostrarSoportesMensuales && (
+          {expandirPagosMensuales && (
             <div className="mt-4 border-t pt-4 text-center space-y-3">
               <p className="text-sm font-semibold text-institucional">Soportes pagos mensuales</p>
 

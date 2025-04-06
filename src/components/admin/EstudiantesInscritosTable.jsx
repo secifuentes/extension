@@ -15,6 +15,8 @@ const EstudiantesInscritosTable = () => {
   const [expandirTarjeta, setExpandirTarjeta] = useState(null);
   const [modalImagen, setModalImagen] = useState(null);
   const [cargando, setCargando] = useState(true);
+  const [confirmandoPagoId, setConfirmandoPagoId] = useState(null);
+  const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
 
   useEffect(() => {
     fetchInscripciones();
@@ -37,22 +39,31 @@ const EstudiantesInscritosTable = () => {
 
   const confirmarPago = async (id) => {
     try {
+      setConfirmandoPagoId(id); // Activamos el estado "enviando" para este estudiante
+  
       const res = await fetch(`${API_URL}/api/inscripciones/confirmar-pago/${id}`, {
         method: 'PUT',
       });
+  
       if (res.ok) {
         alert('✅ Pago confirmado');
-        fetchInscripciones();
+        fetchInscripciones(); // Recargamos la lista
       } else {
         alert('❌ No se pudo confirmar el pago');
       }
     } catch (err) {
       console.error('Error confirmando pago:', err);
+    } finally {
+      setConfirmandoPagoId(null); // Quitamos el estado "enviando"
     }
   };
 
   const confirmarPagoMensual = async (id, mes) => {
+    const key = `${id}-${mes}`;
+  
     try {
+      setPagosMensualesConfirmando((prev) => ({ ...prev, [key]: true }));
+  
       const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${id}/confirmar`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -60,13 +71,15 @@ const EstudiantesInscritosTable = () => {
       });
   
       if (res.ok) {
-        alert(`✅ Pago del ${mes} confirmado`);
-        fetchInscripciones(); // Recarga los datos
+        alert(`✅ Pago del mes ${mes} confirmado`);
+        fetchInscripciones(); // Recargar datos
       } else {
         alert('❌ Error al confirmar el pago');
       }
     } catch (err) {
       console.error('Error confirmando pago mensual:', err);
+    } finally {
+      setPagosMensualesConfirmando((prev) => ({ ...prev, [key]: false }));
     }
   };
 
@@ -286,10 +299,15 @@ const EstudiantesInscritosTable = () => {
             {!est.pagoConfirmado && (
               <>
                 <button
-                  onClick={() => confirmarPago(est._id)}
-                  className="w-full bg-green-600 text-white text-sm py-2 rounded hover:bg-green-700"
-                >
-                  Confirmar pago
+                onClick={() => confirmarPago(est._id)}
+                disabled={confirmandoPagoId === est._id}
+                className={`w-full text-sm py-2 rounded transition ${
+                  confirmandoPagoId === est._id
+                  ? 'bg-gray-300 text-institucional cursor-wait'
+                  : 'bg-green-600 text-white hover:bg-green-700'
+                  }`}
+                  >
+                    {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
                 </button>
                 <button
                   onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
@@ -373,16 +391,20 @@ const EstudiantesInscritosTable = () => {
                       <p className="text-green-700 font-semibold text-sm">✅ Confirmado</p>
                     ) : (
                       <button
-                        disabled={!tieneComprobante}
-                        onClick={() => confirmarPagoMensual(est._id, mes)}
-                        className={`w-full mt-1 py-2 text-sm rounded ${
-                          tieneComprobante
-                            ? 'bg-green-600 text-white hover:bg-green-700'
-                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      disabled={!tieneComprobante || pagosMensualesConfirmando[`${est._id}-${mes}`]}
+                      onClick={() => confirmarPagoMensual(est._id, mes)}
+                      className={`w-full mt-1 py-2 text-sm rounded transition ${
+                        !tieneComprobante
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : pagosMensualesConfirmando[`${est._id}-${mes}`]
+                        ? 'bg-gray-300 text-institucional cursor-wait'
+                        : 'bg-green-600 text-white hover:bg-green-700'
                         }`}
-                      >
-                        Confirmar mes {mes}
-                      </button>
+                        >
+                          {pagosMensualesConfirmando[`${est._id}-${mes}`]
+                          ? 'Enviando...'
+                          : `Confirmar mes ${mes}`}
+                        </button>
                     )}
                   </div>
                 );

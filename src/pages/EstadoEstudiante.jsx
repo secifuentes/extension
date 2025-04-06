@@ -12,7 +12,8 @@ const EstadoEstudiante = () => {
   const [cargando, setCargando] = useState(false);
   const [comprobanteSeleccionado, setComprobanteSeleccionado] = useState(null);
   const [enviando, setEnviando] = useState(false);
-const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el comprobante embebido
+  const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el comprobante embebido
+  const [comprobanteVisible, setComprobanteVisible] = useState(null); // base64 actual
 
   // 👇 estos son los nuevos, aquí están bien ubicados
   const [cursoActivo, setCursoActivo] = useState(null);
@@ -148,7 +149,7 @@ const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el c
     <p>
       <strong>Estado del primer pago:</strong>{' '}
       {c.pagoConfirmado ? (
-        <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
+        <span className="text-green-700 font-semibold">Pago confirmado</span>
       ) : (
         <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
       )}
@@ -184,15 +185,13 @@ const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el c
                   {pago ? (
                     <span>
                       📎{' '}
-                      <a
-                      href={`data:${pago.comprobante.startsWith('/') ? 'image/jpeg' : 'application/pdf'};base64,${pago.comprobante}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      <button
+                      onClick={() => setComprobanteVisible(pago.comprobante)}
                       className="text-blue-600 underline"
                       >
                         Ver comprobante
-                      </a>{' '}
-                      — {pago.estado === 'verificado' ? '✅ Confirmado' : '⏳ Pendiente'}
+                      </button>{' '}
+                      — {pago.estado === 'verificado' ? 'Confirmado' : 'Pendiente'}
                     </span>
                   ) : (
                     <label className="flex items-center space-x-2">
@@ -210,7 +209,7 @@ const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el c
                   );
                   }}
                   />
-                      <span>❌ No enviado</span>
+                      <span>No enviado</span>
                     </label>
                   )}
                 </div>
@@ -342,5 +341,33 @@ const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el c
     </div>
   );
 };
+
+      {/* 👇 Paso 4: Visor de comprobantes */}
+      {comprobanteVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded max-w-2xl w-full relative shadow-lg">
+            <button
+              onClick={() => setComprobanteVisible(null)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black text-lg font-bold"
+            >
+              ×
+            </button>
+
+            {comprobanteVisible.startsWith('/') ? (
+              <img
+                src={`data:image/jpeg;base64,${comprobanteVisible}`}
+                alt="Comprobante"
+                className="max-h-[70vh] w-full object-contain"
+              />
+            ) : (
+              <iframe
+                src={`data:application/pdf;base64,${comprobanteVisible}`}
+                title="Comprobante PDF"
+                className="w-full h-[70vh]"
+              />
+            )}
+          </div>
+        </div>
+      )}
 
 export default EstadoEstudiante;

@@ -9,9 +9,12 @@ const EstadoEstudiante = () => {
   const [adminUsuario, setAdminUsuario] = useState('');
   const [adminClave, setAdminClave] = useState('');
   const [errorLogin, setErrorLogin] = useState('');
-  const [cargando, setCargando] = useState(false); // ✅ nuevo estado
-  const navigate = useNavigate();
+  const [cargando, setCargando] = useState(false);
 
+  const [comprobanteMes2, setComprobanteMes2] = useState(null);
+  const [comprobanteMes3, setComprobanteMes3] = useState(null);
+
+  const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
   const buscarEstado = async () => {
@@ -50,6 +53,46 @@ const EstadoEstudiante = () => {
     }
   };
 
+  const enviarComprobantesMensuales = async (inscripcionId) => {
+    const comprobantes = [
+      { mes: 'mes2', archivo: comprobanteMes2 },
+      { mes: 'mes3', archivo: comprobanteMes3 }
+    ];
+
+    for (const { mes, archivo } of comprobantes) {
+      if (!archivo) continue;
+
+      const reader = new FileReader();
+
+      await new Promise((resolve, reject) => {
+        reader.onloadend = async () => {
+          const base64 = reader.result.split(',')[1];
+
+          try {
+            const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${inscripcionId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ mes, comprobanteBase64: base64 })
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Error al subir comprobante');
+            console.log(`✅ ${mes} subido:`, data.mensaje);
+          } catch (err) {
+            console.error(`❌ Error subiendo ${mes}:`, err.message);
+          }
+
+          resolve();
+        };
+
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(archivo);
+      });
+    }
+
+    alert('✅ Comprobantes enviados correctamente');
+  };
+
   const validarAdmin = () => {
     if (adminUsuario === 'secifuentes' && adminClave === '1624Scc$') {
       navigate('/admin');
@@ -71,7 +114,6 @@ const EstadoEstudiante = () => {
       <h2 className="text-3xl font-bold text-institucional">Consulta tu estado de inscripción</h2>
       <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
 
-      {/* ✅ FORMULARIO corregido */}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -116,7 +158,6 @@ const EstadoEstudiante = () => {
         </button>
       </form>
 
-      {/* Resultado */}
       {resultado?.tipo === 'no-encontrado' && (
         <div className="text-red-600 bg-red-100 border border-red-300 p-4 rounded">
           No encontramos registros con ese documento.
@@ -137,11 +178,11 @@ const EstadoEstudiante = () => {
           <h4 className="text-lg font-semibold text-institucional mt-4">Cursos inscritos:</h4>
           <ul className="space-y-2">
             {resultado.cursos.map((c, i) => (
-              <li key={i} className="border p-3 rounded text-sm bg-white">
+              <li key={i} className="border p-4 rounded text-sm bg-white space-y-3">
                 <p><strong>Curso:</strong> {c.cursoNombre}</p>
-                <p><strong>Forma de pago:</strong> {c.formaPago}</p>
+                <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : 'Curso completo (3 meses)'}</p>
                 <p>
-                  <strong>Estado del pago:</strong>{' '}
+                  <strong>Estado del primer pago:</strong>{' '}
                   {c.pagoConfirmado ? (
                     <span className="text-green-700 font-semibold">Pago confirmado ✅</span>
                   ) : (
@@ -149,13 +190,48 @@ const EstadoEstudiante = () => {
                   )}
                 </p>
                 <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
+
+                {c.formaPago === 'mensual' && (
+                  <div className="bg-blue-50 border border-blue-200 p-4 rounded-md space-y-4">
+                    <h4 className="text-institucional font-semibold text-base">Pagos mensuales adicionales</h4>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Comprobante - Mes 2:</label>
+                      <input
+                        type="file"
+                        accept="image/*,.pdf"
+                        className="w-full border rounded p-2"
+                        onChange={(e) => setComprobanteMes2(e.target.files[0])}
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Estado: ⏳ Pendiente</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Comprobante - Mes 3:</label>
+                      <input
+                        type="file"
+                        accept="image/*,.pdf"
+                        className="w-full border rounded p-2"
+                        onChange={(e) => setComprobanteMes3(e.target.files[0])}
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Estado: ⏳ Pendiente</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
+                      onClick={() => enviarComprobantesMensuales(c._id)}
+                    >
+                      Enviar comprobantes
+                    </button>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Acceso oculto para admin */}
       <div className="mt-10 text-center">
         {!mostrarAdmin ? (
           <button

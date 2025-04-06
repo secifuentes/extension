@@ -192,40 +192,51 @@ const EstadoEstudiante = () => {
                 <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
 
                 {c.formaPago === 'mensual' && (
-                  <div className="bg-blue-50 border border-blue-200 p-4 rounded-md space-y-4">
-                    <h4 className="text-institucional font-semibold text-base">Pagos mensuales adicionales</h4>
+  <div className="bg-blue-50 border border-blue-200 p-4 rounded-md space-y-4">
+    <h4 className="text-institucional font-semibold text-base">Pagos mensuales adicionales</h4>
 
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Comprobante - Mes 2:</label>
-                      <input
-                        type="file"
-                        accept="image/*,.pdf"
-                        className="w-full border rounded p-2"
-                        onChange={(e) => setComprobanteMes2(e.target.files[0])}
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Estado: ⏳ Pendiente</p>
-                    </div>
+    {[2, 3].map((mes) => {
+      const pago = c.pagosMensuales?.find(p => p.mes === mes);
 
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Comprobante - Mes 3:</label>
-                      <input
-                        type="file"
-                        accept="image/*,.pdf"
-                        className="w-full border rounded p-2"
-                        onChange={(e) => setComprobanteMes3(e.target.files[0])}
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Estado: ⏳ Pendiente</p>
-                    </div>
+      return (
+        <div key={mes}>
+          <label className="block text-sm font-medium mb-1">Comprobante - Mes {mes}:</label>
 
-                    <button
-                      type="button"
-                      className="bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
-                      onClick={() => enviarComprobantesMensuales(c._id)}
-                    >
-                      Enviar comprobantes
-                    </button>
-                  </div>
-                )}
+          {pago ? (
+            <div className="text-sm space-y-1">
+              <p>📎 <a href={pago.comprobante} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Ver comprobante</a></p>
+              <p>Estado: {pago.estado === 'verificado' ? '✅ Verificado' : '⏳ Pendiente de verificación'}</p>
+            </div>
+          ) : (
+            <>
+              <input
+                type="file"
+                accept="image/*,.pdf"
+                className="w-full border rounded p-2"
+                onChange={(e) =>
+                  mes === 2
+                    ? setComprobanteMes2(e.target.files[0])
+                    : setComprobanteMes3(e.target.files[0])
+                }
+              />
+              <p className="text-xs text-gray-500 mt-1">Estado: ❌ No enviado</p>
+            </>
+          )}
+        </div>
+      );
+    })}
+
+    {(comprobanteMes2 || comprobanteMes3) && (
+      <button
+        type="button"
+        className="bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
+        onClick={() => enviarComprobantesMensuales(c._id)}
+      >
+        Enviar comprobantes
+      </button>
+    )}
+  </div>
+)}
               </li>
             ))}
           </ul>

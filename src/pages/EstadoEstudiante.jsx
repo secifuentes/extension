@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const EstadoEstudiante = () => {
   const [tipoDoc, setTipoDoc] = useState('');
   const [documento, setDocumento] = useState('');
+  const [cargando, setCargando] = useState(false);
   const [resultado, setResultado] = useState(null);
   const [mostrarAdmin, setMostrarAdmin] = useState(false);
   const [adminUsuario, setAdminUsuario] = useState('');
@@ -15,8 +16,14 @@ const EstadoEstudiante = () => {
 
   const buscarEstado = async () => {
     setResultado(null);
-    if (!tipoDoc || !documento) return alert('Por favor selecciona el tipo de documento y escribe el número');
-
+    setCargando(true); // activa el estado de carga
+  
+    if (!tipoDoc || !documento) {
+      alert('Por favor selecciona el tipo de documento y escribe el número');
+      setCargando(false); // detenemos la carga si no hay datos
+      return;
+    }
+  
     const tipoDocMap = {
       rc: 'Registro Civil',
       ti: 'Tarjeta de Identidad',
@@ -24,6 +31,24 @@ const EstadoEstudiante = () => {
       ce: 'Cédula de Extranjería',
       pa: 'Pasaporte',
     };
+  
+    const tipoDocNombre = tipoDocMap[tipoDoc];
+  
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/estado/${tipoDocNombre}/${documento}`);
+      const data = await res.json();
+      if (res.ok) {
+        setResultado(data);
+      } else {
+        setResultado({ tipo: 'no-encontrado' });
+      }
+    } catch (err) {
+      console.error('Error al consultar estado:', err);
+      setResultado({ tipo: 'error' });
+    } finally {
+      setCargando(false); // detenemos la carga siempre al final
+    }
+  };
 
     const tipoDocNombre = tipoDocMap[tipoDoc];
 
@@ -62,40 +87,49 @@ const EstadoEstudiante = () => {
       <h2 className="text-3xl font-bold text-institucional">Consulta tu estado de inscripción</h2>
       <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-        <div>
-          <label className="block text-sm mb-1 font-semibold">Tipo de documento</label>
-          <select
-            className="w-full border rounded p-2"
-            value={tipoDoc}
-            onChange={(e) => setTipoDoc(e.target.value)}
-          >
-            <option value="">Selecciona</option>
-            <option value="rc">Registro Civil</option>
-            <option value="ti">Tarjeta de Identidad</option>
-            <option value="cc">Cédula de Ciudadanía</option>
-            <option value="ce">Cédula de Extranjería</option>
-            <option value="pa">Pasaporte</option>
-          </select>
-        </div>
+      <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    buscarEstado();
+  }}
+  className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end"
+>
+  <div>
+    <label className="block text-sm mb-1 font-semibold">Tipo de documento</label>
+    <select
+      className="w-full border rounded p-2"
+      value={tipoDoc}
+      onChange={(e) => setTipoDoc(e.target.value)}
+    >
+      <option value="">Selecciona</option>
+      <option value="rc">Registro Civil</option>
+      <option value="ti">Tarjeta de Identidad</option>
+      <option value="cc">Cédula de Ciudadanía</option>
+      <option value="ce">Cédula de Extranjería</option>
+      <option value="pa">Pasaporte</option>
+    </select>
+  </div>
 
-        <div>
-          <label className="block text-sm mb-1 font-semibold">Número de documento</label>
-          <input
-            type="text"
-            className="w-full border rounded p-2"
-            value={documento}
-            onChange={(e) => setDocumento(e.target.value)}
-          />
-        </div>
+  <div>
+    <label className="block text-sm mb-1 font-semibold">Número de documento</label>
+    <input
+      type="text"
+      className="w-full border rounded p-2"
+      value={documento}
+      onChange={(e) => setDocumento(e.target.value)}
+    />
+  </div>
 
-        <button
-          onClick={buscarEstado}
-          className="bg-institucional hover:bg-presentacionDark text-white px-6 py-2 rounded mt-2 sm:mt-0"
-        >
-          Consultar
-        </button>
-      </div>
+  <button
+    type="submit"
+    disabled={cargando}
+    className={`bg-institucional text-white px-6 py-2 rounded mt-2 sm:mt-0 transition-all ${
+      cargando ? 'bg-gray-400 cursor-wait' : 'hover:bg-presentacionDark'
+    }`}
+  >
+    {cargando ? 'Consultando...' : 'Consultar'}
+  </button>
+</form>
 
       {/* Resultado */}
       {resultado?.tipo === 'no-encontrado' && (

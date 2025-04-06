@@ -180,7 +180,7 @@ const EstadoEstudiante = () => {
             {resultado.cursos.map((c, i) => (
               <li key={i} className="border p-4 rounded text-sm bg-white space-y-3">
                 <p><strong>Curso:</strong> {c.cursoNombre}</p>
-                <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : 'Curso completo (3 meses)'}</p>
+                <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : c.formaPago === 'trimestral' ? 'Curso completo (3 meses)' : 'No especificado'}</p>
                 <p>
                   <strong>Estado del primer pago:</strong>{' '}
                   {c.pagoConfirmado ? (

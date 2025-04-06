@@ -207,11 +207,12 @@ const EstadoEstudiante = () => {
                 <div className="mt-4 bg-white p-4 border rounded">
                   <p className="text-sm font-medium mb-2">💰 Valor a pagar:</p>
                   <p className="text-lg font-semibold text-institucional">
-                    ${mesesSeleccionados.length * 35000} COP
+                  ${mesesSeleccionados.length * c.valorPagado} COP
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
-                    Realiza el pago a la cuenta <strong>BanColombia - Ahorros 1234567890</strong> a nombre de
-                    <strong> La Presentación Girardota</strong>.
+                    Cada mes tiene un valor de <strong>${c.valorPagado} COP</strong>. <br />
+                    Realiza el pago a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong> a nombre del
+                    <strong> Instituto Parroquial Nuestra Señora de la Presentación</strong>.
                   </p>
                 </div>
 

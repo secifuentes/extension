@@ -210,6 +210,11 @@ const EstadoEstudiante = () => {
                   <p className="text-lg font-semibold text-institucional">
                   ${(mesesSeleccionados.length * (c.valorPagado || 0)).toLocaleString('es-CO')} COP
                   </p>
+                  {c.esEstudiante && (
+                    <div className="text-sm text-blue-800 bg-blue-100 border border-blue-300 rounded px-3 py-2 mt-2">
+                      Nuevamente se aplicó el <strong>5%</strong> de descuento por ser parte de la familia Presentación.
+                      </div>
+                    )}
                   <p className="text-sm text-gray-600 mt-2">
                     Cada mes tiene un valor de <strong>${c.valorPagado} COP</strong>. <br />
                     Realiza el pago a la cuenta de ahorros <strong>Bancolombia No. 39900005178</strong> a nombre del

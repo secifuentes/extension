@@ -10,6 +10,7 @@ const EstadoEstudiante = () => {
   const [adminClave, setAdminClave] = useState('');
   const [errorLogin, setErrorLogin] = useState('');
   const [cargando, setCargando] = useState(false);
+  const [comprobanteSeleccionado, setComprobanteSeleccionado] = useState(null);
 
   // 👇 estos son los nuevos, aquí están bien ubicados
   const [cursoActivo, setCursoActivo] = useState(null);
@@ -207,7 +208,7 @@ const EstadoEstudiante = () => {
                 <div className="mt-4 bg-white p-4 border rounded">
                   <p className="text-sm font-medium mb-2">💰 Valor a pagar:</p>
                   <p className="text-lg font-semibold text-institucional">
-                  ${mesesSeleccionados.length * c.valorPagado} COP
+                  ${(mesesSeleccionados.length * (c.valorPagado || 0)).toLocaleString('es-CO')} COP
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
                     Cada mes tiene un valor de <strong>${c.valorPagado} COP</strong>. <br />

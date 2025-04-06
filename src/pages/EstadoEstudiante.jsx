@@ -15,7 +15,6 @@ const EstadoEstudiante = () => {
   const [cursoActivo, setCursoActivo] = useState(null);
   const [mesesSeleccionados, setMesesSeleccionados] = useState([]);
   
-a
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 

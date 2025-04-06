@@ -178,7 +178,14 @@ const EstadoEstudiante = () => {
           </div>
         )}
             {[2, 3].map((mes) => {
-              const pago = c.pagosMensuales?.find(p => p.mes === mes);
+              const pagos = Array.isArray(c.pagosMensuales)
+              ? c.pagosMensuales
+              : Object.entries(c.pagosMensuales || {}).map(([key, value]) => ({
+                mes: Number(key.replace('mes', '')),
+                ...value,
+              }));
+              
+              const pago = pagos.find(p => p.mes === mes);
               return (
                 <div key={mes} className="flex justify-between items-center text-sm border-b py-2">
                   <span>Mes {mes}</span>

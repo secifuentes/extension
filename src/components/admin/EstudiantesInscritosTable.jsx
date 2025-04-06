@@ -247,7 +247,7 @@ const EstudiantesInscritosTable = () => {
         <p className="text-center text-gray-600 mt-10 text-lg">Cargando estudiantes inscritos...</p>
       )}
 
-      {/* Tarjetas */}
+porque no me lo das completo ya modificado:  {/* Tarjetas */}
       {!cargando && (
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {filtrados.map((est, idx) => (
@@ -306,6 +306,7 @@ const EstudiantesInscritosTable = () => {
                   <p><strong>Fecha inscripción:</strong> {formatearFecha(est.fechaInscripcion)}</p>
                 </div>
               )}
+              
 
 {est.formaPago === 'mensual' && (
   <div className="mt-4 border-t pt-3 space-y-2">

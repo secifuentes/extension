@@ -249,41 +249,43 @@ const EstudiantesInscritosTable = () => {
 
 {/* Tarjetas */}
 {!cargando && (
-  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+  <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
     {filtrados.map((est) => (
-      <div key={est._id} className="bg-white border rounded-lg shadow-sm p-3 flex flex-col justify-between">
+      <div key={est._id} className="bg-white border rounded-lg shadow p-4 flex flex-col justify-between">
         {/* Datos básicos */}
         <div className="space-y-1">
-          <h3 className="font-semibold text-base text-gray-800 leading-tight">{est.nombres} {est.apellidos}</h3>
-          <p className="text-sm text-gray-600"><strong>Curso:</strong> {est.cursoNombre}</p>
-          <p className="text-sm text-gray-600"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
+          <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
+          <p className="text-sm"><strong>Curso:</strong> {est.cursoNombre}</p>
+          <p className="text-sm"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
         </div>
 
-        {/* Comprobante principal */}
-        {est.comprobante ? (
-          <button
-            onClick={() => setModalImagen(est.comprobante)}
-            className="text-blue-600 text-xs underline mt-2"
-          >
-            Ver comprobante
-          </button>
-        ) : (
-          <p className="text-xs text-gray-400 mt-2">Sin comprobante</p>
-        )}
+        {/* Comprobante inscripción */}
+        <div className="my-2">
+          {est.comprobante ? (
+            <button
+              onClick={() => setModalImagen(est.comprobante)}
+              className="text-blue-600 underline text-sm"
+            >
+              Ver comprobante
+            </button>
+          ) : (
+            <span className="text-gray-400 text-sm">Sin comprobante</span>
+          )}
+        </div>
 
-        {/* Botones acción */}
-        <div className="mt-2 flex flex-col gap-1">
+        {/* Botones de acción */}
+        <div className="flex flex-col gap-2 mt-2">
           {!est.pagoConfirmado && (
             <>
               <button
                 onClick={() => confirmarPago(est._id)}
-                className="w-full bg-green-600 text-white text-xs py-1 rounded hover:bg-green-700"
+                className="w-full bg-green-600 text-white text-sm py-2 px-3 rounded hover:bg-green-700"
               >
                 Confirmar pago
               </button>
               <button
                 onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                className="w-full bg-yellow-500 text-white text-xs py-1 rounded hover:bg-yellow-600"
+                className="w-full bg-yellow-500 text-white text-sm py-2 px-3 rounded hover:bg-yellow-600"
               >
                 Enviar recordatorio
               </button>
@@ -291,7 +293,7 @@ const EstudiantesInscritosTable = () => {
           )}
           <button
             onClick={() => eliminarEstudiante(est._id)}
-            className="w-full bg-red-600 text-white text-xs py-1 rounded hover:bg-red-700"
+            className="w-full bg-red-600 text-white text-sm py-2 px-3 rounded hover:bg-red-700"
           >
             Eliminar
           </button>
@@ -300,14 +302,14 @@ const EstudiantesInscritosTable = () => {
         {/* Ver más */}
         <button
           onClick={() => setExpandirTarjeta(expandirTarjeta === est._id ? null : est._id)}
-          className="text-xs text-blue-500 mt-2"
+          className="text-sm text-blue-500 mt-3"
         >
           {expandirTarjeta === est._id ? 'Ver menos' : 'Ver más'}
         </button>
 
         {/* Detalles */}
         {expandirTarjeta === est._id && (
-          <div className="text-xs text-gray-600 mt-2 space-y-1">
+          <div className="mt-3 text-sm text-gray-600 space-y-1 break-words">
             <p><strong>Correo:</strong> {est.correo}</p>
             <p><strong>Documento:</strong> {est.documento}</p>
             <p><strong>Teléfono:</strong> {est.telefono}</p>
@@ -317,37 +319,37 @@ const EstudiantesInscritosTable = () => {
           </div>
         )}
 
-        {/* Soportes pagos mensuales */}
+        {/* Pagos mensuales */}
         {est.formaPago === 'mensual' && (
-          <div className="mt-4 pt-2 border-t text-center">
-            <p className="text-sm font-semibold text-institucional mb-2">Soportes pagos mensuales</p>
+          <div className="mt-4 pt-3 border-t text-center">
+            <p className="text-sm font-semibold text-institucional mb-3">Soportes pagos mensuales</p>
             {[2, 3].map((mes) => {
               const pago = est.pagosMensuales?.find((p) => p.mes === mes);
               const tieneComprobante = !!pago?.comprobante;
               const estaVerificado = pago?.estado === 'verificado';
 
               return (
-                <div key={mes} className="mb-3">
-                  <p className="text-xs text-gray-700 font-medium mb-1">Mes {mes}</p>
+                <div key={mes} className="mb-4">
+                  <p className="text-sm font-medium">Mes {mes}</p>
 
                   {tieneComprobante ? (
                     <button
                       onClick={() => setModalImagen(pago.comprobante)}
-                      className="text-blue-600 text-xs underline"
+                      className="text-blue-600 underline text-sm"
                     >
                       Ver comprobante
                     </button>
                   ) : (
-                    <p className="text-xs text-gray-500">No enviado</p>
+                    <p className="text-sm text-gray-500">No enviado</p>
                   )}
 
                   {estaVerificado ? (
-                    <p className="text-green-700 font-semibold text-xs mt-1">✅ Confirmado</p>
+                    <p className="text-green-700 font-semibold text-sm mt-1">✅ Confirmado</p>
                   ) : (
                     <button
                       disabled={!tieneComprobante}
                       onClick={() => confirmarPagoMensual(est._id, mes)}
-                      className={`w-full mt-1 py-1 text-xs rounded ${
+                      className={`w-full mt-2 py-2 text-sm rounded ${
                         tieneComprobante
                           ? 'bg-green-600 text-white hover:bg-green-700'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'

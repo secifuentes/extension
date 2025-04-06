@@ -418,8 +418,16 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <p className="mt-2">Adjunta el comprobante para validar tu inscripción.</p>
 </div>
 
-                  <button type="submit" className="w-full bg-institucional text-white py-2 rounded hover:bg-presentacionDark">
-                    Finalizar inscripción
+                  <button
+                  type="submit"
+                  disabled={cargando}
+                  className={`w-full py-2 rounded transition-all duration-200 ${
+                    cargando
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-institucional hover:bg-presentacionDark text-white'
+                    }`}
+                    >
+                      {cargando ? 'Enviando...' : 'Finalizar inscripción'}
                   </button>
                 </form>
               )}

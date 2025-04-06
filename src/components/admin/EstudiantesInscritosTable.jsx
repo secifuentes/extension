@@ -247,7 +247,7 @@ const EstudiantesInscritosTable = () => {
         <p className="text-center text-gray-600 mt-10 text-lg">Cargando estudiantes inscritos...</p>
       )}
 
-porque no me lo das completo ya modificado:  {/* Tarjetas */}
+{/* Tarjetas */}
       {!cargando && (
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {filtrados.map((est, idx) => (

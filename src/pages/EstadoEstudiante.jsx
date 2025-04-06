@@ -88,9 +88,9 @@ const EstadoEstudiante = () => {
       <p className="text-sm text-gray-600">Verifica si estás inscrito en un curso de Extensión y el estado de tu pago.</p>
 
       <form
-  onSubmit={(e) => {
+  onSubmit={async (e) => {
     e.preventDefault();
-    buscarEstado();
+    await buscarEstado(); // 👈 esta función ya es async
   }}
   className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end"
 >

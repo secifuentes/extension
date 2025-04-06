@@ -338,10 +338,6 @@ const EstadoEstudiante = () => {
           </div>
         )}
       </div>
-    </div>
-  );
-};
-
       {/* 👇 Paso 4: Visor de comprobantes */}
       {comprobanteVisible && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -369,5 +365,9 @@ const EstadoEstudiante = () => {
           </div>
         </div>
       )}
+    </div>
+  );
+};
+
 
 export default EstadoEstudiante;

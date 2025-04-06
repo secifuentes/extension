@@ -16,11 +16,11 @@ const EstadoEstudiante = () => {
 
   const buscarEstado = async () => {
     setResultado(null);
-    setCargando(true); // activa el estado de carga
+    setCargando(true);
   
     if (!tipoDoc || !documento) {
       alert('Por favor selecciona el tipo de documento y escribe el número');
-      setCargando(false); // detenemos la carga si no hay datos
+      setCargando(false);
       return;
     }
   
@@ -46,7 +46,7 @@ const EstadoEstudiante = () => {
       console.error('Error al consultar estado:', err);
       setResultado({ tipo: 'error' });
     } finally {
-      setCargando(false); // detenemos la carga siempre al final
+      setCargando(false);
     }
   };
 

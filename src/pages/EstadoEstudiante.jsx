@@ -11,6 +11,8 @@ const EstadoEstudiante = () => {
   const [errorLogin, setErrorLogin] = useState('');
   const [cargando, setCargando] = useState(false);
   const [comprobanteSeleccionado, setComprobanteSeleccionado] = useState(null);
+  const [enviando, setEnviando] = useState(false);
+const [visorComprobante, setVisorComprobante] = useState(null); // Para ver el comprobante embebido
 
   // 👇 estos son los nuevos, aquí están bien ubicados
   const [cursoActivo, setCursoActivo] = useState(null);
@@ -245,47 +247,51 @@ const EstadoEstudiante = () => {
                 </div>
 
                 <button
-                  className="mt-4 bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark"
-                  onClick={async () => {
-                    if (!comprobanteSeleccionado || mesesSeleccionados.length === 0) {
-                      alert('Selecciona un mes y sube un comprobante.');
-                      return;
-                    }
+  className={`mt-4 bg-institucional text-white px-4 py-2 rounded ${
+    enviando ? 'cursor-wait bg-gray-400' : 'hover:bg-presentacionDark'
+  }`}
+  disabled={enviando}
+  onClick={async () => {
+    if (!comprobanteSeleccionado || mesesSeleccionados.length === 0) {
+      alert('Selecciona un mes y sube un comprobante.');
+      return;
+    }
 
-                    const reader = new FileReader();
-                    reader.onloadend = async () => {
-                      const base64 = reader.result?.split(',')[1];
-                      
-                      if (!base64) {
-                        console.error("❌ No se pudo leer el archivo en base64");
-                        alert("Error al leer el comprobante. Intenta con otro archivo.");
-                        return;
-                      }
-                      
-                      console.log("✅ Base64 generado:", base64.slice(0, 100)); // solo muestra los primeros 100 caracteres
+    setEnviando(true); // ✅ activa el estado de cargando
 
-                      for (const mes of mesesSeleccionados) {
-                        const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
-                          method: 'PUT',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ mes, comprobante: base64 }),
-                        });
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64 = reader.result?.split(',')[1];
 
-                        const data = await res.json();
-                        if (!res.ok) {
-                          console.error(`❌ Error subiendo comprobante del mes ${mes}:`, data?.error || '');
-                        }
-                      }
+      if (!base64) {
+        console.error("Error al leer el comprobante.");
+        alert("Error al leer el comprobante. Intenta con otro archivo.");
+        setEnviando(false);
+        return;
+      }
 
-                      alert('✅ Comprobante(s) enviado(s) correctamente');
-                      window.location.reload();
-                    };
+      for (const mes of mesesSeleccionados) {
+        const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mes, comprobante: base64 }),
+        });
 
-                    reader.readAsDataURL(comprobanteSeleccionado);
-                  }}
-                >
-                  Enviar comprobante(s)
-                </button>
+        const data = await res.json();
+        if (!res.ok) {
+          console.error(`Error subiendo comprobante del mes ${mes}:`, data?.error || '');
+        }
+      }
+
+      alert('Comprobante(s) enviado(s) correctamente');
+      window.location.reload();
+    };
+
+    reader.readAsDataURL(comprobanteSeleccionado);
+  }}
+>
+  {enviando ? 'Enviando...' : 'Enviar comprobante(s)'}
+</button>
               </>
             )}
           </>

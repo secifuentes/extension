@@ -169,6 +169,11 @@ const EstadoEstudiante = () => {
         ) : (
           <>
             <h4 className="font-semibold text-institucional">Estado de pagos mensuales:</h4>
+            {c.esEstudiante && (
+              <div className="bg-blue-50 border border-blue-200 p-3 rounded text-sm text-blue-800 font-medium">
+                Nuevamente se aplicó el <strong>5%</strong> de descuento por ser parte de la Familia Presentación.
+          </div>
+        )}
             {[2, 3].map((mes) => {
               const pago = c.pagosMensuales?.find(p => p.mes === mes);
               return (
@@ -177,25 +182,32 @@ const EstadoEstudiante = () => {
                   {pago ? (
                     <span>
                       📎{' '}
-                      <a href={pago.comprobante} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                      <a
+                      href={`data:${pago.comprobante.startsWith('/') ? 'image/jpeg' : 'application/pdf'};base64,${pago.comprobante}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                      >
                         Ver comprobante
                       </a>{' '}
                       — {pago.estado === 'verificado' ? '✅ Confirmado' : '⏳ Pendiente'}
                     </span>
                   ) : (
                     <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        className="accent-institucional"
-                        checked={mesesSeleccionados.includes(mes)}
-                        onChange={() => {
-                          setMesesSeleccionados((prev) =>
-                            prev.includes(mes)
-                              ? prev.filter((m) => m !== mes)
-                              : [...prev, mes]
-                          );
-                        }}
-                      />
+                     <input
+                     type="checkbox"
+                     className="accent-institucional"
+                     checked={mesesSeleccionados.includes(mes)}
+                     disabled={!!pago} // 🔒 bloquea si ya fue enviado
+                     onChange={() => {
+                    if (pago) return; // por si acaso, refuerzo para que no cambie estado
+                    setMesesSeleccionados((prev) =>
+                      prev.includes(mes)
+                    ? prev.filter((m) => m !== mes)
+                    : [...prev, mes]
+                  );
+                  }}
+                  />
                       <span>❌ No enviado</span>
                     </label>
                   )}

@@ -289,7 +289,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 
           {yaInscrito && (
             <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded mt-6">
-              Ya estás inscrito en este curso 🎓
+              Ya estás inscrito en este curso 
             </div>
           )}
 
@@ -342,9 +342,13 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       const result = await res.json();
                       if (res.ok) {
                         setInscripcionExitosa(true);
-                      } else {
-                        alert('Error al guardar inscripción');
-                      }
+                      } else if (res.status === 409 || result.mensaje?.includes('inscrito')) {
+                        setYaInscrito(true);        // 🟡 Mostramos el mensaje de “ya estás inscrito”
+                        setMostrarFormulario(false); // 🔒 Ocultamos el formulario si ya estaba inscrito
+                        } else {
+                          // Aquí podrías mostrar otro mensaje si quieres
+                          console.error('❌ Error inesperado:', result);
+                        }
                     } catch (err) {
                       console.error('❌ Error al enviar inscripción:', err);
                       alert('No se pudo conectar con el servidor');

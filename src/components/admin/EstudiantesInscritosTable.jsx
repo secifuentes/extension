@@ -308,65 +308,48 @@ const EstudiantesInscritosTable = () => {
               )}
               
 
-{est.formaPago === 'mensual' && (
+              {est.formaPago === 'mensual' && (
   <div className="mt-4 border-t pt-3 space-y-2">
     <p className="text-sm font-semibold text-institucional">Pagos mensuales adicionales:</p>
 
-    {/* MES 2 */}
-    <div className="space-y-1">
-      <p><strong>Mes 2:</strong></p>
-      {est.pagosMensuales?.mes2?.comprobante ? (
-        <>
-          <button
-            onClick={() => setModalImagen(est.pagosMensuales.mes2.comprobante)}
-            className="text-blue-600 underline text-xs"
-          >
-            Ver comprobante mes 2
-          </button>
-          {!est.pagosMensuales.mes2.confirmado && (
-            <button
-              onClick={() => confirmarPagoMensual(est._id, 'mes2')}
-              className="ml-2 bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700"
-            >
-              Confirmar mes 2
-            </button>
-          )}
-          {est.pagosMensuales.mes2.confirmado && (
-            <span className="ml-2 text-green-700 font-semibold text-xs">✅ Confirmado</span>
-          )}
-        </>
-      ) : (
-        <p className="text-gray-500 text-xs">No subido</p>
-      )}
-    </div>
+    {[2, 3].map((mes) => {
+      const pago = est.pagosMensuales?.find((p) => p.mes === mes);
+      const tieneComprobante = !!pago?.comprobante;
+      const estaVerificado = pago?.estado === 'verificado';
 
-    {/* MES 3 */}
-    <div className="space-y-1">
-      <p><strong>Mes 3:</strong></p>
-      {est.pagosMensuales?.mes3?.comprobante ? (
-        <>
-          <button
-            onClick={() => setModalImagen(est.pagosMensuales.mes3.comprobante)}
-            className="text-blue-600 underline text-xs"
-          >
-            Ver comprobante mes 3
-          </button>
-          {!est.pagosMensuales.mes3.confirmado && (
+      return (
+        <div key={mes} className="space-y-1">
+          <p><strong>Mes {mes}:</strong></p>
+
+          {tieneComprobante ? (
             <button
-              onClick={() => confirmarPagoMensual(est._id, 'mes3')}
-              className="ml-2 bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700"
+              onClick={() => setModalImagen(pago.comprobante)}
+              className="text-blue-600 underline text-xs"
             >
-              Confirmar mes 3
+              Ver comprobante mes {mes}
+            </button>
+          ) : (
+            <p className="text-xs text-gray-500">No enviado aún</p>
+          )}
+
+          {estaVerificado ? (
+            <span className="ml-2 text-green-700 font-semibold text-xs">✅ Confirmado</span>
+          ) : (
+            <button
+              disabled={!tieneComprobante}
+              onClick={() => confirmarPagoMensual(est._id, mes)}
+              className={`ml-2 px-2 py-1 rounded text-xs transition ${
+                tieneComprobante
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              Confirmar mes {mes}
             </button>
           )}
-          {est.pagosMensuales.mes3.confirmado && (
-            <span className="ml-2 text-green-700 font-semibold text-xs">✅ Confirmado</span>
-          )}
-        </>
-      ) : (
-        <p className="text-gray-500 text-xs">No subido</p>
-      )}
-    </div>
+        </div>
+      );
+    })}
   </div>
 )}
             </div>

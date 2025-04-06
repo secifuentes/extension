@@ -14,7 +14,6 @@ const EstadoEstudiante = () => {
   // 👇 estos son los nuevos, aquí están bien ubicados
   const [cursoActivo, setCursoActivo] = useState(null);
   const [mesesSeleccionados, setMesesSeleccionados] = useState([]);
-  const [comprobanteSeleccionado, setComprobanteSeleccionado] = useState(null);
   
 a
   const navigate = useNavigate();

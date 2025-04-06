@@ -340,31 +340,31 @@ const EstadoEstudiante = () => {
       </div>
       {/* 👇 Paso 4: Visor de comprobantes */}
       {comprobanteVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded max-w-2xl w-full relative shadow-lg">
-            <button
-              onClick={() => setComprobanteVisible(null)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black text-lg font-bold"
-            >
-              ×
-            </button>
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-4 rounded max-w-2xl w-full relative shadow-lg">
+      <button
+        onClick={() => setComprobanteVisible(null)}
+        className="absolute top-2 right-2 text-gray-600 hover:text-black text-lg font-bold"
+      >
+        ×
+      </button>
 
-            {comprobanteVisible.startsWith('/') ? (
-              <img
-                src={`data:image/jpeg;base64,${comprobanteVisible}`}
-                alt="Comprobante"
-                className="max-h-[70vh] w-full object-contain"
-              />
-            ) : (
-              <iframe
-                src={`data:application/pdf;base64,${comprobanteVisible}`}
-                title="Comprobante PDF"
-                className="w-full h-[70vh]"
-              />
-            )}
-          </div>
-        </div>
+      {comprobanteVisible.includes('iVBOR') || comprobanteVisible.includes('/9j/') ? (
+        <img
+          src={`data:image/jpeg;base64,${comprobanteVisible}`}
+          alt="Comprobante"
+          className="max-h-[70vh] w-full object-contain"
+        />
+      ) : (
+        <iframe
+          src={`data:application/pdf;base64,${comprobanteVisible}`}
+          title="Comprobante PDF"
+          className="w-full h-[70vh]"
+        />
       )}
+    </div>
+  </div>
+)}
     </div>
   );
 };

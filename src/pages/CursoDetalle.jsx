@@ -51,7 +51,7 @@ const CursoDetalle = () => {
   const [yaInscrito, setYaInscrito] = useState(false);
   const [esMenor, setEsMenor] = useState(false);
   const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
-  const [modoPago, setModoPago] = useState('trimestral');
+  const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
   const [loading, setLoading] = useState(true);
@@ -330,6 +330,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
                     console.log("📤 Enviando datos:", data);
                     console.log("➡ Enviando inscripción a:", `${API_URL}/api/inscripciones`);
+                    console.log("📝 Forma de pago enviada:", modoPago);
                     
 
                     try {
@@ -359,7 +360,13 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                   className="space-y-4"
                 >
                   <label className="block font-semibold">Forma de pago:</label>
-                  <select className="w-full border p-2 rounded" value={modoPago} onChange={(e) => setModoPago(e.target.value)}>
+                  <select
+                  className="w-full border p-2 rounded"
+                  value={modoPago}
+                  onChange={(e) => setModoPago(e.target.value)}
+                  required
+                  >
+                    <option value="">Selecciona una opción</option>
                     <option value="trimestral">Curso completo (3 meses)</option>
                     <option value="mensual">Pago mensual</option>
                   </select>

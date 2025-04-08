@@ -296,27 +296,34 @@ const EstudiantesInscritosTable = () => {
 
           {/* Acciones */}
           <div className="flex flex-col gap-2">
-            {!est.pagoConfirmado && (
-              <>
-                <button
-                onClick={() => confirmarPago(est._id)}
-                disabled={confirmandoPagoId === est._id}
-                className={`w-full text-sm py-2 rounded transition ${
-                  confirmandoPagoId === est._id
-                  ? 'bg-gray-300 text-institucional cursor-wait'
-                  : 'bg-green-600 text-white hover:bg-green-700'
-                  }`}
-                  >
-                    {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
-                </button>
-                <button
-                  onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
-                  className="w-full bg-yellow-500 text-white text-sm py-2 rounded hover:bg-yellow-600"
-                >
-                  Enviar recordatorio
-                </button>
-              </>
-            )}
+          {est.pagoConfirmado ? (
+  <button
+    disabled
+    className="w-full text-sm py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
+  >
+    Confirmado ✅
+  </button>
+) : (
+  <>
+    <button
+      onClick={() => confirmarPago(est._id)}
+      disabled={confirmandoPagoId === est._id}
+      className={`w-full text-sm py-2 rounded transition ${
+        confirmandoPagoId === est._id
+          ? 'bg-gray-300 text-institucional cursor-wait'
+          : 'bg-green-600 text-white hover:bg-green-700'
+      }`}
+    >
+      {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
+    </button>
+    <button
+      onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
+      className="w-full bg-yellow-500 text-white text-sm py-2 rounded hover:bg-yellow-600"
+    >
+      Enviar recordatorio
+    </button>
+  </>
+)}
             <button
               onClick={() => eliminarEstudiante(est._id)}
               className="w-full bg-red-600 text-white text-sm py-2 rounded hover:bg-red-700"

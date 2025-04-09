@@ -73,22 +73,32 @@ const CursoDetalle = () => {
       return;
     }
   
-    // Paso 4: Mostrar qué se está buscando
     console.log("🔎 Buscando estudiante con:", tipoDoc, documento);
   
     try {
-      const res = await fetch(`${API_URL}/api/estudiantes/${encodeURIComponent(tipoDoc)}/${documento}`);
-      if (!res.ok) {
-        console.log("❌ Estudiante no encontrado en la base de datos");
-        setDatosEstudiante(null);
-        setMostrarFormulario(true);
-        return;
+      const tiposEquivalentes = ["Registro Civil", "Tarjeta de Identidad"];
+      const tiposAConsultar = tiposEquivalentes.includes(tipoDoc)
+        ? tiposEquivalentes
+        : [tipoDoc];
+  
+      let estudianteEncontrado = null;
+  
+      for (const tipo of tiposAConsultar) {
+        const res = await fetch(`${API_URL}/api/estudiantes/${encodeURIComponent(tipo)}/${documento}`);
+        if (res.ok) {
+          estudianteEncontrado = await res.json();
+          break;
+        }
       }
   
-      const estudiante = await res.json();
-      setDatosEstudiante(estudiante);
-      setMostrarFormulario(true);
-      setYaInscrito(false);
+      if (estudianteEncontrado) {
+        setDatosEstudiante(estudianteEncontrado);
+        setMostrarFormulario(true);
+        setYaInscrito(false);
+      } else {
+        setDatosEstudiante(null);
+        setMostrarFormulario(true);
+      }
     } catch (error) {
       console.error("❌ Error al buscar estudiante:", error);
       setDatosEstudiante(null);

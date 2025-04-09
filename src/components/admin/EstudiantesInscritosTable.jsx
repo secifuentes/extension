@@ -18,6 +18,7 @@ const EstudiantesInscritosTable = () => {
   const [confirmandoPagoId, setConfirmandoPagoId] = useState(null);
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
+  
 
   useEffect(() => {
     fetchInscripciones();
@@ -445,11 +446,7 @@ const EstudiantesInscritosTable = () => {
           </div>
         </div>
       )}
-    </div>
-  );
-};
-
-{modalEditar && (
+      {modalEditar && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
       <button
@@ -504,4 +501,9 @@ const EstudiantesInscritosTable = () => {
     </div>
   </div>
 )}
+    </div>
+  );
+};
+
+
 export default EstudiantesInscritosTable;

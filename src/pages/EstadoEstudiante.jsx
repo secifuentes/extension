@@ -43,7 +43,9 @@ const EstadoEstudiante = () => {
     const tipoDocNombre = tipoDocMap[tipoDoc];
 
     try {
-      const res = await fetch(`${API_URL}/api/inscripciones/estado/${tipoDocNombre}/${documento}`);
+      const res = await fetch(
+        `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDocNombre)}/${encodeURIComponent(documento)}`
+      );
       const data = await res.json();
       if (res.ok) {
         setResultado(data);

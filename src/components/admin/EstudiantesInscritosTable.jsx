@@ -17,6 +17,7 @@ const EstudiantesInscritosTable = () => {
   const [cargando, setCargando] = useState(true);
   const [confirmandoPagoId, setConfirmandoPagoId] = useState(null);
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
+  const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
 
   useEffect(() => {
     fetchInscripciones();
@@ -118,6 +119,10 @@ const EstudiantesInscritosTable = () => {
     } catch (err) {
       console.error('Error eliminando estudiante:', err);
     }
+  };
+
+  const abrirModalEdicion = (estudiante) => {
+    setModalEditar(estudiante);
   };
 
   const eliminarTodas = async () => {
@@ -330,6 +335,13 @@ const EstudiantesInscritosTable = () => {
             >
               Eliminar
             </button>
+
+            <button
+  onClick={() => abrirModalEdicion(est)}
+  className="w-full bg-blue-600 text-white text-sm py-2 rounded hover:bg-blue-700"
+>
+  Editar info
+</button>
           </div>
 
           {/* Botones inferiores: ver más / pagos mensuales */}
@@ -437,4 +449,59 @@ const EstudiantesInscritosTable = () => {
   );
 };
 
+{modalEditar && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+      <button
+        onClick={() => setModalEditar(null)}
+        className="absolute top-3 right-4 text-xl font-bold text-gray-500"
+      >
+        &times;
+      </button>
+      <h3 className="text-xl font-bold text-institucional mb-4">Editar información</h3>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const actualizados = {
+            nombres: form.nombres.value,
+            apellidos: form.apellidos.value,
+            correo: form.correo.value,
+            telefono: form.telefono.value,
+          };
+
+          try {
+            const res = await fetch(`${API_URL}/api/inscripciones/${modalEditar._id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(actualizados),
+            });
+
+            if (res.ok) {
+              alert('✅ Datos actualizados');
+              setModalEditar(null);
+              fetchInscripciones();
+            } else {
+              alert('❌ Error al actualizar');
+            }
+          } catch (err) {
+            console.error('❌ Error:', err);
+          }
+        }}
+        className="space-y-3"
+      >
+        <input name="nombres" defaultValue={modalEditar.nombres} className="w-full border p-2 rounded" />
+        <input name="apellidos" defaultValue={modalEditar.apellidos} className="w-full border p-2 rounded" />
+        <input name="correo" defaultValue={modalEditar.correo} className="w-full border p-2 rounded" />
+        <input name="telefono" defaultValue={modalEditar.telefono} className="w-full border p-2 rounded" />
+        <button
+          type="submit"
+          className="bg-institucional text-white px-4 py-2 rounded w-full hover:bg-presentacionDark"
+        >
+          Guardar cambios
+        </button>
+      </form>
+    </div>
+  </div>
+)}
 export default EstudiantesInscritosTable;

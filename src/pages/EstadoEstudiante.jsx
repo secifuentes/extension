@@ -160,12 +160,47 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
   <strong>
     {c.formaPago === 'mensual' ? 'Estado del primer pago:' : 'Estado de pago:'}
   </strong>{' '}
-  {c.pagoConfirmado ? (
-    <span className="text-green-700 font-semibold">Pago confirmado</span>
-  ) : (
-    <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
-  )}
+  {c.comprobanteEstado === 'verificado' ? (
+  <span className="text-green-700 font-semibold">✅ Pago confirmado</span>
+) : c.comprobanteEstado === 'rechazado' ? (
+  <>
+    <p className="text-red-700 font-semibold">❌ Comprobante rechazado</p>
+    <button
+      onClick={() => {
+        setCursoActivo(c._id);
+        setMesesSeleccionados([]);
+        setComprobanteSeleccionado(null);
+      }}
+      className="text-sm text-red-600 underline font-semibold mt-1"
+    >
+      Subir nuevo comprobante
+    </button>
+  </>
+) : (
+  <span className="text-yellow-700 font-semibold">⏳ Pendiente de verificación</span>
+)}
 </p>
+
+{c.comprobanteEstado === 'rechazado' && c.comprobante && (
+  <div className="mt-2 space-y-1">
+    <button
+      onClick={() => setComprobanteVisible(c.comprobante)}
+      className="text-blue-600 underline text-sm"
+    >
+      Ver comprobante rechazado
+    </button>
+    <button
+      onClick={() => {
+        setCursoActivo(c._id);
+        setMesesSeleccionados([]);
+        setComprobanteSeleccionado(null);
+      }}
+      className="text-red-600 underline font-semibold text-sm"
+    >
+      Subir nuevo comprobante
+    </button>
+  </div>
+)}
     <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
 
     {c.formaPago === 'mensual' && (
@@ -312,10 +347,13 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
       }
 
       for (const mes of mesesSeleccionados) {
-        const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
+        const res = await fetch(`${API_URL}/api/inscripciones/${c._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mes, comprobante: base64 }),
+          body: JSON.stringify({ 
+            comprobante: base64,
+            comprobanteEstado: 'pendiente'
+          }),
         });
 
         const data = await res.json();

@@ -19,6 +19,9 @@ const EstudiantesInscritosTable = () => {
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
   const [rechazandoId, setRechazandoId] = useState(null);
+  const [modalSubirNuevo, setModalSubirNuevo] = useState(null); // contiene el estudiante
+  const [nuevoComprobante, setNuevoComprobante] = useState(null);
+  const [enviandoNuevo, setEnviandoNuevo] = useState(false);
   
 
   useEffect(() => {
@@ -317,18 +320,40 @@ const EstudiantesInscritosTable = () => {
           </div>
 
           {/* Comprobante principal */}
-          <div className="text-center mb-3">
-            {est.comprobante ? (
-              <button
-                onClick={() => setModalImagen(est.comprobante)}
-                className="text-blue-600 underline text-sm"
-              >
-                Ver comprobante
-              </button>
-            ) : (
-              <span className="text-sm text-gray-400">Sin comprobante</span>
-            )}
-          </div>
+<div className="text-center mb-3 space-y-1">
+  {est.comprobante ? (
+    <>
+      <button
+        onClick={() => setModalImagen(est.comprobante)}
+        className="text-blue-600 underline text-sm"
+      >
+        Ver comprobante
+      </button>
+      <div className="text-xs font-medium">
+        {est.comprobanteEstado === 'verificado' && (
+          <span className="text-green-600">✅ Confirmado</span>
+        )}
+        {est.comprobanteEstado === 'rechazado' && (
+          <span className="text-red-600">❌ Rechazado</span>
+        )}
+        {(!est.comprobanteEstado || est.comprobanteEstado === 'pendiente') && (
+          <span className="text-yellow-600">⏳ Pendiente</span>
+        )}
+      </div>
+
+      {est.comprobanteEstado === 'rechazado' && (
+  <button
+    className="w-full bg-blue-500 text-white text-sm py-2 rounded hover:bg-blue-600 mt-2"
+    onClick={() => setModalSubirNuevo(est)}
+  >
+    Subir nuevo comprobante
+  </button>
+)}
+    </>
+  ) : (
+    <span className="text-sm text-gray-400">Sin comprobante</span>
+  )}
+</div>
 
           {/* Acciones */}
           <div className="flex flex-col gap-2">
@@ -353,7 +378,7 @@ const EstudiantesInscritosTable = () => {
       {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
     </button>
 
-    {est.comprobante && (
+    {est.comprobante && est.comprobanteEstado === 'pendiente' && (
   <button
     onClick={() => rechazarComprobante(est._id)}
     disabled={rechazandoId === est._id}
@@ -573,5 +598,60 @@ const EstudiantesInscritosTable = () => {
   );
 };
 
+{modalSubirNuevo && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+      <button
+        onClick={() => setModalSubirNuevo(null)}
+        className="absolute top-3 right-4 text-xl font-bold text-gray-500"
+      >
+        &times;
+      </button>
+      <h3 className="text-xl font-bold text-institucional mb-4">Subir nuevo comprobante</h3>
+      
+      <input
+        type="file"
+        accept="image/*,.pdf"
+        onChange={(e) => setNuevoComprobante(e.target.files[0])}
+        className="w-full border p-2 rounded mb-4"
+      />
+
+      <button
+        onClick={async () => {
+          if (!nuevoComprobante) {
+            alert('Selecciona un archivo');
+            return;
+          }
+
+          setEnviandoNuevo(true);
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const base64 = reader.result.split(',')[1];
+            const res = await fetch(`${API_URL}/api/inscripciones/${modalSubirNuevo._id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ comprobante: base64, comprobanteEstado: 'pendiente' }),
+            });
+
+            if (res.ok) {
+              alert('📤 Comprobante actualizado');
+              setModalSubirNuevo(null);
+              setNuevoComprobante(null);
+              fetchInscripciones();
+            } else {
+              alert('❌ Error al subir el comprobante');
+            }
+            setEnviandoNuevo(false);
+          };
+          reader.readAsDataURL(nuevoComprobante);
+        }}
+        disabled={enviandoNuevo}
+        className="bg-institucional text-white px-4 py-2 rounded w-full hover:bg-presentacionDark"
+      >
+        {enviandoNuevo ? 'Enviando...' : 'Enviar'}
+      </button>
+    </div>
+  </div>
+)}
 
 export default EstudiantesInscritosTable;

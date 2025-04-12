@@ -19,7 +19,6 @@ const EstudiantesInscritosTable = () => {
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
   const [rechazandoId, setRechazandoId] = useState(null);
-  const [rechazados, setRechazados] = useState({});
   
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const EstudiantesInscritosTable = () => {
     }
   };
 
-  const rechazarComprobante = async (id) => {
+  const rechazarComprobante = async (id, mes = null) => {
     const confirmar = confirm('¿Estás seguro de rechazar este comprobante? Esto enviará un correo al estudiante.');
   
     if (!confirmar) return;
@@ -72,11 +71,13 @@ const EstudiantesInscritosTable = () => {
     try {
       const res = await fetch(`${API_URL}/api/inscripciones/rechazar-comprobante/${id}`, {
         method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mes }),
       });
   
       if (res.ok) {
         alert('📨 Correo de rechazo enviado');
-        setRechazados((prev) => ({ ...prev, [id]: true }));
+        fetchInscripciones(); // ✅ recargar los datos actualizados
       } else {
         const data = await res.json();
         alert(`❌ Error al rechazar: ${data?.error || 'Error desconocido'}`);
@@ -352,22 +353,21 @@ const EstudiantesInscritosTable = () => {
       {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
     </button>
 
-    {est.comprobante && (
+    {est.comprobante && est.pagosMensuales?.some(p => p.estado !== 'rechazado') && (
   <button
     onClick={() => rechazarComprobante(est._id)}
-    disabled={rechazandoId === est._id || rechazados[est._id]}
+    disabled={rechazandoId === est._id}
     className={`w-full text-sm py-2 rounded transition ${
-      rechazandoId === est._id || rechazados[est._id]
-        ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+      rechazandoId === est._id
+        ? 'bg-gray-300 text-gray-600 cursor-wait'
         : 'bg-red-600 text-white hover:bg-red-700'
     }`}
   >
-    {rechazandoId === est._id
-      ? 'Enviando...'
-      : rechazados[est._id]
-      ? 'Correo enviado'
-      : 'Rechazar comprobante'}
+    {rechazandoId === est._id ? 'Enviando...' : 'Rechazar comprobante'}
   </button>
+)}
+{est.pagosMensuales?.some(p => p.estado === 'rechazado') && (
+  <p className="text-red-600 text-sm font-medium text-center">Correo enviado ✅</p>
 )}
 
     <button
@@ -445,6 +445,8 @@ const EstudiantesInscritosTable = () => {
                 return (
                   <div key={mes} className="space-y-1">
                     <p className="text-sm font-medium">Mes {mes}</p>
+                
+                    {/* Ver comprobante */}
                     {tieneComprobante ? (
                       <button
                         onClick={() => setModalImagen(pago.comprobante)}
@@ -455,24 +457,45 @@ const EstudiantesInscritosTable = () => {
                     ) : (
                       <p className="text-sm text-gray-400">No enviado</p>
                     )}
-                    {estaVerificado ? (
+                
+                    {/* Mostrar estado */}
+                    {estaVerificado && (
                       <p className="text-green-700 font-semibold text-sm">✅ Confirmado</p>
-                    ) : (
-                      <button
-                      disabled={!tieneComprobante || pagosMensualesConfirmando[`${est._id}-${mes}`]}
-                      onClick={() => confirmarPagoMensual(est._id, mes)}
-                      className={`w-full mt-1 py-2 text-sm rounded transition ${
-                        !tieneComprobante
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : pagosMensualesConfirmando[`${est._id}-${mes}`]
-                        ? 'bg-gray-300 text-institucional cursor-wait'
-                        : 'bg-green-600 text-white hover:bg-green-700'
-                        }`}
+                    )}
+                
+                    {pago?.estado === 'rechazado' && (
+                      <p className="text-sm text-red-600 font-semibold">❌ Rechazado</p>
+                    )}
+                
+                    {/* Botón de confirmación o rechazo */}
+                    {!estaVerificado && tieneComprobante && (
+                      <div className="space-y-2">
+                        <button
+                          disabled={pagosMensualesConfirmando[`${est._id}-${mes}`]}
+                          onClick={() => confirmarPagoMensual(est._id, mes)}
+                          className={`w-full py-2 text-sm rounded transition ${
+                            pagosMensualesConfirmando[`${est._id}-${mes}`]
+                              ? 'bg-gray-300 text-institucional cursor-wait'
+                              : 'bg-green-600 text-white hover:bg-green-700'
+                          }`}
                         >
                           {pagosMensualesConfirmando[`${est._id}-${mes}`]
-                          ? 'Enviando...'
-                          : `Confirmar mes ${mes}`}
+                            ? 'Enviando...'
+                            : `Confirmar mes ${mes}`}
                         </button>
+                
+                        <button
+                          onClick={() => rechazarComprobante(est._id, mes)}
+                          disabled={rechazandoId === est._id}
+                          className={`w-full py-2 text-sm rounded transition ${
+                            rechazandoId === est._id
+                              ? 'bg-gray-300 text-gray-600 cursor-wait'
+                              : 'bg-red-600 text-white hover:bg-red-700'
+                          }`}
+                        >
+                          {rechazandoId === est._id ? 'Enviando...' : `Rechazar mes ${mes}`}
+                        </button>
+                      </div>
                     )}
                   </div>
                 );

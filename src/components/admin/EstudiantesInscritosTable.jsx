@@ -353,7 +353,7 @@ const EstudiantesInscritosTable = () => {
       {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
     </button>
 
-    {est.comprobante && est.pagosMensuales?.some(p => p.estado !== 'rechazado') && (
+    {est.comprobante && (
   <button
     onClick={() => rechazarComprobante(est._id)}
     disabled={rechazandoId === est._id}
@@ -365,9 +365,6 @@ const EstudiantesInscritosTable = () => {
   >
     {rechazandoId === est._id ? 'Enviando...' : 'Rechazar comprobante'}
   </button>
-)}
-{est.pagosMensuales?.some(p => p.estado === 'rechazado') && (
-  <p className="text-red-600 text-sm font-medium text-center">Correo enviado ✅</p>
 )}
 
     <button

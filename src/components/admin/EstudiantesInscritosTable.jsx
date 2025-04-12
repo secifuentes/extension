@@ -18,6 +18,8 @@ const EstudiantesInscritosTable = () => {
   const [confirmandoPagoId, setConfirmandoPagoId] = useState(null);
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
+  const [rechazandoId, setRechazandoId] = useState(null);
+  const [rechazados, setRechazados] = useState({});
   
 
   useEffect(() => {
@@ -57,6 +59,33 @@ const EstudiantesInscritosTable = () => {
       console.error('Error confirmando pago:', err);
     } finally {
       setConfirmandoPagoId(null); // Quitamos el estado "enviando"
+    }
+  };
+
+  const rechazarComprobante = async (id) => {
+    const confirmar = confirm('¿Estás seguro de rechazar este comprobante? Esto enviará un correo al estudiante.');
+  
+    if (!confirmar) return;
+  
+    setRechazandoId(id);
+  
+    try {
+      const res = await fetch(`${API_URL}/api/inscripciones/rechazar-comprobante/${id}`, {
+        method: 'PUT',
+      });
+  
+      if (res.ok) {
+        alert('📨 Correo de rechazo enviado');
+        setRechazados((prev) => ({ ...prev, [id]: true }));
+      } else {
+        const data = await res.json();
+        alert(`❌ Error al rechazar: ${data?.error || 'Error desconocido'}`);
+      }
+    } catch (err) {
+      console.error('❌ Error al rechazar comprobante:', err);
+      alert('Hubo un error al rechazar el comprobante');
+    } finally {
+      setRechazandoId(null);
     }
   };
 
@@ -322,6 +351,25 @@ const EstudiantesInscritosTable = () => {
     >
       {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
     </button>
+
+    {est.comprobante && (
+  <button
+    onClick={() => rechazarComprobante(est._id)}
+    disabled={rechazandoId === est._id || rechazados[est._id]}
+    className={`w-full text-sm py-2 rounded transition ${
+      rechazandoId === est._id || rechazados[est._id]
+        ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+        : 'bg-red-600 text-white hover:bg-red-700'
+    }`}
+  >
+    {rechazandoId === est._id
+      ? 'Enviando...'
+      : rechazados[est._id]
+      ? 'Correo enviado'
+      : 'Rechazar comprobante'}
+  </button>
+)}
+
     <button
       onClick={() => enviarRecordatorio(est.correo, est.cursoNombre)}
       className="w-full bg-yellow-500 text-white text-sm py-2 rounded hover:bg-yellow-600"

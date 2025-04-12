@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const EstadoEstudiante = () => {
   const [tipoDoc, setTipoDoc] = useState('');
@@ -21,44 +22,51 @@ const EstadoEstudiante = () => {
   
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
+  const location = useLocation();
 
-  const buscarEstado = async () => {
-    setResultado(null);
-    setCargando(true);
+useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const tipo = params.get('tipo');
+  const doc = params.get('doc');
 
-    if (!tipoDoc || !documento) {
-      alert('Por favor selecciona el tipo de documento y escribe el número');
-      setCargando(false);
-      return;
-    }
+  if (tipo && doc) {
+    setTipoDoc(tipo);
+    setDocumento(doc);
+    buscarEstado(tipo, doc); // 💡 esta línea es importante
+  }
+}, []);
 
-    const tipoDocMap = {
-      rc: 'Registro Civil',
-      ti: 'Tarjeta de Identidad',
-      cc: 'Cédula de Ciudadanía',
-      ce: 'Cédula de Extranjería',
-      pa: 'Pasaporte',
-    };
+const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento) => {
+  setResultado(null);
+  setCargando(true);
 
-    const tipoDocNombre = tipoDocMap[tipoDoc];
-
-    try {
-      const res = await fetch(
-        `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDocNombre)}/${encodeURIComponent(documento)}`
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setResultado(data);
-      } else {
-        setResultado({ tipo: 'no-encontrado' });
-      }
-    } catch (err) {
-      console.error('Error al consultar estado:', err);
-      setResultado({ tipo: 'error' });
-    } finally {
-      setCargando(false);
-    }
+  const tipoDocMap = {
+    rc: 'Registro Civil',
+    ti: 'Tarjeta de Identidad',
+    cc: 'Cédula de Ciudadanía',
+    ce: 'Cédula de Extranjería',
+    pa: 'Pasaporte',
   };
+
+  const tipoDocNombre = tipoDocMap[tipoFromParams];
+
+  try {
+    const res = await fetch(
+      `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDocNombre)}/${encodeURIComponent(docFromParams)}`
+    );
+    const data = await res.json();
+    if (res.ok) {
+      setResultado(data);
+    } else {
+      setResultado({ tipo: 'no-encontrado' });
+    }
+  } catch (err) {
+    console.error('Error al consultar estado:', err);
+    setResultado({ tipo: 'error' });
+  } finally {
+    setCargando(false);
+  }
+};
 
   const validarAdmin = () => {
     if (adminUsuario === 'secifuentes' && adminClave === '1624Scc$') {
@@ -149,13 +157,15 @@ const EstadoEstudiante = () => {
     <p><strong>Curso:</strong> {c.cursoNombre}</p>
     <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : 'Curso completo (3 meses)'}</p>
     <p>
-      <strong>Estado del primer pago:</strong>{' '}
-      {c.pagoConfirmado ? (
-        <span className="text-green-700 font-semibold">Pago confirmado</span>
-      ) : (
-        <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
-      )}
-    </p>
+  <strong>
+    {c.formaPago === 'mensual' ? 'Estado del primer pago:' : 'Estado de pago:'}
+  </strong>{' '}
+  {c.pagoConfirmado ? (
+    <span className="text-green-700 font-semibold">Pago confirmado</span>
+  ) : (
+    <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
+  )}
+</p>
     <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
 
     {c.formaPago === 'mensual' && (

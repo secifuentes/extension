@@ -210,7 +210,30 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
                       >
                         Ver comprobante
                       </button>{' '}
-                      — {pago.estado === 'verificado' ? 'Pago confirmado' : 'Pendiente de verificación'}
+                      — {pago.estado === 'verificado' ? (
+  <span className="text-green-700 font-semibold">Pago confirmado</span>
+) : pago.estado === 'rechazado' ? (
+  <div className="space-y-1">
+    <button
+      onClick={() => setComprobanteVisible(pago.comprobante)}
+      className="text-blue-600 underline"
+    >
+      Ver comprobante rechazado
+    </button>
+    <button
+      onClick={() => {
+        setCursoActivo(c._id);
+        setMesesSeleccionados([mes]);
+        setComprobanteSeleccionado(null);
+      }}
+      className="text-red-600 underline font-semibold"
+    >
+      Subir nuevo comprobante
+    </button>
+  </div>
+) : (
+  <span className="text-yellow-700 font-semibold">Pendiente de verificación ⏳</span>
+)}
                     </span>
                   ) : (
                     <label className="flex items-center space-x-2">

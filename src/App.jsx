@@ -45,11 +45,12 @@ const App = () => {
       <Routes>
         {/* Rutas públicas con MainLayout */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/curso/:slug" element={<CursoDetalle />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/estado" element={<EstadoEstudiante />} />
-        </Route>
+  <Route path="/" element={<Home />} />
+  <Route path="/curso/:slug" element={<CursoDetalle />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/estado" element={<EstadoEstudiante />} />
+  <Route path="/estado-inscripcion" element={<EstadoEstudiante />} /> {/* ✅ Ruta añadida */}
+</Route>
 
         {/* Paneles independientes */}
         <Route path="/estudiante" element={<EstudiantePanel />} />

@@ -237,9 +237,9 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
 
   {/* Botones para comprobante rechazado */}
   {c.comprobanteEstado === 'rechazado' && (
-  <div className="mt-3 p-4 bg-red-50 border border-red-200 rounded space-y-2">
-    <div className="text-red-700 font-semibold flex items-center gap-2">
-      ❌ <span>Comprobante rechazado</span>
+  <div className="mt-3 p-4 bg-red-50 border border-red-200 rounded space-y-4">
+    <div className="text-red-700 font-semibold">
+      Comprobante rechazado
     </div>
 
     {c.comprobante && (
@@ -247,20 +247,57 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
         onClick={() => setComprobanteVisible(c.comprobante)}
         className="text-blue-700 underline text-sm hover:text-blue-900 transition"
       >
-        🔍 Ver comprobante rechazado
+        Ver comprobante rechazado
       </button>
     )}
 
-    <button
-      onClick={() => {
-        setCursoActivo(c._id);
-        setMesesSeleccionados([]);
-        setComprobanteSeleccionado(null);
-      }}
-      className="inline-block text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-    >
-      🔄 Actualizar comprobante
-    </button>
+    <label className="inline-block text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer">
+      Actualizar soporte
+      <input
+        type="file"
+        accept="image/*,.pdf"
+        className="hidden"
+        onChange={(e) => {
+          setComprobanteSeleccionado(e.target.files[0]);
+          setCursoActivo(c._id);
+        }}
+      />
+    </label>
+
+    {cursoActivo === c._id && comprobanteSeleccionado && (
+      <button
+        onClick={async () => {
+          setEnviando(true);
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const base64 = reader.result?.split(',')[1];
+
+            const res = await fetch(`${API_URL}/api/inscripciones/${c._id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                comprobante: base64,
+                comprobanteEstado: 'pendiente',
+              }),
+            });
+
+            if (res.ok) {
+              alert('Comprobante actualizado correctamente');
+              window.location.reload();
+            } else {
+              alert('Error al subir el comprobante');
+            }
+
+            setEnviando(false);
+          };
+          reader.readAsDataURL(comprobanteSeleccionado);
+        }}
+        className="block w-full text-center bg-institucional text-white px-4 py-2 rounded hover:bg-presentacionDark transition"
+        disabled={enviando}
+      >
+        {enviando ? 'Enviando...' : 'Enviar nuevo comprobante'}
+      </button>
+    )}
   </div>
 )}
 </div>

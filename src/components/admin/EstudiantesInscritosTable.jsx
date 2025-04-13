@@ -341,7 +341,7 @@ const EstudiantesInscritosTable = () => {
         )}
       </div>
 
-      {est.comprobanteEstado !== 'verificado' && (
+      {est.comprobanteEstado === 'rechazado' && (
   <button
     className="w-full bg-blue-500 text-white text-sm py-2 rounded hover:bg-blue-600 mt-2"
     onClick={() => setModalSubirNuevo(est)}

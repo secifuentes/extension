@@ -172,50 +172,34 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
 
   {/* Botones para comprobante rechazado */}
   {c.comprobanteEstado === 'rechazado' && (
-    <div className="space-y-1 mt-2">
-      {c.comprobante && (
-        <button
-          onClick={() => setComprobanteVisible(c.comprobante)}
-          className="text-blue-600 underline text-sm"
-        >
-          Ver comprobante rechazado
-        </button>
-      )}
-
-      <button
-        onClick={() => {
-          setCursoActivo(c._id);
-          setMesesSeleccionados([]); // mensual se controla más abajo
-          setComprobanteSeleccionado(null);
-        }}
-        className="text-sm text-red-600 underline font-semibold"
-      >
-        Actualizar comprobante
-      </button>
+  <div className="mt-3 p-4 bg-red-50 border border-red-200 rounded space-y-2">
+    <div className="text-red-700 font-semibold flex items-center gap-2">
+      ❌ <span>Comprobante rechazado</span>
     </div>
-  )}
-</div>
 
-{c.comprobanteEstado === 'rechazado' && c.comprobante && (
-  <div className="mt-2 space-y-1">
-    <button
-      onClick={() => setComprobanteVisible(c.comprobante)}
-      className="text-blue-600 underline text-sm"
-    >
-      Ver comprobante rechazado
-    </button>
+    {c.comprobante && (
+      <button
+        onClick={() => setComprobanteVisible(c.comprobante)}
+        className="text-blue-700 underline text-sm hover:text-blue-900 transition"
+      >
+        🔍 Ver comprobante rechazado
+      </button>
+    )}
+
     <button
       onClick={() => {
         setCursoActivo(c._id);
         setMesesSeleccionados([]);
         setComprobanteSeleccionado(null);
       }}
-      className="text-red-600 underline font-semibold text-sm"
+      className="inline-block text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
     >
-      Subir nuevo comprobante
+      🔄 Actualizar comprobante
     </button>
   </div>
 )}
+</div>
+
     <p><strong>Fecha de inscripción:</strong> {formatearFecha(c.fechaInscripcion)}</p>
 
     {c.formaPago === 'mensual' && (

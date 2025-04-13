@@ -156,30 +156,45 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
   <li key={i} className="border p-4 rounded text-sm bg-white space-y-3">
     <p><strong>Curso:</strong> {c.cursoNombre}</p>
     <p><strong>Tipo de curso:</strong> {c.formaPago === 'mensual' ? 'Pago mensual (1 mes a la vez)' : 'Curso completo (3 meses)'}</p>
-    <p>
-  <strong>
-    {c.formaPago === 'mensual' ? 'Estado del primer pago:' : 'Estado de pago:'}
-  </strong>{' '}
-  {c.comprobanteEstado === 'verificado' ? (
-  <span className="text-green-700 font-semibold">✅ Pago confirmado</span>
-) : c.comprobanteEstado === 'rechazado' ? (
-  <>
-    <p className="text-red-700 font-semibold">❌ Comprobante rechazado</p>
-    <button
-      onClick={() => {
-        setCursoActivo(c._id);
-        setMesesSeleccionados([]);
-        setComprobanteSeleccionado(null);
-      }}
-      className="text-sm text-red-600 underline font-semibold mt-1"
-    >
-      Subir nuevo comprobante
-    </button>
-  </>
-) : (
-  <span className="text-yellow-700 font-semibold">⏳ Pendiente de verificación</span>
-)}
-</p>
+    <div className="space-y-1">
+  <p>
+    <strong>
+      {c.formaPago === 'mensual' ? 'Estado del primer pago:' : 'Estado de pago:'}
+    </strong>{' '}
+    {c.comprobanteEstado === 'verificado' ? (
+      <span className="text-green-700 font-semibold">✅ Pago confirmado</span>
+    ) : c.comprobanteEstado === 'pendiente' ? (
+      <span className="text-yellow-700 font-semibold">⏳ Pendiente de verificación</span>
+    ) : (
+      <span className="text-red-700 font-semibold">❌ Comprobante rechazado</span>
+    )}
+  </p>
+
+  {/* Botones para comprobante rechazado */}
+  {c.comprobanteEstado === 'rechazado' && (
+    <div className="space-y-1 mt-2">
+      {c.comprobante && (
+        <button
+          onClick={() => setComprobanteVisible(c.comprobante)}
+          className="text-blue-600 underline text-sm"
+        >
+          Ver comprobante rechazado
+        </button>
+      )}
+
+      <button
+        onClick={() => {
+          setCursoActivo(c._id);
+          setMesesSeleccionados([]); // mensual se controla más abajo
+          setComprobanteSeleccionado(null);
+        }}
+        className="text-sm text-red-600 underline font-semibold"
+      >
+        Actualizar comprobante
+      </button>
+    </div>
+  )}
+</div>
 
 {c.comprobanteEstado === 'rechazado' && c.comprobante && (
   <div className="mt-2 space-y-1">

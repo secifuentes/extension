@@ -327,17 +327,10 @@ const EstudiantesInscritosTable = () => {
       >
         Ver comprobante
       </button>
-      <div className="text-xs font-medium">
-        {est.comprobanteEstado === 'verificado' && (
-          <span className="text-green-600">✅ Confirmado</span>
-        )}
-        {est.comprobanteEstado === 'rechazado' && (
-          <span className="text-red-600">❌ Rechazado</span>
-        )}
-        {(!est.comprobanteEstado || est.comprobanteEstado === 'pendiente') && (
-          <span className="text-yellow-600">⏳ Pendiente</span>
-        )}
-      </div>
+
+      {est.comprobanteEstado === 'rechazado' && (
+        <div className="text-xs font-medium text-red-600">❌ Rechazado</div>
+)}
 
     </>
   ) : (

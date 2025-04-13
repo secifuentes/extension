@@ -171,69 +171,6 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
   </p>
 
   {/* Mostrar formulario para subir nuevo comprobante si el curso es activo y no es mensual */}
-{cursoActivo === c._id && c.formaPago !== 'mensual' && (
-  <div className="mt-4 space-y-4 border-t pt-4">
-    <div>
-      <label className="block text-sm font-medium mb-1">📤 Subir nuevo comprobante:</label>
-      <input
-        type="file"
-        accept="image/*,.pdf"
-        className="w-full border rounded p-2"
-        onChange={(e) => setComprobanteSeleccionado(e.target.files[0])}
-      />
-    </div>
-
-    <button
-      className={`bg-institucional text-white px-4 py-2 rounded ${
-        enviando ? 'cursor-wait bg-gray-400' : 'hover:bg-presentacionDark'
-      }`}
-      disabled={enviando}
-      onClick={async () => {
-        if (!comprobanteSeleccionado) {
-          alert('Por favor selecciona un nuevo comprobante.');
-          return;
-        }
-
-        setEnviando(true);
-
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const base64 = reader.result?.split(',')[1];
-
-          if (!base64) {
-            console.error("Error al leer el comprobante.");
-            alert("Error al leer el comprobante. Intenta con otro archivo.");
-            setEnviando(false);
-            return;
-          }
-
-          const res = await fetch(`${API_URL}/api/inscripciones/${c._id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              comprobante: base64,
-              comprobanteEstado: 'pendiente',
-            }),
-          });
-
-          if (!res.ok) {
-            console.error("❌ Error al actualizar comprobante:", await res.json());
-            alert("Hubo un error al subir el comprobante. Intenta de nuevo.");
-          } else {
-            alert('✅ Comprobante actualizado correctamente');
-            window.location.reload();
-          }
-
-          setEnviando(false);
-        };
-
-        reader.readAsDataURL(comprobanteSeleccionado);
-      }}
-    >
-      {enviando ? 'Enviando...' : 'Enviar nuevo comprobante'}
-    </button>
-  </div>
-)}
 
   {/* Botones para comprobante rechazado */}
   {c.comprobanteEstado === 'rechazado' && (

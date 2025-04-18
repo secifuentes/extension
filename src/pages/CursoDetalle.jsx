@@ -316,6 +316,11 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                   onSubmit={async (e) => {
                     e.preventDefault();
                     setCargando(true); // activa el estado de carga
+                    if (modoPago === 'trimestral' && !comprobanteBase64) {
+                      alert('⚠️ Debes subir el comprobante de pago antes de finalizar tu inscripción.');
+                      setCargando(false);
+                      return;
+                    }
                     const form = e.target;
 
                     const data = {
@@ -332,7 +337,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       formaPago: modoPago,
                       valorPagado: total,
                       pagoConfirmado: false,
-                      comprobante: comprobanteBase64,
+                      comprobante: modoPago === 'trimestral' ? comprobanteBase64 : '',
                       acudiente: esMenor ? form.acudiente.value : '',
                       telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
                     };
@@ -395,22 +400,28 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     </>
                   )}
 
+<label className="block font-semibold">Comprobante de pago:</label>
 <input
   type="file"
   accept="image/*"
   onChange={async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onloadend = () => {
-      setComprobanteBase64(reader.result.split(',')[1]); // solo el base64
+      setComprobanteBase64(reader.result.split(',')[1]);
     };
     reader.readAsDataURL(file);
   }}
   className="w-full p-2 border rounded"
   required
 />
+
+{modoPago === 'mensual' && (
+  <div className="bg-yellow-50 border border-yellow-300 text-yellow-800 p-3 rounded text-sm">
+    Para el pago mensual, deberás cargar tus comprobantes mes a mes desde el <strong>enlace de consulta</strong> que recibirás por correo.
+  </div>
+)}
 
                   {/* RESUMEN DEL PAGO FINAL */}
                   <div className="bg-white border border-dashed border-institucional p-4 rounded text-sm space-y-2">

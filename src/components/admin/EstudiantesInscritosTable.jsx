@@ -361,7 +361,7 @@ const EstudiantesInscritosTable = () => {
       {confirmandoPagoId === est._id ? 'Enviando...' : 'Confirmar pago'}
     </button>
 
-    {est.comprobante && est.comprobanteEstado === 'pendiente' && (
+    {est.comprobanteEstado !== 'verificado' && (
   <button
     onClick={() => rechazarComprobante(est._id)}
     disabled={rechazandoId === est._id}

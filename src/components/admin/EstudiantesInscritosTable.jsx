@@ -362,17 +362,26 @@ const EstudiantesInscritosTable = () => {
     </button>
 
     {est.comprobanteEstado !== 'verificado' && (
-  <button
-    onClick={() => rechazarComprobante(est._id)}
-    disabled={rechazandoId === est._id}
-    className={`w-full text-sm py-2 rounded transition ${
-      rechazandoId === est._id
-        ? 'bg-gray-300 text-gray-600 cursor-wait'
-        : 'bg-red-600 text-white hover:bg-red-700'
-    }`}
-  >
-    {rechazandoId === est._id ? 'Enviando...' : 'Rechazar comprobante'}
-  </button>
+  est.comprobanteEstado === 'rechazado' ? (
+    <button
+      disabled
+      className="w-full text-sm py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
+    >
+      📨 Rechazo enviado
+    </button>
+  ) : (
+    <button
+      onClick={() => rechazarComprobante(est._id)}
+      disabled={rechazandoId === est._id}
+      className={`w-full text-sm py-2 rounded transition ${
+        rechazandoId === est._id
+          ? 'bg-gray-300 text-gray-600 cursor-wait'
+          : 'bg-red-600 text-white hover:bg-red-700'
+      }`}
+    >
+      {rechazandoId === est._id ? 'Enviando...' : 'Rechazar comprobante'}
+    </button>
+  )
 )}
 
     <button

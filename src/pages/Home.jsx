@@ -6,7 +6,7 @@ const imagenesBanner = [
   '/banner/banner1.jpg',
   '/banner/banner2.jpg',
   '/banner/banner3.jpg',
-  '/banner/banner3.jpg',
+  '/banner/banner4.jpg',
 ];
 
 const Home = () => {
@@ -30,11 +30,20 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const intervalo = setInterval(() => {
-      setImagenActual((prev) => (prev + 1) % imagenesBanner.length);
-    }, 5000);
-    return () => clearInterval(intervalo);
-  }, []);
+    let timer;
+  
+    if (imagenActual === 0) {
+      timer = setTimeout(() => {
+        setImagenActual(1);
+      }, 7000); // Primer banner: 7 segundos
+    } else {
+      timer = setTimeout(() => {
+        setImagenActual((prev) => (prev + 1) % imagenesBanner.length);
+      }, 5000); // Otros: 5 segundos
+    }
+  
+    return () => clearTimeout(timer);
+  }, [imagenActual]);
 
   return (
     <div className="pt-0">
@@ -69,7 +78,7 @@ const Home = () => {
         href="#cursos"
         className={`inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 ${
           imagenActual === 0
-            ? 'mt-10 glass-button animate-slide-up'
+            ? 'mt-20 glass-button animate-slide-up'
             : 'mt-6 text-white border-white border-2 hover:bg-white hover:text-institucional animate-fade-in'
         }`}
       >
@@ -77,6 +86,29 @@ const Home = () => {
       </a>
     </div>
   </div>
+
+  {/* Flechas de navegación */}
+  <button
+    onClick={() =>
+      setImagenActual((prev) =>
+        prev === 0 ? imagenesBanner.length - 1 : prev - 1
+      )
+    }
+    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white text-3xl px-3 py-1 rounded-full transition z-10"
+    aria-label="Anterior"
+  >
+    ‹
+  </button>
+
+  <button
+    onClick={() =>
+      setImagenActual((prev) => (prev + 1) % imagenesBanner.length)
+    }
+    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white text-3xl px-3 py-1 rounded-full transition z-10"
+    aria-label="Siguiente"
+  >
+    ›
+  </button>
 
   {/* Indicadores del banner */}
   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">

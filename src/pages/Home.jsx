@@ -6,6 +6,7 @@ const imagenesBanner = [
   '/banner/banner1.jpg',
   '/banner/banner2.jpg',
   '/banner/banner3.jpg',
+  '/banner/banner3.jpg',
 ];
 
 const Home = () => {
@@ -48,35 +49,47 @@ const Home = () => {
   />
 
   {/* Overlay con texto abajo */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16">
-    <div>
-    <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-      Cursos de Extensión para todos
-      </h1>
-      <p className="mt-4 text-lg md:text-xl text-white font-medium opacity-90">
-        Aunque no seas parte de la Familia Presentación, este espacio también es para ti.
-      </p>
+  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16 md:pb-24 transition-all duration-700">
+    <div className="transition-opacity duration-700 ease-in-out">
+      
+      {/* Texto: aparece solo si NO es el primer banner */}
+      {imagenActual !== 0 && (
+        <div className="animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+            Cursos de Extensión para todos
+          </h1>
+          <p className="mt-4 text-base sm:text-lg md:text-xl text-white font-medium opacity-90">
+            Aunque no seas parte de la Familia Presentación, este espacio también es para ti.
+          </p>
+        </div>
+      )}
+
+      {/* Botón: distinto estilo en el primer banner */}
       <a
         href="#cursos"
-        className="mt-6 inline-block px-6 py-2 border-2 border-white text-white font-semibold rounded-md hover:bg-white hover:text-institucional transition duration-300"
-        >
-          Ver cursos disponibles
+        className={`inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 ${
+          imagenActual === 0
+            ? 'mt-10 glass-button animate-slide-up'
+            : 'mt-6 text-white border-white border-2 hover:bg-white hover:text-institucional animate-fade-in'
+        }`}
+      >
+        Ver cursos disponibles
       </a>
     </div>
   </div>
 
   {/* Indicadores del banner */}
   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-  {imagenesBanner.map((_, i) => (
-  <button
-    key={i}
-    onClick={() => setImagenActual(i)}
-    className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
-      i === imagenActual ? 'bg-white' : 'bg-white/30'
-    }`}
-    aria-label={`Cambiar al banner ${i + 1}`}
-  />
-))}
+    {imagenesBanner.map((_, i) => (
+      <button
+        key={i}
+        onClick={() => setImagenActual(i)}
+        className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
+          i === imagenActual ? 'bg-white' : 'bg-white/30'
+        }`}
+        aria-label={`Cambiar al banner ${i + 1}`}
+      />
+    ))}
   </div>
 </div>
 

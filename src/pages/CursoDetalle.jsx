@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { inscripciones } from '../data/inscripciones';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
+
 
 const AccordionItem = ({ title, content }) => {
   const [open, setOpen] = useState(false);
@@ -25,12 +26,17 @@ const AccordionItem = ({ title, content }) => {
 
 const CursoDetalle = () => {
   const { slug } = useParams();
+  const [loading, setLoading] = useState(true);
   const [curso, setCurso] = useState(null);
-
+  const [descripcionExpandida, setDescripcionExpandida] = useState(false);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
+  const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
+  
   useEffect(() => {
     const fetchCurso = async () => {
       try {
-        const res = await fetch(${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
         const data = await res.json();
         const cursoEncontrado = data.find(c => c.slug === slug);
         setCurso(cursoEncontrado);
@@ -44,17 +50,50 @@ const CursoDetalle = () => {
     fetchCurso();
   }, [slug]);
 
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  
+
+  useEffect(() => {
+    const formulario = document.querySelector('form');
+    if (!formulario) return;
+  
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setMostrarBotonFlotante(!entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+  
+    observer.observe(formulario);
+  
+    // Escuchar si el usuario comienza a escribir
+    const handleInput = () => {
+      const inputs = formulario.querySelectorAll('input, select, textarea');
+      const algunoConValor = Array.from(inputs).some(i => i.value.trim() !== '');
+      
+      const formularioVisible = formulario.getBoundingClientRect().top < window.innerHeight;
+      
+      if (!formularioVisible && algunoConValor) {
+        setMostrarBotonFlotante(false);
+      }
+    };
+  
+    formulario.addEventListener('input', handleInput);
+  
+    return () => {
+      observer.disconnect();
+      formulario.removeEventListener('input', handleInput);
+    };
+  }, [mostrarFormulario, inscripcionExitosa]);
+
   const [documento, setDocumento] = useState('');
   const [tipoDoc, setTipoDoc] = useState('');
   const [datosEstudiante, setDatosEstudiante] = useState(null);
   const [yaInscrito, setYaInscrito] = useState(false);
   const [esMenor, setEsMenor] = useState(false);
-  const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
-  const [loading, setLoading] = useState(true);
+
 
   const calcularSiEsMenor = (fechaNacimiento) => {
     const hoy = new Date();
@@ -66,43 +105,36 @@ const CursoDetalle = () => {
   };
 
   const verificarEstudiante = async () => {
-    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === curso._id);
-    if (yaExiste) {
-      setYaInscrito(true);
-      setMostrarFormulario(false);
-      return;
-    }
-  
-    console.log("🔎 Buscando estudiante con:", tipoDoc, documento);
+    console.log("🔎 Verificando inscripción con:", tipoDoc, documento);
   
     try {
-      const tiposEquivalentes = ["Registro Civil", "Tarjeta de Identidad"];
-      const tiposAConsultar = tiposEquivalentes.includes(tipoDoc)
-        ? tiposEquivalentes
-        : [tipoDoc];
+      const res = await fetch(`${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`);
   
-      let estudianteEncontrado = null;
-  
-      for (const tipo of tiposAConsultar) {
-        const res = await fetch(${API_URL}/api/estudiantes/${encodeURIComponent(tipo)}/${documento});
-        if (res.ok) {
-          estudianteEncontrado = await res.json();
-          break;
-        }
-      }
-  
-      if (estudianteEncontrado) {
-        setDatosEstudiante(estudianteEncontrado);
-        setMostrarFormulario(true);
-        setYaInscrito(false);
-      } else {
+      if (res.status === 404) {
+        // No tiene inscripciones previas
         setDatosEstudiante(null);
         setMostrarFormulario(true);
+        setYaInscrito(false);
+        return;
       }
-    } catch (error) {
-      console.error("❌ Error al buscar estudiante:", error);
-      setDatosEstudiante(null);
+  
+      const estudiante = await res.json();
+  
+      // Verificamos si ya está inscrito en este curso
+      const yaInscritoEnCurso = estudiante.cursos.some(c => c.cursoNombre === curso.nombre);
+  
+      if (yaInscritoEnCurso) {
+        setYaInscrito(true);
+        setMostrarFormulario(false);
+        return;
+      }
+  
+      setDatosEstudiante(estudiante);
       setMostrarFormulario(true);
+      setYaInscrito(false);
+    } catch (error) {
+      console.error("❌ Error al verificar estudiante desde backend:", error);
+      alert("Hubo un error al verificar la inscripción. Intenta de nuevo.");
     }
   };
 
@@ -182,6 +214,25 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   </div>
 </div>
 
+{/* Descripción del curso - Fuera de la caja de precios */}
+<div className="bg-[#f2f2f2] p-6 rounded-xl shadow-sm text-sm text-gray-800">
+  <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
+  
+  <p
+    className="text-gray-700 whitespace-pre-line"
+  >
+    {curso.descripcion}
+  </p>
+
+  {/* Botón para expandir */}
+  <button
+    onClick={() => setDescripcionExpandida(!descripcionExpandida)}
+    className="mt-2 text-sm text-institucional font-semibold hover:underline focus:outline-none"
+  >
+    {descripcionExpandida ? 'Ver menos' : 'Ver más'}
+  </button>
+</div>
+
           <div>
             <AccordionItem title="Requisitos" content={curso.requisitos} />
             <AccordionItem title="Implementos necesarios" content={curso.implementos} />
@@ -240,20 +291,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
       <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
     </div>
   )}
-</div>
-{/* Aviso sobre apertura del curso */}
-<div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
-  ⚠️ <strong>Importante:</strong> Este curso se habilitará únicamente si se cumple con el número mínimo de personas inscritas.
-  <br />
-  ¡Comparte con tus amigos y aseguren juntos su cupo!
-</div>
-
-{/* Descripción del curso - Fuera de la caja de precios */}
-<div className="mt-6">
-  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
-    {curso.descripcion}
-  </p>
 </div>
 
 {/* Banner informativo con ícono estilizado y texto atractivo */}
@@ -342,14 +379,14 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
                     };
 
-                    console.log('➡ Enviando inscripción a:', ${API_URL}/api/inscripciones);
+                    console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
                     console.log("📤 Enviando datos:", data);
-                    console.log("➡ Enviando inscripción a:", ${API_URL}/api/inscripciones);
+                    console.log("➡ Enviando inscripción a:", `${API_URL}/api/inscripciones`);
                     console.log("📝 Forma de pago enviada:", modoPago);
                     
 
                     try {
-                      const res = await fetch(${API_URL}/api/inscripciones, {
+                      const res = await fetch(`${API_URL}/api/inscripciones`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
@@ -386,9 +423,9 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     <option value="mensual">Pago mensual</option>
                   </select>
 
-                  <input name="nombres" type="text" placeholder="Nombres" className={w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
-                  <input name="apellidos" type="text" placeholder="Apellidos" className={w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
-                  <input name="correo" type="email" placeholder="Correo electrónico" className={w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
+                  <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
+                  <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />
+                  <input name="correo" type="email" placeholder="Correo electrónico" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.correo || ''} readOnly={!!datosEstudiante} required />
                   <input name="telefono" type="tel" placeholder="Celular" className="w-full p-2 border rounded" defaultValue={datosEstudiante?.telefono || ''} required />
                   <label className="block font-semibold text-gray-700">Fecha de nacimiento:</label>
                   <input type="date" name="fechaNacimiento" className="w-full p-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-institucional placeholder-gray-500" required onChange={(e) => setEsMenor(calcularSiEsMenor(e.target.value))} placeholder="Selecciona tu fecha de nacimiento" />
@@ -456,11 +493,11 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                   <button
                   type="submit"
                   disabled={cargando}
-                  className={w-full py-2 rounded transition-all duration-200 ${
+                  className={`w-full py-2 rounded transition-all duration-200 ${
                     cargando
                     ? 'bg-gray-400 cursor-not-allowed'
                     : 'bg-institucional hover:bg-presentacionDark text-white'
-                    }}
+                    }`}
                     >
                       {cargando ? 'Enviando...' : 'Finalizar inscripción'}
                   </button>
@@ -468,8 +505,33 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
               )}
             </div>
           )}
+          
+{/* Aviso sobre apertura del curso */}
+<div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
+  ⚠️ <strong>Importante:</strong> Este curso se habilitará únicamente si se cumple con el número mínimo de personas inscritas.
+  <br />
+  ¡Comparte con tus amigos y aseguren juntos su cupo!
+</div>
+
+
+
         </div>
       </div>
+
+{/* Botón flotante solo visible en móviles */}
+{mostrarBotonFlotante && !yaInscrito && !inscripcionExitosa && (
+  <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
+    <button
+      onClick={() => {
+        const formulario = document.querySelector('form');
+        if (formulario) formulario.scrollIntoView({ behavior: 'smooth' });
+      }}
+      className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
+    >
+      Inscribirme ahora
+    </button>
+  </div>
+)}
     </div>
   );
 };

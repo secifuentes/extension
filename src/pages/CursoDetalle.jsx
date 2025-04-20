@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 
-const API_URL = "https://extension-backend-z7v8.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 const AccordionItem = ({ title, content }) => {

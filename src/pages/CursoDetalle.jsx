@@ -33,6 +33,7 @@ const CursoDetalle = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
+  const formularioRef = React.useRef(null);
   
   useEffect(() => {
     const fetchCurso = async () => {
@@ -54,8 +55,7 @@ const CursoDetalle = () => {
   
 
   useEffect(() => {
-    const formulario = formularioRef.current;
-if (!formulario) return;
+    if (!formularioRef.current) return;
   
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -64,25 +64,10 @@ if (!formulario) return;
       { threshold: 0.2 }
     );
   
-    observer.observe(formulario);
-  
-    // Escuchar si el usuario comienza a escribir
-    const handleInput = () => {
-      const inputs = formulario.querySelectorAll('input, select, textarea');
-      const algunoConValor = Array.from(inputs).some(i => i.value.trim() !== '');
-      
-      const formularioVisible = formulario.getBoundingClientRect().top < window.innerHeight;
-      
-      if (!formularioVisible && algunoConValor) {
-        setMostrarBotonFlotante(false);
-      }
-    };
-  
-    formulario.addEventListener('input', handleInput);
+    observer.observe(formularioRef.current);
   
     return () => {
       observer.disconnect();
-      formulario.removeEventListener('input', handleInput);
     };
   }, [mostrarFormulario, inscripcionExitosa]);
 
@@ -93,12 +78,13 @@ if (!formulario) return;
   const [esMenor, setEsMenor] = useState(false);
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
-const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
-const [verificando, setVerificando] = useState(false);
+  const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
+  const [verificando, setVerificando] = useState(false);
+  
 
 // ✅ Detectar si es móvil
 const [esMovil, setEsMovil] = useState(false);
-const formularioRef = React.useRef(null);
+
 
 useEffect(() => {
   const manejarResize = () => {
@@ -563,9 +549,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
     <button
       onClick={() => {
-        if (formularioRef.current) {
-          formularioRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
+        formularioRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }}
       className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
     >

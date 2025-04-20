@@ -182,6 +182,14 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   </div>
 </div>
 
+{/* Descripción del curso - Fuera de la caja de precios */}
+<div className="mt-6">
+  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
+  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
+    {curso.descripcion}
+  </p>
+</div>
+
           <div>
             <AccordionItem title="Requisitos" content={curso.requisitos} />
             <AccordionItem title="Implementos necesarios" content={curso.implementos} />
@@ -462,13 +470,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   ¡Comparte con tus amigos y aseguren juntos su cupo!
 </div>
 
-{/* Descripción del curso - Fuera de la caja de precios */}
-<div className="mt-6">
-  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
-    {curso.descripcion}
-  </p>
-</div>
 
         </div>
       </div>

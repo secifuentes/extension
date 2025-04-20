@@ -93,8 +93,22 @@ const CursoDetalle = () => {
   const [esMenor, setEsMenor] = useState(false);
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
-  const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
-  const [verificando, setVerificando] = useState(false);
+const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
+const [verificando, setVerificando] = useState(false);
+
+// ✅ Detectar si es móvil
+const [esMovil, setEsMovil] = useState(false);
+
+useEffect(() => {
+  const manejarResize = () => {
+    setEsMovil(window.innerWidth < 768);
+  };
+
+  manejarResize(); // detectar al cargar
+  window.addEventListener('resize', manejarResize);
+
+  return () => window.removeEventListener('resize', manejarResize);
+}, []);
 
 
   const calcularSiEsMenor = (fechaNacimiento) => {
@@ -228,18 +242,23 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
   
   <p
-    className="text-gray-700 whitespace-pre-line"
-  >
-    {curso.descripcion}
-  </p>
+  className={`text-gray-700 whitespace-pre-line ${
+    esMovil && !descripcionExpandida ? 'line-clamp-3 overflow-hidden' : ''
+  }`}
+>
+  {curso.descripcion}
+</p>
 
-  {/* Botón para expandir */}
+
+  {/* Botón para expandir (solo en móviles) */}
+{esMovil && (
   <button
     onClick={() => setDescripcionExpandida(!descripcionExpandida)}
     className="mt-2 text-sm text-institucional font-semibold hover:underline focus:outline-none"
   >
     {descripcionExpandida ? 'Ver menos' : 'Ver más'}
   </button>
+)}
 </div>
 
           <div>

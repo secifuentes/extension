@@ -47,72 +47,78 @@ const Home = () => {
 
   return (
     <div className="pt-0">
-      {/* Banner */}
-<div className="w-full h-[calc(100vh-54px)] relative">
-  {/* Imagen del banner */}
-  <img
-    src={imagenesBanner[imagenActual]}
-    alt="Banner"
-    className="w-full h-full object-cover transition-all duration-700"
-    loading="lazy"
-  />
+      {/* Banner con efecto slide */}
+<div className="w-full h-[calc(100vh-54px)] relative overflow-hidden">
+  {/* Carrusel de imágenes */}
+  <div
+    className="flex transition-transform duration-700 ease-in-out h-full"
+    style={{ transform: `translateX(-${imagenActual * 100}%)` }}
+  >
+    {imagenesBanner.map((img, i) => (
+      <img
+        key={i}
+        src={img}
+        alt={`Banner ${i + 1}`}
+        className="w-full h-full object-cover flex-shrink-0"
+        loading="lazy"
+      />
+    ))}
+  </div>
 
-  {/* Overlay con texto abajo */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16 md:pb-24 transition-all duration-700">
+  {/* Overlay con texto y botón */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16 md:pb-24">
     <div className="transition-opacity duration-700 ease-in-out">
-      
-      {/* Texto: aparece solo si NO es el primer banner */}
-      {imagenActual !== 0 && (
-        <div className="animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-            Cursos de Extensión para todos
-          </h1>
-          <p className="mt-4 text-base sm:text-lg md:text-xl text-white font-medium opacity-90">
-            Aunque no seas parte de la Familia Presentación, este espacio también es para ti.
-          </p>
-        </div>
-      )}
+    {imagenActual !== 0 && (
+  <>
+    <div className="animate-fade-in mb-6">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+        Cursos de Extensión para todos
+      </h1>
+      <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90">
+        ABIERTO PARA TODOS
+      </p>
+      <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90 italic">
+        Más que cursos, experiencias que inspiran
+      </p>
+    </div>
 
-      {/* Botón: distinto estilo en el primer banner */}
-      <a
-        href="#cursos"
-        className={`inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 ${
-          imagenActual === 0
-            ? 'mt-12 glass-button animate-slide-up'
-            : 'mt-6 text-white border-white border-2 hover:bg-white hover:text-institucional animate-fade-in'
-        }`}
-      >
-        Ver cursos disponibles
-      </a>
+    <a
+      href="#cursos"
+      className="inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 border-2 text-white border-white hover:bg-white hover:text-institucional animate-slide-up"
+    >
+      Ver cursos disponibles
+    </a>
+  </>
+)}
     </div>
   </div>
 
   {/* Flechas modernas */}
-<button
-  onClick={() =>
-    setImagenActual((prev) =>
-      prev === 0 ? imagenesBanner.length - 1 : prev - 1
-    )
-  }
-  className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/50 text-white backdrop-blur-sm bg-white/10 hover:bg-white/20 transition z-10"
-  aria-label="Anterior"
->
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-  </svg>
-</button>
+  <button
+    onClick={() =>
+      setImagenActual((prev) =>
+        prev === 0 ? imagenesBanner.length - 1 : prev - 1
+      )
+    }
+    className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/50 text-white backdrop-blur-sm bg-white/10 hover:bg-white/20 transition z-10"
+    aria-label="Anterior"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+    </svg>
+  </button>
 
-<button
-  onClick={() =>
-    setImagenActual((prev) => (prev + 1) % imagenesBanner.length)
-  }
-  className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/50 text-white backdrop-blur-sm bg-white/10 hover:bg-white/20 transition z-10"
-  aria-label="Siguiente"
->
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-  </svg>
-</button>
+  <button
+    onClick={() =>
+      setImagenActual((prev) => (prev + 1) % imagenesBanner.length)
+    }
+    className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/50 text-white backdrop-blur-sm bg-white/10 hover:bg-white/20 transition z-10"
+    aria-label="Siguiente"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+    </svg>
+  </button>
 
   {/* Indicadores del banner */}
   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
+console.log("✅ API_URL usado en fetch:", API_URL);
 
 
 const AccordionItem = ({ title, content }) => {
@@ -108,7 +109,10 @@ const CursoDetalle = () => {
     console.log("🔎 Verificando inscripción con:", tipoDoc, documento);
   
     try {
-      const res = await fetch(`${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`);
+      const url = `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`;
+      console.log("📡 Fetching URL:", url);
+      
+      const res = await fetch(url);
   
       if (res.status === 404) {
         // No tiene inscripciones previas

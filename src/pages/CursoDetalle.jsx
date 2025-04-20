@@ -252,8 +252,10 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
     <p className="text-sm mt-1 text-gray-600">
     Ingresa los datos de la persona que realizará el curso
     </p>
+  </div>
+</div>
 
-    {/* Formulario de inscripción */}
+{/* Formulario de inscripción */}
 <div className="mt-1 space-y-2">
   <label className="block font-semibold">Tipo de documento:</label>
   <select
@@ -452,10 +454,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
               )}
             </div>
           )}
-  </div>
-</div>
-
-
           
 {/* Aviso sobre apertura del curso */}
 <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">

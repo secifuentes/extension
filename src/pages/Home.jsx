@@ -69,35 +69,35 @@ const Home = () => {
   {/* Overlay con texto y botón */}
   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16 md:pb-24">
     <div className="transition-opacity duration-700 ease-in-out">
-      {imagenActual === 0 ? (
-        <a
-          href="#cursos"
-          className="inline-block mb-28 px-6 py-2 border-2 border-white text-white font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
-        >
-          Ver cursos disponibles
-        </a>
-      ) : (
-        <>
-          <div className="animate-fade-in mb-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-              Cursos de Extensión para todos
-            </h1>
-            <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90">
-              ABIERTO PARA TODOS
-            </p>
-            <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90 italic">
-              Más que cursos, experiencias que inspiran
-            </p>
-          </div>
+    {imagenActual === 0 ? (
+  <a
+    href="#cursos"
+    className="inline-block mb-16 px-6 py-2 border-2 border-white text-white font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
+  >
+    Ver cursos disponibles
+  </a>
+) : (
+  <>
+    <div className="animate-fade-in mb-6">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+        Cursos de Extensión para todos
+      </h1>
+      <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90">
+        ABIERTO PARA TODOS
+      </p>
+      <p className="mt-3 text-base sm:text-lg md:text-xl text-white font-medium opacity-90 italic">
+        Más que cursos, experiencias que inspiran
+      </p>
+    </div>
 
-          <a
-            href="#cursos"
-            className="inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 border-2 text-white border-white hover:bg-white hover:text-institucional animate-slide-up"
-          >
-            Ver cursos disponibles
-          </a>
-        </>
-      )}
+    <a
+      href="#cursos"
+      className="inline-block px-6 py-2 font-semibold rounded-md transition-all duration-500 border-2 text-white border-white hover:bg-white hover:text-institucional animate-slide-up"
+    >
+      Ver cursos disponibles
+    </a>
+  </>
+)}
     </div>
   </div>
 

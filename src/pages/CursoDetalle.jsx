@@ -55,13 +55,13 @@ const CursoDetalle = () => {
   
 
   useEffect(() => {
-    if (!formularioRef.current) return;
+    if (!mostrarFormulario || !formularioRef.current) return;
   
     const observer = new IntersectionObserver(
       ([entry]) => {
         setMostrarBotonFlotante(!entry.isIntersecting);
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
   
     observer.observe(formularioRef.current);
@@ -69,7 +69,7 @@ const CursoDetalle = () => {
     return () => {
       observer.disconnect();
     };
-  }, [mostrarFormulario, inscripcionExitosa]);
+  }, [mostrarFormulario, formularioRef.current]); // 👈 importante incluir current
 
   const [documento, setDocumento] = useState('');
   const [tipoDoc, setTipoDoc] = useState('');

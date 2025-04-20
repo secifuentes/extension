@@ -183,11 +183,9 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 </div>
 
 {/* Descripción del curso - Fuera de la caja de precios */}
-<div className="mt-6">
-  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
-    {curso.descripcion}
-  </p>
+<div className="bg-[#f2f2f2] p-6 rounded-xl shadow-sm text-sm text-gray-800">
+  <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
+  <p style={{ whiteSpace: 'pre-line' }}>{curso.descripcion}</p>
 </div>
 
           <div>

@@ -48,7 +48,6 @@ const Home = () => {
   return (
     <div className="pt-0">
       {/* Banner con efecto slide */}
-      {/* Banner con efecto slide */}
 <div className="w-full h-[calc(100vh-54px)] relative overflow-hidden">
   {/* Carrusel de imágenes */}
   <div
@@ -73,7 +72,7 @@ const Home = () => {
         // Slide 1: solo botón
         <a
           href="#cursos"
-          className="inline-block mb-20 px-6 py-2 border-2 border-white text-white font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
+          className="inline-block mb-[88px] px-6 py-2 border-2 border-white text-white font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
         >
           Ver cursos disponibles
         </a>

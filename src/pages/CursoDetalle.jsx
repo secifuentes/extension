@@ -113,12 +113,8 @@ const CursoDetalle = () => {
     try {
       const url = `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`;
       console.log("📡 Fetching URL:", url);
-      
+  
       const res = await fetch(url);
-
-    } finally {
-      setVerificando(false);
-    }
   
       if (res.status === 404) {
         // No tiene inscripciones previas
@@ -142,9 +138,12 @@ const CursoDetalle = () => {
       setDatosEstudiante(estudiante);
       setMostrarFormulario(true);
       setYaInscrito(false);
+  
     } catch (error) {
       console.error("❌ Error al verificar estudiante desde backend:", error);
       alert("Hubo un error al verificar la inscripción. Intenta de nuevo.");
+    } finally {
+      setVerificando(false);
     }
   };
 

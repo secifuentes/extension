@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 
@@ -54,22 +54,21 @@ const CursoDetalle = () => {
 
   
 
-  useEffect(() => {
-    if (!mostrarFormulario || !formularioRef.current) return;
+  useLayoutEffect(() => {
+    if (!formularioRef.current) return;
   
     const observer = new IntersectionObserver(
       ([entry]) => {
+        console.log('📌 ¿Formulario visible?:', entry.isIntersecting);
         setMostrarBotonFlotante(!entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
   
     observer.observe(formularioRef.current);
   
-    return () => {
-      observer.disconnect();
-    };
-  }, [mostrarFormulario, formularioRef.current]); // 👈 importante incluir current
+    return () => observer.disconnect();
+  }, [mostrarFormulario, inscripcionExitosa]);
 
   const [documento, setDocumento] = useState('');
   const [tipoDoc, setTipoDoc] = useState('');
@@ -548,7 +547,9 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
     <button
       onClick={() => {
-        document.getElementById("formulario-inscripcion")?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document
+          .getElementById("formulario-inscripcion")
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }}
       className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
     >

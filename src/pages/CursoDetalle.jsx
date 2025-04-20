@@ -241,20 +241,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
     </div>
   )}
 </div>
-{/* Aviso sobre apertura del curso */}
-<div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
-  ⚠️ <strong>Importante:</strong> Este curso se habilitará únicamente si se cumple con el número mínimo de personas inscritas.
-  <br />
-  ¡Comparte con tus amigos y aseguren juntos su cupo!
-</div>
-
-{/* Descripción del curso - Fuera de la caja de precios */}
-<div className="mt-6">
-  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
-  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
-    {curso.descripcion}
-  </p>
-</div>
 
 {/* Banner informativo con ícono estilizado y texto atractivo */}
 <div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
@@ -468,6 +454,22 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
               )}
             </div>
           )}
+          
+{/* Aviso sobre apertura del curso */}
+<div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
+  ⚠️ <strong>Importante:</strong> Este curso se habilitará únicamente si se cumple con el número mínimo de personas inscritas.
+  <br />
+  ¡Comparte con tus amigos y aseguren juntos su cupo!
+</div>
+
+{/* Descripción del curso - Fuera de la caja de precios */}
+<div className="mt-6">
+  <p className="text-xl font-semibold text-gray-800">Descripción del curso</p>
+  <p className="text-sm text-gray-600 mt-2" style={{ whiteSpace: 'pre-line' }}>
+    {curso.descripcion}
+  </p>
+</div>
+
         </div>
       </div>
     </div>

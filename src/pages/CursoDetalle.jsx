@@ -26,6 +26,7 @@ const AccordionItem = ({ title, content }) => {
 
 const CursoDetalle = () => {
   const { slug } = useParams();
+  const [loading, setLoading] = useState(true);
   const [curso, setCurso] = useState(null);
   const [descripcionExpandida, setDescripcionExpandida] = useState(false);
 
@@ -91,7 +92,7 @@ const CursoDetalle = () => {
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
-  const [loading, setLoading] = useState(true);
+
 
   const calcularSiEsMenor = (fechaNacimiento) => {
     const hoy = new Date();

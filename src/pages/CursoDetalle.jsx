@@ -29,7 +29,10 @@ const CursoDetalle = () => {
   const [loading, setLoading] = useState(true);
   const [curso, setCurso] = useState(null);
   const [descripcionExpandida, setDescripcionExpandida] = useState(false);
-
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
+  const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
+  
   useEffect(() => {
     const fetchCurso = async () => {
       try {
@@ -47,7 +50,7 @@ const CursoDetalle = () => {
     fetchCurso();
   }, [slug]);
 
-  const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
+  
 
   useEffect(() => {
     const formulario = document.querySelector('form');

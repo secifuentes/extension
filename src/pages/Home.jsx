@@ -48,7 +48,8 @@ const Home = () => {
   return (
     <div className="pt-0">
       {/* Banner con efecto slide */}
-      <div className="w-full h-[calc(100vh-54px)] relative overflow-hidden">
+      {/* Banner con efecto slide */}
+<div className="w-full h-[calc(100vh-54px)] relative overflow-hidden">
   {/* Carrusel de imágenes */}
   <div
     className="flex transition-transform duration-700 ease-in-out h-full"
@@ -69,15 +70,13 @@ const Home = () => {
   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center px-4 text-center pb-16 md:pb-24">
     <div className="transition-opacity duration-700 ease-in-out">
       {imagenActual === 0 ? (
-        // Botón especial para el primer banner
         <a
           href="#cursos"
-          className="inline-block mt-14 px-6 py-2 border-2 border-white text-transparent bg-clip-text font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
+          className="inline-block mb-28 px-6 py-2 border-2 border-white text-white font-semibold rounded-md animate-slide-up backdrop-blur-sm bg-white/10 hover:bg-white/20 transition"
         >
           Ver cursos disponibles
         </a>
       ) : (
-        // Texto y botón para los otros banners
         <>
           <div className="animate-fade-in mb-6">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">

@@ -449,12 +449,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   placeholder="Selecciona tu fecha de nacimiento"
 />
 
-{datosEstudiante && !datosEstudiante.fechaNacimiento && (
-  <p className="text-sm text-yellow-600 mt-1">
-    ⚠️ Por favor ingresa tu fecha de nacimiento para completar la inscripción.
-  </p>
-)}
-
                   {esMenor && (
                     <>
                       <input name="acudiente" type="text" placeholder="Nombre del acudiente" className="w-full p-2 border rounded" required />

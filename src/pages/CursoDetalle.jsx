@@ -62,18 +62,16 @@ const CursoDetalle = () => {
     observer.observe(formulario);
   
     // Escuchar si el usuario comienza a escribir
-    let haEscrito = false;
-
-const handleInput = (e) => {
-  const inputs = formulario.querySelectorAll('input, select, textarea');
-  const algunoConValor = Array.from(inputs).some(i => i.value.trim() !== '');
-  haEscrito = algunoConValor;
-
-  // Solo ocultamos si está escribiendo y el formulario no está a la vista
-  if (!formulario.getBoundingClientRect().top < window.innerHeight) {
-    setMostrarBotonFlotante(!algunoConValor);
-  }
-};
+    const handleInput = () => {
+      const inputs = formulario.querySelectorAll('input, select, textarea');
+      const algunoConValor = Array.from(inputs).some(i => i.value.trim() !== '');
+      
+      const formularioVisible = formulario.getBoundingClientRect().top < window.innerHeight;
+      
+      if (!formularioVisible && algunoConValor) {
+        setMostrarBotonFlotante(false);
+      }
+    };
   
     formulario.addEventListener('input', handleInput);
   

@@ -240,9 +240,8 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
       <span className="font-bold">Total a pagar: ${total.toLocaleString()}</span>
     </div>
   )}
-</div>
 
-{/* Banner informativo con ícono estilizado y texto atractivo */}
+  {/* Banner informativo con ícono estilizado y texto atractivo */}
 <div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
   <div className="mr-4 text-3xl">
     <i className="fas fa-info-circle"></i> {/* Ícono de información estilizado */}
@@ -254,6 +253,10 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
     </p>
   </div>
 </div>
+
+</div>
+
+
 
 {/* Formulario de inscripción */}
 <div className="mt-1 space-y-2">

@@ -225,9 +225,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
   
   <p
-    className={`text-gray-700 whitespace-pre-line transition-all duration-300 ease-in-out ${
-      descripcionExpandida ? '' : 'line-clamp-2'
-    }`}
+    className="text-gray-700 whitespace-pre-line"
   >
     {curso.descripcion}
   </p>

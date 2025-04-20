@@ -85,13 +85,11 @@ const CursoDetalle = () => {
     };
   }, [mostrarFormulario, inscripcionExitosa]);
 
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [documento, setDocumento] = useState('');
   const [tipoDoc, setTipoDoc] = useState('');
   const [datosEstudiante, setDatosEstudiante] = useState(null);
   const [yaInscrito, setYaInscrito] = useState(false);
   const [esMenor, setEsMenor] = useState(false);
-  const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando

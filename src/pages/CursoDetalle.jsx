@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { inscripciones } from '../data/inscripciones';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -104,43 +104,36 @@ const CursoDetalle = () => {
   };
 
   const verificarEstudiante = async () => {
-    const yaExiste = inscripciones.find((i) => i.documento === documento && i.cursoId === curso._id);
-    if (yaExiste) {
-      setYaInscrito(true);
-      setMostrarFormulario(false);
-      return;
-    }
-  
-    console.log("🔎 Buscando estudiante con:", tipoDoc, documento);
+    console.log("🔎 Verificando inscripción con:", tipoDoc, documento);
   
     try {
-      const tiposEquivalentes = ["Registro Civil", "Tarjeta de Identidad"];
-      const tiposAConsultar = tiposEquivalentes.includes(tipoDoc)
-        ? tiposEquivalentes
-        : [tipoDoc];
+      const res = await fetch(`${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`);
   
-      let estudianteEncontrado = null;
-  
-      for (const tipo of tiposAConsultar) {
-        const res = await fetch(`${API_URL}/api/estudiantes/${encodeURIComponent(tipo)}/${documento}`);
-        if (res.ok) {
-          estudianteEncontrado = await res.json();
-          break;
-        }
-      }
-  
-      if (estudianteEncontrado) {
-        setDatosEstudiante(estudianteEncontrado);
-        setMostrarFormulario(true);
-        setYaInscrito(false);
-      } else {
+      if (res.status === 404) {
+        // No tiene inscripciones previas
         setDatosEstudiante(null);
         setMostrarFormulario(true);
+        setYaInscrito(false);
+        return;
       }
-    } catch (error) {
-      console.error("❌ Error al buscar estudiante:", error);
-      setDatosEstudiante(null);
+  
+      const estudiante = await res.json();
+  
+      // Verificamos si ya está inscrito en este curso
+      const yaInscritoEnCurso = estudiante.cursos.some(c => c.cursoNombre === curso.nombre);
+  
+      if (yaInscritoEnCurso) {
+        setYaInscrito(true);
+        setMostrarFormulario(false);
+        return;
+      }
+  
+      setDatosEstudiante(estudiante);
       setMostrarFormulario(true);
+      setYaInscrito(false);
+    } catch (error) {
+      console.error("❌ Error al verificar estudiante desde backend:", error);
+      alert("Hubo un error al verificar la inscripción. Intenta de nuevo.");
     }
   };
 

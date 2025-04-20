@@ -54,8 +54,8 @@ const CursoDetalle = () => {
   
 
   useEffect(() => {
-    const formulario = document.querySelector('form');
-    if (!formulario) return;
+    const formulario = formularioRef.current;
+if (!formulario) return;
   
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -98,6 +98,7 @@ const [verificando, setVerificando] = useState(false);
 
 // ✅ Detectar si es móvil
 const [esMovil, setEsMovil] = useState(false);
+const formularioRef = React.useRef(null);
 
 useEffect(() => {
   const manejarResize = () => {
@@ -379,6 +380,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                 </div>
               ) : (
                 <form
+                  ref={formularioRef}
                   onSubmit={async (e) => {
                     e.preventDefault();
                     setCargando(true); // activa el estado de carga
@@ -561,8 +563,9 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
     <button
       onClick={() => {
-        const formulario = document.querySelector('form');
-        if (formulario) formulario.scrollIntoView({ behavior: 'smooth' });
+        if (formularioRef.current) {
+          formularioRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
       }}
       className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
     >

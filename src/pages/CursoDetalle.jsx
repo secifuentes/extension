@@ -356,7 +356,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
           )}
 
           {mostrarFormulario && !yaInscrito && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
+            <form ref={formularioRef} id="formulario-inscripcion" style={{ scrollMarginTop: '80px' }}>
               {inscripcionExitosa ? (
                 <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
                   <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
@@ -547,9 +547,13 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
     <button
       onClick={() => {
-        document
-          .getElementById("formulario-inscripcion")
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const target = document.getElementById("formulario-inscripcion");
+        if (target) {
+          console.log("🌀 Haciendo scroll al formulario...");
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          console.warn("⚠️ No se encontró el formulario");
+        }
       }}
       className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
     >

@@ -210,15 +210,16 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
+      <div className="max-w-7xl mx-auto px-6 pb-16 flex flex-col md:flex-row gap-10 mt-4">
 
         {/* Columna izquierda */}
-        <div className="flex flex-col gap-6">
-          <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md">
+        <div className="flex flex-col gap-6 md:order-1">
+        <div className="aspect-[3/2.7] overflow-hidden rounded-xl shadow-md order-1">
             <img src={curso.imagen} alt={curso.nombre} className="w-full h-full object-cover" />
           </div>
+          <h2 className="block md:hidden text-2xl font-bold text-institucional mt-2">{curso.nombre}</h2>
 
-          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm">
+          <div className="bg-[#f2f2f2] p-6 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700 shadow-sm order-7 md:order-none">
   <div>
     <p className="text-institucional font-semibold">Modalidad:</p>
     <p>{curso.modalidad}</p>
@@ -238,7 +239,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 </div>
 
 {/* Descripción del curso - Fuera de la caja de precios */}
-<div className="bg-[#f2f2f2] p-6 rounded-xl shadow-sm text-sm text-gray-800">
+<div className="bg-[#f2f2f2] p-6 rounded-xl shadow-sm text-sm text-gray-800 order-4 md:order-none">
   <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
   
   <p
@@ -261,7 +262,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 )}
 </div>
 
-          <div>
+          <div className="order-8 md:order-none">
             <AccordionItem title="Requisitos" content={curso.requisitos} />
             <AccordionItem title="Implementos necesarios" content={curso.implementos} />
             <AccordionItem title="Beneficios" content={curso.beneficios} />
@@ -272,10 +273,10 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 
         {/* Columna derecha */}
         <div className="flex flex-col gap-4">
-          <h2 className="text-3xl font-bold text-institucional">{curso.nombre}</h2>
+        <h2 className="hidden md:block text-3xl font-bold text-institucional">{curso.nombre}</h2>
 
           {/* Bloque visual de precios */}
-<div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white">
+          <div className="border border-gray-200 p-6 rounded shadow space-y-6 bg-white order-3 md:order-none">
   <div>
     <p className="text-xl font-semibold text-gray-800">Valor mensual</p>
     <p className="text-3xl font-bold text-institucional">${valorMensual.toLocaleString()}</p>
@@ -322,7 +323,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 </div>
 
 {/* Banner informativo con ícono estilizado y texto atractivo */}
-<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg">
+<div className="bg-white border-l-4 border-blue-600 text-blue-700 p-4 mb-6 flex items-center rounded-lg shadow-lg order-5 md:order-none">
   <div className="mr-4 text-3xl">
     <i className="fas fa-info-circle"></i> {/* Ícono de información estilizado */}
   </div>
@@ -370,7 +371,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
           )}
 
           {mostrarFormulario && !yaInscrito && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg border">
+            <div className="mt-6 p-4 bg-gray-100 rounded-lg border order-6 md:order-none">
               {inscripcionExitosa ? (
                 <div className="bg-green-50 border border-green-300 text-green-800 p-6 rounded shadow text-center">
                   <h3 className="text-2xl font-bold">¡Felicitaciones! 🎉</h3>
@@ -545,7 +546,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
           )}
           
 {/* Aviso sobre apertura del curso */}
-<div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
+<div className="order-9 md:order-none bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded shadow text-sm">
   ⚠️ <strong>Importante:</strong> Este curso se habilitará únicamente si se cumple con el número mínimo de personas inscritas.
   <br />
   ¡Comparte con tus amigos y aseguren juntos su cupo!

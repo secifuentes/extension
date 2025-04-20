@@ -542,7 +542,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
         </div>
       </div>
 
-{/* Botón flotante solo visible en móviles */}
+\{/* Botón flotante solo visible en móviles 
 {mostrarBotonFlotante && !yaInscrito && !inscripcionExitosa && (
   <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
     <button
@@ -556,7 +556,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
       Inscribirme ahora
     </button>
   </div>
-)}
+)}*/}
     </div>
   );
 };

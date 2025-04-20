@@ -4,6 +4,7 @@ import { inscripciones } from '../data/inscripciones';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+
 const AccordionItem = ({ title, content }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -26,6 +27,7 @@ const AccordionItem = ({ title, content }) => {
 const CursoDetalle = () => {
   const { slug } = useParams();
   const [curso, setCurso] = useState(null);
+  const [descripcionExpandida, setDescripcionExpandida] = useState(false);
 
   useEffect(() => {
     const fetchCurso = async () => {
@@ -43,6 +45,43 @@ const CursoDetalle = () => {
   
     fetchCurso();
   }, [slug]);
+
+  const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
+
+  useEffect(() => {
+    const formulario = document.querySelector('form');
+    if (!formulario) return;
+  
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setMostrarBotonFlotante(!entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+  
+    observer.observe(formulario);
+  
+    // Escuchar si el usuario comienza a escribir
+    let haEscrito = false;
+
+const handleInput = (e) => {
+  const inputs = formulario.querySelectorAll('input, select, textarea');
+  const algunoConValor = Array.from(inputs).some(i => i.value.trim() !== '');
+  haEscrito = algunoConValor;
+
+  // Solo ocultamos si está escribiendo y el formulario no está a la vista
+  if (!formulario.getBoundingClientRect().top < window.innerHeight) {
+    setMostrarBotonFlotante(!algunoConValor);
+  }
+};
+  
+    formulario.addEventListener('input', handleInput);
+  
+    return () => {
+      observer.disconnect();
+      formulario.removeEventListener('input', handleInput);
+    };
+  }, [mostrarFormulario, inscripcionExitosa]);
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [documento, setDocumento] = useState('');
@@ -185,7 +224,22 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 {/* Descripción del curso - Fuera de la caja de precios */}
 <div className="bg-[#f2f2f2] p-6 rounded-xl shadow-sm text-sm text-gray-800">
   <p className="text-institucional font-semibold mb-2 text-base">Descripción del curso</p>
-  <p style={{ whiteSpace: 'pre-line' }}>{curso.descripcion}</p>
+  
+  <p
+    className={`text-gray-700 whitespace-pre-line transition-all duration-300 ease-in-out ${
+      descripcionExpandida ? '' : 'line-clamp-2'
+    }`}
+  >
+    {curso.descripcion}
+  </p>
+
+  {/* Botón para expandir */}
+  <button
+    onClick={() => setDescripcionExpandida(!descripcionExpandida)}
+    className="mt-2 text-sm text-institucional font-semibold hover:underline focus:outline-none"
+  >
+    {descripcionExpandida ? 'Ver menos' : 'Ver más'}
+  </button>
 </div>
 
           <div>
@@ -469,8 +523,24 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
 </div>
 
 
+
         </div>
       </div>
+
+{/* Botón flotante solo visible en móviles */}
+{mostrarBotonFlotante && !yaInscrito && !inscripcionExitosa && (
+  <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center z-50">
+    <button
+      onClick={() => {
+        const formulario = document.querySelector('form');
+        if (formulario) formulario.scrollIntoView({ behavior: 'smooth' });
+      }}
+      className="bg-institucional text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-presentacionDark transition"
+    >
+      Inscribirme ahora
+    </button>
+  </div>
+)}
     </div>
   );
 };

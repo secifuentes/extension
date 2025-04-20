@@ -65,3 +65,7 @@ html {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.6);
 }
+
+plugins: [
+  require('@tailwindcss/line-clamp'),
+]

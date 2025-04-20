@@ -94,6 +94,7 @@ const CursoDetalle = () => {
   const [modoPago, setModoPago] = useState(''); // ✅ empieza vacío
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
+  const [verificando, setVerificando] = useState(false);
 
 
   const calcularSiEsMenor = (fechaNacimiento) => {
@@ -107,12 +108,17 @@ const CursoDetalle = () => {
 
   const verificarEstudiante = async () => {
     console.log("🔎 Verificando inscripción con:", tipoDoc, documento);
+    setVerificando(true);
   
     try {
       const url = `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`;
       console.log("📡 Fetching URL:", url);
       
       const res = await fetch(url);
+
+    } finally {
+      setVerificando(false);
+    }
   
       if (res.status === 404) {
         // No tiene inscripciones previas
@@ -331,11 +337,12 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <input type="tel" className="w-full border p-2 rounded" value={documento} onChange={(e) => setDocumento(e.target.value)} required />
 
   <button
-    className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
-    onClick={verificarEstudiante}
-  >
-    Inscribirme
-  </button>
+  className="mt-4 bg-institucional text-white px-5 py-2 rounded hover:bg-presentacionDark"
+  onClick={verificarEstudiante}
+  disabled={verificando}
+>
+  {verificando ? 'Consultando...' : 'Inscribirme'}
+</button>
 </div>
 
           {yaInscrito && (

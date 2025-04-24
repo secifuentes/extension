@@ -371,7 +371,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                   setCargando(true);
                     e.preventDefault();
                     setCargando(true); // activa el estado de carga
-                    if (modoPago === 'trimestral' && !comprobanteBase64) {
+                    if (!comprobanteBase64) {
                       alert('⚠️ Debes subir el comprobante de pago antes de finalizar tu inscripción.');
                       setCargando(false);
                       return;
@@ -478,7 +478,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
     reader.readAsDataURL(file);
   }}
   className="w-full p-2 border rounded"
-  required
+  required // <-- Aquí fijo
 />
 
 {modoPago === 'mensual' && (

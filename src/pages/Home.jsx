@@ -283,23 +283,6 @@ const Home = () => {
   </div>
 </section>
 
-{/* Botón flotante de WhatsApp */}
-<a
-  href="https://wa.me/573019856645"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="fixed z-50 bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center justify-center"
-  title="¿Tienes dudas? Escríbenos por WhatsApp"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-    className="w-6 h-6"
-  >
-    <path d="M20.52 3.48a11.88 11.88 0 0 0-16.8 0A11.88 11.88 0 0 0 1.8 16.2L1 22l5.8-1.52a11.88 11.88 0 0 0 16.8-16.8ZM12 19.8a7.8 7.8 0 0 1-4-1.08l-.28-.16-3.44.92.92-3.44-.16-.28a7.8 7.8 0 1 1 6.96 4.04Z" />
-  </svg>
-</a>
 
     </div>
   );

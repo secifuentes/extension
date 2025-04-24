@@ -70,22 +70,28 @@ const App = () => {
           <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
         </Route>
       </Routes>
-      <a
-  href="https://wa.me/573019856645"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="fixed z-50 bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 animate-bounce"
-  title="¿Tienes dudas? Escríbenos por WhatsApp"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 32 32"
-    fill="currentColor"
-    className="w-6 h-6"
+      {/* Botón flotante de WhatsApp PRO */}
+<div className="fixed z-50 bottom-6 right-6 flex flex-col items-end gap-1 animate-fade-in-once">
+  <div className="hidden sm:flex items-center bg-white text-gray-800 text-sm font-semibold px-4 py-2 rounded-full shadow-lg border border-gray-200 whitespace-nowrap">
+    ¿Tienes dudas? <span className="ml-2 text-institucional">¡Escríbenos!</span>
+  </div>
+  <a
+    href="https://wa.me/573019856645"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-xl transition-transform duration-300 hover:scale-105"
+    title="Escríbenos por WhatsApp"
   >
-    <path d="M16 2.933A13.055 13.055 0 002.933 16a12.93 12.93 0 001.883 6.648L2 30l7.574-2.414A13.007 13.007 0 0016 29.067 13.055 13.055 0 0029.067 16 13.055 13.055 0 0016 2.933zm0 23.8a10.82 10.82 0 01-5.52-1.5l-.4-.236-4.508 1.437 1.489-4.417-.261-.423a10.63 10.63 0 011.781-13.193A10.735 10.735 0 0116 5.2a10.78 10.78 0 017.607 18.47 10.697 10.697 0 01-7.607 3.063zm5.936-8.117c-.33-.165-1.961-.965-2.266-1.078s-.524-.165-.747.165-.858 1.078-1.051 1.3-.387.247-.717.082a8.756 8.756 0 01-2.577-2.149 9.73 9.73 0 01-1.814-3.068c-.121-.33.012-.508.091-.673s.122-.165.184-.247a2.178 2.178 0 00.123-.206.589.589 0 000-.495c-.082-.165-.747-1.8-1.025-2.463s-.548-.57-.747-.58-.413-.01-.63-.01a1.22 1.22 0 00-.89.412A3.698 3.698 0 007.68 9.5c0 2.189 1.6 4.312 1.822 4.616s3.16 4.826 7.651 6.577c1.069.46 1.9.734 2.547.939a6.418 6.418 0 002.953.184c.9-.138 1.961-.8 2.24-1.569s.279-1.43.195-1.569-.3-.225-.63-.39z" />
-  </svg>
-</a>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 32 32"
+      className="w-6 h-6"
+    >
+      <path d="M20.52 3.48a11.88 11.88 0 0 0-16.8 0A11.88 11.88 0 0 0 1.8 16.2L1 22l5.8-1.52a11.88 11.88 0 0 0 16.8-16.8ZM12 19.8a7.8 7.8 0 0 1-4-1.08l-.28-.16-3.44.92.92-3.44-.16-.28a7.8 7.8 0 1 1 6.96 4.04Z" />
+    </svg>
+  </a>
+</div>
     </>
   );
 };

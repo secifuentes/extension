@@ -392,7 +392,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       formaPago: modoPago,
                       valorPagado: total,
                       pagoConfirmado: false,
-                      comprobante: modoPago === 'trimestral' ? comprobanteBase64 : '',
+                      comprobante: comprobanteBase64,   // <<<<<<< 👈 ponlo así
                       acudiente: esMenor ? form.acudiente.value : '',
                       telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
                     };

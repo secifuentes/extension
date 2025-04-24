@@ -34,6 +34,7 @@ const CursoDetalle = () => {
   const [inscripcionExitosa, setInscripcionExitosa] = useState(false);
   const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(true);
   const formularioRef = React.useRef(null);
+  const [horarioSeleccionado, setHorarioSeleccionado] = useState('');
   
   useEffect(() => {
     const fetchCurso = async () => {
@@ -79,6 +80,7 @@ const CursoDetalle = () => {
   const [comprobanteBase64, setComprobanteBase64] = useState('');
   const [cargando, setCargando] = useState(false); // Estado para controlar si estamos cargando
   const [verificando, setVerificando] = useState(false);
+  
   
 
 // ✅ Detectar si es móvil
@@ -388,6 +390,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       fechaNacimiento: form.fechaNacimiento.value,
                       cursoId: curso._id,
                       cursoNombre: curso.nombre,
+                      horarioSeleccionado,  // Aquí se incluye el horario
                       esEstudiante: !!datosEstudiante,
                       formaPago: modoPago,
                       valorPagado: total,
@@ -440,6 +443,23 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     <option value="trimestral">Curso completo (3 meses)</option>
                     <option value="mensual">Pago mensual</option>
                   </select>
+
+                  {/* Mostrar el campo de horario solo si el curso es "Ajedrez Iniciación" */}
+{curso.nombre === 'Ajedrez Iniciación' && (
+  <div className="mt-4">
+    <label className="block font-semibold">Selecciona tu horario:</label>
+    <select
+      className="w-full border p-2 rounded"
+      value={horarioSeleccionado}  // Mantiene el valor seleccionado
+      onChange={(e) => setHorarioSeleccionado(e.target.value)}  // Actualiza el estado
+      required
+    >
+      <option value="">Selecciona un horario</option>
+      <option value="martes-14-15">Martes 14:00 a 15:00</option>
+      <option value="sabado-8-9">Sábado 8:00 a 9:00</option>
+    </select>
+  </div>
+)}
 
                   <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
                   <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />

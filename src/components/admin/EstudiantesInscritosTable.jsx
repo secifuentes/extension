@@ -316,7 +316,11 @@ const EstudiantesInscritosTable = () => {
   <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
   <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
   {/* Mostrar el horario seleccionado */}
-  <p className="text-sm text-gray-700"><strong>Horario seleccionado:</strong> {est.horarioSeleccionado}</p> {/* Nueva línea para el horario */}
+  {est.horarioSeleccionado && (
+  <p className="text-sm text-gray-700">
+    <strong>Horario seleccionado:</strong> {est.horarioSeleccionado}
+  </p>
+)}
 </div>
 
           {/* Comprobante principal */}

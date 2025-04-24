@@ -311,11 +311,13 @@ const EstudiantesInscritosTable = () => {
           className="bg-white border rounded-lg shadow p-4 flex flex-col justify-between h-full"
         >
           {/* Cabecera */}
-          <div className="space-y-1 mb-3">
-            <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
-            <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
-            <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
-          </div>
+<div className="space-y-1 mb-3">
+  <h3 className="font-bold text-lg text-gray-800">{est.nombres} {est.apellidos}</h3>
+  <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
+  <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
+  {/* Mostrar el horario seleccionado */}
+  <p className="text-sm text-gray-700"><strong>Horario seleccionado:</strong> {est.horarioSeleccionado}</p> {/* Nueva línea para el horario */}
+</div>
 
           {/* Comprobante principal */}
 <div className="text-center mb-3 space-y-1">

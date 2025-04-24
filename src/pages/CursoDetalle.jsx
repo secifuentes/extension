@@ -365,7 +365,10 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                 </div>
               ) : (
                 <form ref={formularioRef} id="formulario-inscripcion"
-                  onSubmit={async (e) => {
+                onSubmit={async (e) => {
+                  console.log("🟢 Formulario enviado"); // <-- Agrega esta línea
+                  e.preventDefault();
+                  setCargando(true);
                     e.preventDefault();
                     setCargando(true); // activa el estado de carga
                     if (modoPago === 'trimestral' && !comprobanteBase64) {
@@ -514,17 +517,19 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <p className="mt-2">Adjunta el comprobante para validar tu inscripción.</p>
 </div>
 
-                  <button
-                  type="submit"
-                  disabled={cargando}
-                  className={`w-full py-2 rounded transition-all duration-200 ${
-                    cargando
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-institucional hover:bg-presentacionDark text-white'
-                    }`}
-                    >
-                      {cargando ? 'Enviando...' : 'Finalizar inscripción'}
-                  </button>
+<button
+  type="submit"
+  disabled={cargando}
+  onClick={() => console.log("✅ Clic en botón detectado")}
+  style={{ zIndex: 9999, position: 'relative' }}
+  className={`w-full py-2 rounded transition-all duration-200 ${
+    cargando
+      ? 'bg-gray-400 cursor-not-allowed'
+      : 'bg-institucional hover:bg-presentacionDark text-white'
+  }`}
+>
+  {cargando ? 'Enviando...' : 'Finalizar inscripción'}
+</button>
                 </form>
               )}
             </div>

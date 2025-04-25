@@ -409,6 +409,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     valorPagado: total,
                     pagoConfirmado: false,
                     comprobante: comprobanteBase64,
+                    horarioSeleccionado: curso.nombre === 'Ajedrez Iniciación' ? horarioSeleccionado : 'N/A', // ✅ AQUÍ y nada más
                   };
                   
                   // 👶🏻 Si es menor de edad:
@@ -417,10 +418,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     data.telefonoAcudiente = form.telefonoAcudiente.value;
                   }
                   
-                  // 🧠 Solo agregar horarioSeleccionado si es ajedrez:
-                  if (curso.nombre === 'Ajedrez Iniciación') {
-                    data.horarioSeleccionado = horarioSeleccionado;
-                  }
                 
                   console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
                   console.log("📤 Enviando datos:", data);

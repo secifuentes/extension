@@ -409,7 +409,6 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     valorPagado: total,
                     pagoConfirmado: false,
                     comprobante: comprobanteBase64,
-                    horarioSeleccionado: curso.nombre === 'Ajedrez Iniciación' ? horarioSeleccionado : 'N/A', // 👈🏻 AQUI
                   };
                   
                   // 👶🏻 Si es menor de edad:
@@ -417,8 +416,8 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     data.acudiente = form.acudiente.value;
                     data.telefonoAcudiente = form.telefonoAcudiente.value;
                   }
-                
-                  // 🧠 Si el curso es Ajedrez Iniciación, añade horario
+                  
+                  // 🧠 Solo agregar horarioSeleccionado si es ajedrez:
                   if (curso.nombre === 'Ajedrez Iniciación') {
                     data.horarioSeleccionado = horarioSeleccionado;
                   }

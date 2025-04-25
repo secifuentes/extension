@@ -427,6 +427,11 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     }
                     data.horarioSeleccionado = horarioSeleccionado;
                   }
+
+                  // ✅ Aseguramos que siempre existan estos campos
+data.acudiente = data.acudiente || 'N/A';
+data.telefonoAcudiente = data.telefonoAcudiente || 'N/A';
+data.horarioSeleccionado = data.horarioSeleccionado || 'N/A';
                   
                   // 🚨 Validar manualmente antes de enviar
                   for (const [key, value] of Object.entries(data)) {

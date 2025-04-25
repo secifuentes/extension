@@ -396,12 +396,12 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                 
                   // 👉 Datos básicos obligatorios
                   const data = {
-                    nombres: datosEstudiante?.nombres || form.nombres.value,
-                    apellidos: datosEstudiante?.apellidos || form.apellidos.value,
+                    nombres: datosEstudiante?.nombres || form.nombres.value.trim(),
+                    apellidos: datosEstudiante?.apellidos || form.apellidos.value.trim(),
                     documento,
                     tipoDocumento: tipoDoc,
-                    correo: datosEstudiante?.correo || form.correo.value,
-                    telefono: datosEstudiante?.telefono || form.telefono.value,
+                    correo: datosEstudiante?.correo || form.correo.value.trim(),
+                    telefono: datosEstudiante?.telefono || form.telefono.value.trim(),
                     fechaNacimiento: form.fechaNacimiento.value,
                     cursoId: curso._id,
                     cursoNombre: curso.nombre,
@@ -411,19 +411,27 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                     pagoConfirmado: false,
                     comprobante: comprobanteBase64,
                   };
-                
-                  // 👶🏻 Si es menor de edad:
+                  
+                  // Si es menor, agregar datos de acudiente
                   if (esMenor) {
-                    data.acudiente = form.acudiente.value;
-                    data.telefonoAcudiente = form.telefonoAcudiente.value;
+                    data.acudiente = form.acudiente.value.trim();
+                    data.telefonoAcudiente = form.telefonoAcudiente.value.trim();
                   }
-                
-                  // 🧠 Si el curso es Ajedrez Iniciación, debes agregar el horario:
+                  
+                  // Si es Ajedrez, agregar horario seleccionado
                   if (curso.nombre === 'Ajedrez Iniciación') {
-                    if (horarioSeleccionado) {
-                      data.horarioSeleccionado = horarioSeleccionado;
-                    } else {
+                    if (!horarioSeleccionado) {
                       alert('⚠️ Debes seleccionar un horario para Ajedrez.');
+                      setCargando(false);
+                      return;
+                    }
+                    data.horarioSeleccionado = horarioSeleccionado;
+                  }
+                  
+                  // 🚨 Validar manualmente antes de enviar
+                  for (const [key, value] of Object.entries(data)) {
+                    if (value === undefined || value === null || value === '' || (typeof value === 'string' && value.trim() === '')) {
+                      alert(`⚠️ El campo "${key}" es obligatorio. Completa todos los datos.`);
                       setCargando(false);
                       return;
                     }

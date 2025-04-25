@@ -382,72 +382,73 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
               ) : (
                 <form ref={formularioRef} id="formulario-inscripcion"
                 onSubmit={async (e) => {
-                  console.log("🟢 Formulario enviado"); // <-- Agrega esta línea
+                  console.log("🟢 Formulario enviado");
                   e.preventDefault();
                   setCargando(true);
-                    e.preventDefault();
-                    setCargando(true); // activa el estado de carga
-                    if (!comprobanteBase64) {
-                      alert('⚠️ Debes subir el comprobante de pago antes de finalizar tu inscripción.');
-                      setCargando(false);
-                      return;
+                
+                  if (!comprobanteBase64) {
+                    alert('⚠️ Debes subir el comprobante de pago antes de finalizar tu inscripción.');
+                    setCargando(false);
+                    return;
+                  }
+                
+                  const form = e.target;
+                
+                  const data = {
+                    nombres: datosEstudiante?.nombres || form.nombres.value,
+                    apellidos: datosEstudiante?.apellidos || form.apellidos.value,
+                    documento,
+                    tipoDocumento: tipoDoc,
+                    correo: datosEstudiante?.correo || form.correo.value,
+                    telefono: datosEstudiante?.telefono || form.telefono.value,
+                    fechaNacimiento: form.fechaNacimiento.value,
+                    cursoId: curso._id,
+                    cursoNombre: curso.nombre,
+                    esEstudiante: !!datosEstudiante,
+                    formaPago: modoPago,
+                    valorPagado: total,
+                    pagoConfirmado: false,
+                    comprobante: comprobanteBase64,
+                  };
+                
+                  // 👶🏻 Si es menor de edad, añade acudiente
+                  if (esMenor) {
+                    data.acudiente = form.acudiente.value;
+                    data.telefonoAcudiente = form.telefonoAcudiente.value;
+                  }
+                
+                  // 🧠 Si el curso es Ajedrez Iniciación, añade horario
+                  if (curso.nombre === 'Ajedrez Iniciación') {
+                    data.horarioSeleccionado = horarioSeleccionado;
+                  }
+                
+                  console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
+                  console.log("📤 Enviando datos:", data);
+                
+                  try {
+                    const res = await fetch(`${API_URL}/api/inscripciones`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data)
+                    });
+                
+                    const result = await res.json();
+                    if (res.ok) {
+                      setInscripcionExitosa(true);
+                    } else if (res.status === 409 || result.mensaje?.includes('inscrito')) {
+                      setYaInscrito(true);
+                      setMostrarFormulario(false);
+                    } else {
+                      console.error('❌ Error inesperado:', result);
                     }
-                    const form = e.target;
-
-                    const data = {
-                      nombres: datosEstudiante?.nombres || form.nombres.value,
-                      apellidos: datosEstudiante?.apellidos || form.apellidos.value,
-                      documento,
-                      tipoDocumento: tipoDoc,
-                      correo: datosEstudiante?.correo || form.correo.value,
-                      telefono: datosEstudiante?.telefono || form.telefono.value,
-                      fechaNacimiento: form.fechaNacimiento.value,
-                      cursoId: curso._id,
-                      cursoNombre: curso.nombre,
-                      horarioSeleccionado: curso.nombre === 'Ajedrez Iniciación' ? horarioSeleccionado : undefined,
-                      esEstudiante: !!datosEstudiante,
-                      formaPago: modoPago,
-                      valorPagado: total,
-                      pagoConfirmado: false,
-                      comprobante: comprobanteBase64,
-                      acudiente: esMenor ? form.acudiente.value : '',
-                      telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
-                    };
-
-                    if (curso.nombre !== 'Ajedrez Iniciación') {
-                      delete data.horarioSeleccionado;
-                    }
-
-                    console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
-                    console.log("📤 Enviando datos:", data);
-                    console.log("➡ Enviando inscripción a:", `${API_URL}/api/inscripciones`);
-                    console.log("📝 Forma de pago enviada:", modoPago);
-                    
-
-                    try {
-                      const res = await fetch(`${API_URL}/api/inscripciones`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                      });
-                    
-                      const result = await res.json();
-                      if (res.ok) {
-                        setInscripcionExitosa(true);
-                      } else if (res.status === 409 || result.mensaje?.includes('inscrito')) {
-                        setYaInscrito(true);        // 🟡 Mostramos el mensaje de “ya estás inscrito”
-                        setMostrarFormulario(false); // 🔒 Ocultamos el formulario si ya estaba inscrito
-                        } else {
-                          // Aquí podrías mostrar otro mensaje si quieres
-                          console.error('❌ Error inesperado:', result);
-                        }
-                    } catch (err) {
-                      console.error('❌ Error al enviar inscripción:', err);
-                      alert('No se pudo conectar con el servidor');
-                    } finally {
-                      setCargando(false); // 🟢 Esto se ejecuta SIEMPRE al final, para apagar el botón cargando
-                    }
-                  }}
+                  } catch (err) {
+                    console.error('❌ Error al enviar inscripción:', err);
+                    alert('No se pudo conectar con el servidor');
+                  } finally {
+                    setCargando(false);
+                  }
+                }}
+                
                   className="space-y-4"
                 >
                   <label className="block font-semibold">Forma de pago:</label>

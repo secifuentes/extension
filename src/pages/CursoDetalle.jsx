@@ -390,15 +390,19 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                       fechaNacimiento: form.fechaNacimiento.value,
                       cursoId: curso._id,
                       cursoNombre: curso.nombre,
-                      horarioSeleccionado,  // Aquí se incluye el horario
+                      horarioSeleccionado: curso.nombre === 'Ajedrez Iniciación' ? horarioSeleccionado : undefined,
                       esEstudiante: !!datosEstudiante,
                       formaPago: modoPago,
                       valorPagado: total,
                       pagoConfirmado: false,
-                      comprobante: comprobanteBase64,   // <<<<<<< 👈 ponlo así
+                      comprobante: comprobanteBase64,
                       acudiente: esMenor ? form.acudiente.value : '',
                       telefonoAcudiente: esMenor ? form.telefonoAcudiente.value : '',
                     };
+
+                    if (curso.nombre !== 'Ajedrez Iniciación') {
+                      delete data.horarioSeleccionado;
+                    }
 
                     console.log('➡ Enviando inscripción a:', `${API_URL}/api/inscripciones`);
                     console.log("📤 Enviando datos:", data);

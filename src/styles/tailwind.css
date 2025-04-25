@@ -79,5 +79,5 @@ html {
 }
 
 .animate-fade-in-once {
-  animation: fadeInOnce 1.2s ease-out forwards;
+  animation: fadeInOnce 1s ease-out forwards;
 }

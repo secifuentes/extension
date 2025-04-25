@@ -70,20 +70,22 @@ const App = () => {
           <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
         </Route>
       </Routes>
-      {/* Botón flotante de WhatsApp */}
+     {/* Botón flotante de WhatsApp con mensaje arriba */}
 <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end animate-fade-in-once">
-  {/* Mensaje flotante arriba del botón */}
-  <div className="mb-2 bg-white shadow-md rounded-md px-4 py-2 text-sm font-medium text-gray-800">
-    ¿Tienes dudas? Escríbenos
+  {/* Mensaje flotante */}
+  <div className="mb-2 px-4 py-1.5 bg-white rounded-md shadow-lg text-sm text-gray-700 font-semibold">
+    ¿Tienes dudas? <span className="text-green-600">Escríbenos</span>
   </div>
 
+  {/* Botón */}
   <a
     href="https://wa.me/573019856645"
     target="_blank"
     rel="noopener noreferrer"
-    className="flex items-center justify-center w-16 h-16 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg transition duration-300"
+    className="w-16 h-16 flex items-center justify-center bg-[#25D366] text-white rounded-full shadow-xl hover:scale-105 transition transform duration-300"
     title="Escríbenos por WhatsApp"
   >
+    {/* Ícono oficial de WhatsApp en SVG (blanco) */}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"

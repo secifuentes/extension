@@ -114,22 +114,36 @@ useEffect(() => {
   
     try {
       const url = `${API_URL}/api/inscripciones/estado/${encodeURIComponent(tipoDoc)}/${documento}`;
-      console.log("📡 Fetching URL:", url);
+      console.log("📡 Consultando inscripciones en:", url);
   
       const res = await fetch(url);
   
       if (res.status === 404) {
-        // No tiene inscripciones previas
-        setDatosEstudiante(null);
+        console.log("❌ No está inscrito aún. Buscando en estudiantes...");
+  
+        // 🔵 Nueva búsqueda en estudiantes
+        const resEstudiante = await fetch(`${API_URL}/api/inscripciones/buscar-estudiante/${encodeURIComponent(tipoDoc)}/${documento}`);
+        
+        if (resEstudiante.status === 404) {
+          console.log("❌ No encontrado ni como inscrito ni como estudiante.");
+          setDatosEstudiante(null);
+          setMostrarFormulario(true);
+          setYaInscrito(false);
+          return;
+        }
+  
+        const estudiante = await resEstudiante.json();
+        console.log("✅ Estudiante encontrado en base de datos de estudiantes:", estudiante);
+  
+        setDatosEstudiante(estudiante);
         setMostrarFormulario(true);
         setYaInscrito(false);
         return;
       }
   
-      const estudiante = await res.json();
+      const estudianteInscrito = await res.json();
   
-      // Verificamos si ya está inscrito en este curso
-      const yaInscritoEnCurso = estudiante.cursos.some(c => c.cursoNombre === curso.nombre);
+      const yaInscritoEnCurso = estudianteInscrito.cursos.some(c => c.cursoNombre === curso.nombre);
   
       if (yaInscritoEnCurso) {
         setYaInscrito(true);
@@ -137,13 +151,13 @@ useEffect(() => {
         return;
       }
   
-      setDatosEstudiante(estudiante);
+      setDatosEstudiante(estudianteInscrito);
       setMostrarFormulario(true);
       setYaInscrito(false);
   
     } catch (error) {
-      console.error("❌ Error al verificar estudiante desde backend:", error);
-      alert("Hubo un error al verificar la inscripción. Intenta de nuevo.");
+      console.error("❌ Error al verificar estudiante:", error);
+      alert("Hubo un error al verificar. Intenta nuevamente.");
     } finally {
       setVerificando(false);
     }

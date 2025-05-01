@@ -548,35 +548,35 @@ const EstudiantesInscritosTable = () => {
       </button>
       <h3 className="text-xl font-bold text-institucional mb-4">Editar información</h3>
       <form
-  onSubmit={async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const actualizados = {
-      nombres: form.nombres.value,
-      apellidos: form.apellidos.value,
-      correo: form.correo.value,
-      telefono: form.telefono.value,
-      cursoNombre: form.cursoNombre.value, // ✅ nuevo campo
-    };
+onSubmit={async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const actualizados = {
+    nombres: form.nombres.value,
+    apellidos: form.apellidos.value,
+    correo: form.correo.value,
+    telefono: form.telefono.value,
+    cursoNombre: form.cursoNombre.value,
+  };
 
-          try {
-            const res = await fetch(`${API_URL}/api/inscripciones/${modalEditar._id}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(actualizados),
-            });
+  try {
+    const res = await fetch(`${API_URL}/api/inscripciones/${modalEditar._id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(actualizados),
+    });
 
-            if (res.ok) {
-              alert('✅ Datos actualizados');
-              setModalEditar(null);
-              fetchInscripciones();
-            } else {
-              alert('❌ Error al actualizar');
-            }
-          } catch (err) {
-            console.error('❌ Error:', err);
-          }
-        }}
+    if (res.ok) {
+      alert('✅ Cambios guardados y correo enviado (si aplicaba)');
+      setModalEditar(null);
+      fetchInscripciones();
+    } else {
+      alert('❌ Error al actualizar');
+    }
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
+}}
         className="space-y-3"
       >
         <input name="nombres" defaultValue={modalEditar.nombres} className="w-full border p-2 rounded" />

@@ -548,15 +548,16 @@ const EstudiantesInscritosTable = () => {
       </button>
       <h3 className="text-xl font-bold text-institucional mb-4">Editar información</h3>
       <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const form = e.target;
-          const actualizados = {
-            nombres: form.nombres.value,
-            apellidos: form.apellidos.value,
-            correo: form.correo.value,
-            telefono: form.telefono.value,
-          };
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const actualizados = {
+      nombres: form.nombres.value,
+      apellidos: form.apellidos.value,
+      correo: form.correo.value,
+      telefono: form.telefono.value,
+      cursoNombre: form.cursoNombre.value, // ✅ nuevo campo
+    };
 
           try {
             const res = await fetch(`${API_URL}/api/inscripciones/${modalEditar._id}`, {
@@ -582,6 +583,12 @@ const EstudiantesInscritosTable = () => {
         <input name="apellidos" defaultValue={modalEditar.apellidos} className="w-full border p-2 rounded" />
         <input name="correo" defaultValue={modalEditar.correo} className="w-full border p-2 rounded" />
         <input name="telefono" defaultValue={modalEditar.telefono} className="w-full border p-2 rounded" />
+        <select name="cursoNombre" defaultValue={modalEditar.cursoNombre} className="w-full border p-2 rounded">
+  <option value="">-- Selecciona nuevo curso --</option>
+  {cursosUnicos.map((curso, i) => (
+    <option key={i} value={curso}>{curso}</option>
+  ))}
+</select>
         <button
           type="submit"
           className="bg-institucional text-white px-4 py-2 rounded w-full hover:bg-presentacionDark"

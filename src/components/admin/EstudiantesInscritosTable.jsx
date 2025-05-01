@@ -20,6 +20,20 @@ const EstudiantesInscritosTable = () => {
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
   const [rechazandoId, setRechazandoId] = useState(null);
   const [cursosDisponibles, setCursosDisponibles] = useState([]);
+
+  const fetchInscripciones = async () => {
+    try {
+      setCargando(true);
+      const res = await fetch(`${API_URL}/api/inscripciones`);
+      const data = await res.json();
+      const ordenado = [...data].sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
+      setInscripciones(ordenado);
+    } catch (err) {
+      console.error('❌ Error al cargar inscripciones:', err);
+    } finally {
+      setCargando(false);
+    }
+  };
   
   
 

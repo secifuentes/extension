@@ -19,25 +19,22 @@ const EstudiantesInscritosTable = () => {
   const [pagosMensualesConfirmando, setPagosMensualesConfirmando] = useState({});
   const [modalEditar, setModalEditar] = useState(null); // estudiante a editar
   const [rechazandoId, setRechazandoId] = useState(null);
+  const [cursosDisponibles, setCursosDisponibles] = useState([]);
   
   
 
   useEffect(() => {
     fetchInscripciones();
+    fetchCursos(); // 👈 también trae los cursos
   }, []);
-
-  const fetchInscripciones = async () => {
+  
+  const fetchCursos = async () => {
     try {
-      setCargando(true);
-      const res = await fetch(`${API_URL}/api/inscripciones`);
+      const res = await fetch(`${API_URL}/api/cursos`);
       const data = await res.json();
-
-      const ordenado = [...data].sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
-      setInscripciones(ordenado);
-    } catch (err) {
-      console.error('❌ Error al cargar inscripciones:', err);
-    } finally {
-      setCargando(false);
+      setCursosDisponibles(data);
+    } catch (error) {
+      console.error('❌ Error al obtener cursos:', error);
     }
   };
 
@@ -186,8 +183,6 @@ const EstudiantesInscritosTable = () => {
     });
   };
 
-  const cursosUnicos = [...new Set(inscripciones.map((i) => i.cursoNombre))];
-
   const filtrados = inscripciones
     .filter((est) => {
       const texto = `${est.nombres} ${est.apellidos} ${est.documento} ${est.correo}`.toLowerCase();
@@ -266,11 +261,11 @@ const EstudiantesInscritosTable = () => {
           className="p-3 border rounded-md w-full sm:w-1/3"
         />
         <select value={filtroCurso} onChange={(e) => setFiltroCurso(e.target.value)} className="p-3 border rounded-md">
-          <option value="">Todos los cursos</option>
-          {cursosUnicos.map((curso, i) => (
-            <option key={i} value={curso}>{curso}</option>
-          ))}
-        </select>
+  <option value="">Todos los cursos</option>
+  {cursosDisponibles.map((curso, i) => (
+    <option key={i} value={curso.nombre}>{curso.nombre}</option>
+  ))}
+</select>
         <select value={filtroPago} onChange={(e) => setFiltroPago(e.target.value)} className="p-3 border rounded-md">
           <option value="">Todos los pagos</option>
           <option value="confirmado">Confirmado</option>
@@ -585,8 +580,8 @@ onSubmit={async (e) => {
         <input name="telefono" defaultValue={modalEditar.telefono} className="w-full border p-2 rounded" />
         <select name="cursoNombre" defaultValue={modalEditar.cursoNombre} className="w-full border p-2 rounded">
   <option value="">-- Selecciona nuevo curso --</option>
-  {cursosUnicos.map((curso, i) => (
-    <option key={i} value={curso}>{curso}</option>
+  {cursosDisponibles.map((curso, i) => (
+    <option key={i} value={curso.nombre}>{curso.nombre}</option>
   ))}
 </select>
         <button

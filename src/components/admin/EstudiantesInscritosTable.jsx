@@ -164,7 +164,10 @@ const EstudiantesInscritosTable = () => {
     }
   };
 
-  const abrirModalEdicion = (estudiante) => {
+  const abrirModalEdicion = async (estudiante) => {
+    if (cursosDisponibles.length === 0) {
+      await fetchCursos(); // Asegura que los cursos estén cargados antes de abrir el modal
+    }
     setModalEditar(estudiante);
   };
 

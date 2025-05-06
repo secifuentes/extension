@@ -495,7 +495,7 @@ data.horarioSeleccionado = data.horarioSeleccionado || 'N/A';
     >
       <option value="">Selecciona un horario</option>
       <option value="martes-14-15">Martes 13:10 a 14:10</option>
-      <option value="martes-15-15">Miércoles 14:15 a 15:15</option>
+      <option value="martes-15-15">Martes 14:15 a 15:15</option>
       <option value="sabado-8-9">Sábado 8:00 a 9:00</option>
     </select>
   </div>

@@ -491,7 +491,7 @@ data.horarioSeleccionado = data.horarioSeleccionado || 'N/A';
                   </select>
 
                   {/* Mostrar el campo de horario solo si el curso es "Ajedrez Iniciación" */}
-{curso.nombre === 'Ajedrez Iniciación' && (
+                  {curso.nombre === 'Ajedrez Iniciación' || curso.nombre === 'Inglés para Niños Nivel A1 - A2' ? (
   <div className="mt-4">
     <label className="block font-semibold">Selecciona tu horario:</label>
     <select

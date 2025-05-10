@@ -496,17 +496,17 @@ data.horarioSeleccionado = data.horarioSeleccionado || 'N/A';
     <label className="block font-semibold">Selecciona tu horario:</label>
     <select
       className="w-full border p-2 rounded"
-      value={horarioSeleccionado}  // Mantiene el valor seleccionado
-      onChange={(e) => setHorarioSeleccionado(e.target.value)}  // Actualiza el estado
+      value={horarioSeleccionado}
+      onChange={(e) => setHorarioSeleccionado(e.target.value)}
       required
     >
       <option value="">Selecciona un horario</option>
-      <option value="martes-14-15">Martes 13:10 a 14:10</option>
-      <option value="martes-15-15">Martes 14:15 a 15:15</option>
-      <option value="sabado-8-9">Sábado 8:00 a 9:00</option>
+      {curso.horarios.map((h, index) => (
+        <option key={index} value={h}>{h}</option>
+      ))}
     </select>
   </div>
-)}
+) : null}
 
                   <input name="nombres" type="text" placeholder="Nombres" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.nombres || ''} readOnly={!!datosEstudiante} required />
                   <input name="apellidos" type="text" placeholder="Apellidos" className={`w-full p-2 border rounded ${datosEstudiante ? 'bg-gray-100 text-gray-500' : ''}`} defaultValue={datosEstudiante?.apellidos || ''} readOnly={!!datosEstudiante} required />

@@ -42,6 +42,7 @@ const CursoDetalle = () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cursos/con-inscritos`);
         const data = await res.json();
         const cursoEncontrado = data.find(c => c.slug === slug);
+        console.log("🧪 Curso encontrado:", cursoEncontrado);
         setCurso(cursoEncontrado);
       } catch (err) {
         console.error('❌ Error al cargar el curso:', err);

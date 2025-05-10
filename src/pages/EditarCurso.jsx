@@ -11,10 +11,9 @@ const EditarCurso = () => {
   useEffect(() => {
     const fetchCurso = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/cursos/con-inscritos`);
+        const res = await fetch(`${API_URL}/api/cursos/${id}`);
         const data = await res.json();
-        const encontrado = data.find(c => c._id === id);
-        if (encontrado) setCurso(encontrado);
+        setCurso(data);
       } catch (err) {
         console.error('❌ Error al cargar el curso:', err);
       }

@@ -236,12 +236,7 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
   <div>
     <p className="text-institucional font-semibold">Horario:</p>
     {(curso.horarios || [curso.horario]).map((h, index) => (
-  <div key={index}>
-    <label>
-      <input type="radio" name={`horario-${curso._id}`} value={h} />
-      {h}
-    </label>
-  </div>
+  <p key={index}>{h}</p>
 ))}
   </div>
 </div>

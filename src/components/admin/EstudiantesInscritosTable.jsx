@@ -569,7 +569,6 @@ onSubmit={async (e) => {
     correo: form.correo.value,
     telefono: form.telefono.value,
     cursoNombre: form.cursoNombre.value,
-    horarioSeleccionado: form.horarioSeleccionado.value,
   };
 
   try {
@@ -602,13 +601,6 @@ onSubmit={async (e) => {
     <option key={i} value={curso.nombre}>{curso.nombre}</option>
   ))}
 </select>
-
-<input
-  name="horarioSeleccionado"
-  defaultValue={modalEditar.horarioSeleccionado || ''}
-  placeholder="Horario seleccionado"
-  className="w-full border p-2 rounded"
-/>
         <button
           type="submit"
           className="bg-institucional text-white px-4 py-2 rounded w-full hover:bg-presentacionDark"

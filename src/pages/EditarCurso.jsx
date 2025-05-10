@@ -62,28 +62,44 @@ const EditarCurso = () => {
         className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-md"
       >
         {[
-          ['nombre', 'Nombre del curso'],
-          ['precio', 'Precio'],
-          ['imagen', 'URL de imagen'],
-          ['modalidad', 'Modalidad'],
-          ['duracion', 'Duración'],
-          ['ubicacion', 'Ubicación'],
-          ['horario', 'Horario'],
-          ['edad', 'Edad'],
-          ['reserva', 'Reserva'],
-        ].map(([name, label]) => (
-          <div key={name} className="flex flex-col">
-            <label className="text-sm text-gray-700 mb-1">{label}</label>
-            <input
-              name={name}
-              value={curso[name] || ''}
-              onChange={handleChange}
-              className="p-2 rounded border border-gray-300 focus:ring-2 focus:ring-institucional outline-none transition"
-              required
-            />
-          </div>
-        ))}
+  ['nombre', 'Nombre del curso'],
+  ['precio', 'Precio'],
+  ['imagen', 'URL de imagen'],
+  ['modalidad', 'Modalidad'],
+  ['duracion', 'Duración'],
+  ['ubicacion', 'Ubicación'],
+  ['edad', 'Edad'],
+  ['reserva', 'Reserva'],
+].map(([name, label]) => (
+  <div key={name} className="flex flex-col">
+    <label className="text-sm text-gray-700 mb-1">{label}</label>
+    <input
+      name={name}
+      value={curso[name] || ''}
+      onChange={handleChange}
+      className="p-2 rounded border border-gray-300 focus:ring-2 focus:ring-institucional outline-none transition"
+      required
+    />
+  </div>
+))}
 
+{/* Campo de horarios separado */}
+<div className="sm:col-span-2 flex flex-col">
+  <label className="text-sm text-gray-700 mb-1">Horarios (uno por línea)</label>
+  <textarea
+    name="horarios"
+    value={(curso.horarios || []).join('\n')}
+    onChange={(e) =>
+      setCurso({
+        ...curso,
+        horarios: e.target.value.split('\n').map(h => h.trim()).filter(Boolean),
+      })
+    }
+    className="p-2 rounded border border-gray-300 focus:ring-2 focus:ring-institucional outline-none transition resize-y"
+    rows={4}
+    required
+  />
+</div>
         {[
           ['descripcion', 'Descripción'],
           ['requisitos', 'Requisitos'],

@@ -43,10 +43,10 @@ const EnviarCorreo = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          inscripcionesIds: seleccionados,
-          asunto,
-          mensajeHtml: mensaje
-        }),
+  seleccionados,  // 👈 este es el nombre correcto
+  asunto,
+  mensajeHtml: mensaje
+}),
       });
 
       const data = await res.json();

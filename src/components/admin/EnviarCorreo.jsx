@@ -99,7 +99,9 @@ const EnviarCorreo = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block font-medium">Mensaje (usa {{nombre}}, {{curso}}, {{horario}}):</label>
+            <label className="block font-medium">
+  Mensaje (usa {'{{nombre}}'}, {'{{curso}}'}, {'{{horario}}'}):
+</label>
             <textarea
               value={mensaje}
               onChange={(e) => setMensaje(e.target.value)}

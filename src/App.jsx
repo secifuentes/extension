@@ -26,7 +26,7 @@ import AdminEstudiantes from './pages/AdminEstudiantes';
 import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './components/admin/ContabilidadResumen';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
-import EnviarCorreo from './components/admin/EnviarCorreo';
+import EnviarCorreo from './pages/admin/EnviarCorreo.js';
 
 import ScrollToTop from './components/ScrollToTop';
 

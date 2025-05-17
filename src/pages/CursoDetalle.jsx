@@ -422,14 +422,19 @@ if (!curso) return <p className="p-10 text-center text-red-600">Curso no encontr
                   }
                   
                   // Si es Ajedrez, agregar horario seleccionado
-                  if (curso.nombre === 'Ajedrez Iniciación') {
+                  if (
+                    curso.nombre === 'Ajedrez Iniciación' ||
+                    curso.nombre === 'Inglés para Niños Nivel A1 - A2'
+                  ) {
                     if (!horarioSeleccionado) {
-                      alert('⚠️ Debes seleccionar un horario para Ajedrez.');
+                      alert('⚠️ Debes seleccionar un horario para este curso.');
                       setCargando(false);
                       return;
                     }
-                    data.horarioSeleccionado = horarioSeleccionado;
+                    data.horario = horarioSeleccionado;
                   }
+                  
+                  data.horario = data.horario || 'N/A'; // 🔐 Asegura valor por defecto para otros cursos
 
                   // ✅ Aseguramos que siempre existan estos campos
 data.acudiente = data.acudiente || 'N/A';

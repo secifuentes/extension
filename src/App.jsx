@@ -26,6 +26,7 @@ import AdminEstudiantes from './pages/AdminEstudiantes';
 import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './components/admin/ContabilidadResumen';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
+import EnviarCorreo from './pages/admin/EnviarCorreo'; 
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -70,6 +71,7 @@ const App = () => {
           <Route path="certificados" element={<AdminCertificados />} />
           <Route path="contabilidad" element={<AdminContabilidad />} />
           <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
+          <Route path="/admin/enviar-correo" element={<EnviarCorreo />} />
         </Route>
       </Routes>
      {/* Botón flotante de WhatsApp con texto arriba */}

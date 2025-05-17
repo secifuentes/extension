@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FaEnvelope } from 'react-icons/fa';
 
 import {
   FaTachometerAlt,
@@ -17,6 +18,7 @@ const navItems = [
   { path: '/admin/estudiantes', label: 'Estudiantes', icon: <FaUserGraduate /> },
   { path: '/admin/cursos', label: 'Cursos', icon: <FaBook /> },
   { path: '/admin/inscripciones', label: 'Inscripciones', icon: <FaClipboardList /> },
+  { path: '/admin/enviar-correo', label: 'Enviar correos', icon: <FaEnvelope /> }, // 👈 Aquí lo agregas
   { path: '/admin/certificados', label: 'Certificados', icon: <FaCertificate /> },
   { path: '/admin/contabilidad', label: 'Contabilidad', icon: <FaCalculator /> },
 ];

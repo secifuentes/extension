@@ -563,13 +563,25 @@ const EstudiantesInscritosTable = () => {
 onSubmit={async (e) => {
   e.preventDefault();
   const form = e.target;
+
+  const cursoAnterior = modalEditar.cursoNombre;
+  const cursoNuevo = form.cursoNombre.value;
+
+  let enviarCorreo = false;
+
+  if (cursoAnterior !== cursoNuevo) {
+    const confirmacion = confirm('¿Deseas enviar un correo al estudiante notificando este cambio de curso?');
+    enviarCorreo = confirmacion; // true o false según lo que elija el admin
+  }
+
   const actualizados = {
     nombres: form.nombres.value,
     apellidos: form.apellidos.value,
     correo: form.correo.value,
     telefono: form.telefono.value,
-    cursoNombre: form.cursoNombre.value,
     horario: form.horario.value,
+    cursoNombre: cursoNuevo,
+    enviarCorreo,
   };
 
   try {
@@ -580,7 +592,7 @@ onSubmit={async (e) => {
     });
 
     if (res.ok) {
-      alert('✅ Cambios guardados y correo enviado (si aplicaba)');
+      alert('✅ Cambios guardados correctamente');
       setModalEditar(null);
       fetchInscripciones();
     } else {
@@ -588,6 +600,7 @@ onSubmit={async (e) => {
     }
   } catch (err) {
     console.error('❌ Error:', err);
+    alert('❌ Ocurrió un error al guardar los cambios.');
   }
 }}
         className="space-y-3"

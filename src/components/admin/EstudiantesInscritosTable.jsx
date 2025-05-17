@@ -328,9 +328,9 @@ const EstudiantesInscritosTable = () => {
   <p className="text-sm text-gray-700"><strong>Curso:</strong> {est.cursoNombre}</p>
   <p className="text-sm text-gray-700"><strong>Valor:</strong> ${est.valorPagado?.toLocaleString()}</p>
   {/* Mostrar el horario seleccionado */}
-  {est.horarioSeleccionado && (
+  {est.horario && (
   <p className="text-sm text-gray-700">
-    <strong>Horario seleccionado:</strong> {est.horarioSeleccionado}
+    <strong>Horario:</strong> {est.horario}
   </p>
 )}
 </div>
@@ -569,6 +569,7 @@ onSubmit={async (e) => {
     correo: form.correo.value,
     telefono: form.telefono.value,
     cursoNombre: form.cursoNombre.value,
+    horario: form.horario.value,
   };
 
   try {
@@ -595,6 +596,7 @@ onSubmit={async (e) => {
         <input name="apellidos" defaultValue={modalEditar.apellidos} className="w-full border p-2 rounded" />
         <input name="correo" defaultValue={modalEditar.correo} className="w-full border p-2 rounded" />
         <input name="telefono" defaultValue={modalEditar.telefono} className="w-full border p-2 rounded" />
+        <input name="horario" defaultValue={modalEditar.horario} placeholder="Horario (si aplica)" className="w-full border p-2 rounded" />
         <select name="cursoNombre" defaultValue={modalEditar.cursoNombre} className="w-full border p-2 rounded">
   <option value="">-- Selecciona nuevo curso --</option>
   {cursosDisponibles.map((curso, i) => (

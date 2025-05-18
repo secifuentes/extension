@@ -11,10 +11,6 @@ import CursoDetalle from './pages/CursoDetalle';
 import Login from './pages/Login';
 import EstadoEstudiante from './pages/EstadoEstudiante';
 
-// Paneles usuarios
-import EstudiantePanel from './pages/EstudiantePanel';
-import DocentePanel from './pages/DocentePanel';
-
 // Admin Pages
 import StatsCards from './components/admin/StatsCards'; // ✅ Ruta corregida
 import AdminCursos from './pages/AdminCursos';
@@ -27,6 +23,16 @@ import AdminCertificados from './pages/AdminCertificados';
 import AdminContabilidad from './components/admin/ContabilidadResumen';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
 import EnviarCorreo from './components/admin/EnviarCorreo';
+
+// Paneles modernos (nuevo)
+import DashboardLayout from './layouts/DashboardLayout';
+import DocenteDashboard from './pages/docente/DocenteDashboard';
+import EstudiantesCurso from './pages/docente/EstudiantesCurso';
+import PerfilDocente from './pages/docente/PerfilDocente';
+
+import EstudianteDashboard from './pages/estudiante/EstudianteDashboard';
+import MisCursos from './pages/estudiante/MisCursos';
+import PerfilEstudiante from './pages/estudiante/PerfilEstudiante';
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -46,34 +52,45 @@ const App = () => {
       <ScrollToTop />
 
       <Routes>
-        {/* Rutas públicas con MainLayout */}
-        <Route element={<MainLayout />}>
-  <Route path="/" element={<Home />} />
-  <Route path="/curso/:slug" element={<CursoDetalle />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/estado" element={<EstadoEstudiante />} />
-  <Route path="/estado-inscripcion" element={<EstadoEstudiante />} /> {/* ✅ Ruta añadida */}
-</Route>
+  {/* Rutas públicas con MainLayout */}
+  <Route element={<MainLayout />}>
+    <Route path="/" element={<Home />} />
+    <Route path="/curso/:slug" element={<CursoDetalle />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/estado" element={<EstadoEstudiante />} />
+    <Route path="/estado-inscripcion" element={<EstadoEstudiante />} />
+  </Route>
 
-        {/* Paneles independientes */}
-        <Route path="/estudiante" element={<EstudiantePanel />} />
-        <Route path="/docente" element={<DocentePanel />} />
+  {/* Rutas admin con AdminLayout */}
+  <Route path="/admin" element={<AdminLayout />}>
+    <Route index element={<StatsCards />} />
+    <Route path="cursos" element={<AdminCursos />} />
+    <Route path="crear-curso" element={<CrearCurso />} />
+    <Route path="editar-curso/:id" element={<EditarCurso />} />
+    <Route path="inscripciones" element={<AdminInscripciones />} />
+    <Route path="docentes" element={<AdminDocentes />} />
+    <Route path="estudiantes" element={<EstudiantesInscritosTable />} />
+    <Route path="certificados" element={<AdminCertificados />} />
+    <Route path="contabilidad" element={<AdminContabilidad />} />
+    <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
+    <Route path="enviar-correo" element={<EnviarCorreo />} />
+  </Route>
 
-        {/* Rutas admin con AdminLayout */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<StatsCards />} />
-          <Route path="cursos" element={<AdminCursos />} />
-          <Route path="crear-curso" element={<CrearCurso />} />
-          <Route path="editar-curso/:id" element={<EditarCurso />} />
-          <Route path="inscripciones" element={<AdminInscripciones />} />
-          <Route path="docentes" element={<AdminDocentes />} />
-          <Route path="/admin/estudiantes" element={<EstudiantesInscritosTable />} />
-          <Route path="certificados" element={<AdminCertificados />} />
-          <Route path="contabilidad" element={<AdminContabilidad />} />
-          <Route path="tabla-inscritos" element={<EstudiantesInscritosTable />} />
-          <Route path="/admin/enviar-correo" element={<EnviarCorreo />} />
-        </Route>
-      </Routes>
+  {/* Panel Docente */}
+  <Route path="/docente" element={<DashboardLayout rol="docente" />}>
+    <Route index element={<DocenteDashboard />} />
+    <Route path="estudiantes/:cursoId" element={<EstudiantesCurso />} />
+    <Route path="perfil" element={<PerfilDocente />} />
+  </Route>
+
+  {/* Panel Estudiante */}
+  <Route path="/estudiante" element={<DashboardLayout rol="estudiante" />}>
+    <Route index element={<EstudianteDashboard />} />
+    <Route path="mis-cursos" element={<MisCursos />} />
+    <Route path="perfil" element={<PerfilEstudiante />} />
+  </Route>
+</Routes>
+      
      {/* Botón flotante de WhatsApp con texto arriba */}
 <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end animate-fade-in-once">
   {/* Mensaje visible solo en pantallas sm y mayores */}

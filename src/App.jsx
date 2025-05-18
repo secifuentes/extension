@@ -28,6 +28,10 @@ import AdminContabilidad from './components/admin/ContabilidadResumen';
 import EstudiantesInscritosTable from './components/admin/EstudiantesInscritosTable';
 import EnviarCorreo from './components/admin/EnviarCorreo';
 
+import RutaPrivada from './components/RutaPrivada';
+import Estudiante from './pages/Estudiante';
+import Login from './pages/Login';
+
 import ScrollToTop from './components/ScrollToTop';
 
 import { FaWhatsapp } from 'react-icons/fa'; // ✅ Ícono oficial de WhatsApp
@@ -56,7 +60,14 @@ const App = () => {
 </Route>
 
         {/* Paneles independientes */}
-        <Route path="/estudiante" element={<EstudiantePanel />} />
+        <Route
+  path="/estudiante"
+  element={
+    <RutaPrivada>
+      <Estudiante />
+    </RutaPrivada>
+  }
+/>
         <Route path="/docente" element={<DocentePanel />} />
 
         {/* Rutas admin con AdminLayout */}
@@ -74,6 +85,7 @@ const App = () => {
           <Route path="/admin/enviar-correo" element={<EnviarCorreo />} />
         </Route>
       </Routes>
+
      {/* Botón flotante de WhatsApp con texto arriba */}
 <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end animate-fade-in-once">
   {/* Mensaje visible solo en pantallas sm y mayores */}

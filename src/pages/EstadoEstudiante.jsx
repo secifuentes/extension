@@ -161,13 +161,15 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
     <strong>
       {c.formaPago === 'mensual' ? 'Estado del primer pago:' : 'Estado de pago:'}
     </strong>{' '}
-    {c.comprobanteEstado === 'verificado' ? (
-      <span className="text-green-700 font-semibold">✅ Pago confirmado</span>
-    ) : c.comprobanteEstado === 'pendiente' ? (
-      <span className="text-yellow-700 font-semibold">⏳ Pendiente de verificación</span>
-    ) : (
-      <span className="text-red-700 font-semibold">❌ Comprobante rechazado</span>
-    )}
+    {c.pagoConfirmado ? (
+  <span className="text-green-700 font-semibold">✅ Pago confirmado</span>
+) : c.comprobanteEstado === 'pendiente' ? (
+  <span className="text-yellow-700 font-semibold">⏳ Pendiente de verificación</span>
+) : c.comprobanteEstado === 'rechazado' ? (
+  <span className="text-red-700 font-semibold">❌ Comprobante rechazado</span>
+) : (
+  <span className="text-gray-600">Sin comprobante registrado</span>
+)}
   </p>
 
   {/* Mostrar formulario para subir nuevo comprobante si el curso es activo y no es mensual */}

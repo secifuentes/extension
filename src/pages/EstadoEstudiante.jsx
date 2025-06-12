@@ -387,20 +387,21 @@ const buscarEstado = async (tipoFromParams = tipoDoc, docFromParams = documento)
       }
 
       for (const mes of mesesSeleccionados) {
-        const res = await fetch(`${API_URL}/api/inscripciones/${c._id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            comprobante: base64,
-            comprobanteEstado: 'pendiente'
-          }),
-        });
+  const res = await fetch(`${API_URL}/api/inscripciones/pagos-mensuales/${c._id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      mes,
+      comprobante: base64
+    }),
+  });
 
-        const data = await res.json();
-        if (!res.ok) {
-          console.error(`Error subiendo comprobante del mes ${mes}:`, data?.error || '');
-        }
-      }
+  const data = await res.json();
+  if (!res.ok) {
+    console.error(`❌ Error subiendo comprobante del mes ${mes}:`, data?.error || '');
+    alert(`Error al subir comprobante del mes ${mes}`);
+  }
+}
 
       alert('Comprobante(s) enviado(s) correctamente');
       window.location.reload();

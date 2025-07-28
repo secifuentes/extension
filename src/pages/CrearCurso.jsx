@@ -165,7 +165,7 @@ const CrearCurso = () => {
           </button>
         </div>
 
-        {/* Campos largos */}
+        {/* Campos ldargos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             ['descripcion', 'Descripción'],

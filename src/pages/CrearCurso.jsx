@@ -17,8 +17,13 @@ const CrearCurso = () => {
     beneficios: '',
     edad: '',
     reserva: '',
-    horario: '',
+    // Elimina esta línea, la reemplazaremos con un estado separado
   });
+
+  // 👇 Este es el nuevo estado para manejar múltiples horarios
+  const [horarios, setHorarios] = useState([
+    { dia: '', inicio: '', fin: '' },
+  ]);
 
   const navigate = useNavigate();
 
@@ -26,28 +31,51 @@ const CrearCurso = () => {
     setCurso({ ...curso, [e.target.name]: e.target.value });
   };
 
+  const handleHorarioChange = (index, field, value) => {
+  const nuevosHorarios = [...horarios];
+  nuevosHorarios[index][field] = value;
+  setHorarios(nuevosHorarios);
+};
+
+const agregarHorario = () => {
+  setHorarios([...horarios, { dia: '', inicio: '', fin: '' }]);
+};
+
+const eliminarHorario = (index) => {
+  const nuevosHorarios = [...horarios];
+  nuevosHorarios.splice(index, 1);
+  setHorarios(nuevosHorarios);
+};
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await fetch(`${API_URL}/api/cursos`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(curso),
-      });
-
-      if (res.ok) {
-        alert('Curso creado correctamente');
-        navigate('/admin/cursos');
-      } else {
-        const error = await res.json();
-        alert('Error al crear curso: ' + error?.error);
-      }
-    } catch (err) {
-      console.error('Error al crear curso:', err);
-      alert('Error de conexión con el servidor');
-    }
+  // 1️⃣ Combinar los datos del curso con los horarios formateados
+  const cursoConHorarios = {
+    ...curso,
+    horario: horarios.map(h => `${h.dia} ${h.inicio} - ${h.fin}`).join(', '),
   };
+
+  try {
+    // 2️⃣ Enviar curso con horarios al backend
+    const res = await fetch(`${API_URL}/api/cursos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cursoConHorarios),
+    });
+
+    if (res.ok) {
+      alert('Curso creado correctamente');
+      navigate('/admin/cursos');
+    } else {
+      const error = await res.json();
+      alert('Error al crear curso: ' + error?.error);
+    }
+  } catch (err) {
+    console.error('Error al crear curso:', err);
+    alert('Error de conexión con el servidor');
+  }
+};
 
   const inputStyle =
     'w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-institucional transition';
@@ -73,7 +101,6 @@ const CrearCurso = () => {
             ['modalidad', 'Modalidad'],
             ['duracion', 'Duración'],
             ['ubicacion', 'Ubicación'],
-            ['horario', 'Horario'],
             ['edad', 'Rango de edad'],
             ['reserva', '¿Requiere reserva?'],
           ].map(([name, label]) => (
@@ -89,6 +116,58 @@ const CrearCurso = () => {
             </div>
           ))}
         </div>
+
+        {/* Inputs dinámicos de horarios */}
+<div>
+  <label className={labelStyle}>Horarios</label>
+  {horarios.map((horario, index) => (
+    <div key={index} className="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+      <select
+        className={inputStyle}
+        value={horario.dia}
+        onChange={(e) => handleHorarioChange(index, 'dia', e.target.value)}
+        required
+      >
+        <option value="">Día</option>
+        {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map((dia) => (
+          <option key={dia} value={dia}>{dia}</option>
+        ))}
+      </select>
+
+      <input
+        type="time"
+        className={inputStyle}
+        value={horario.inicio}
+        onChange={(e) => handleHorarioChange(index, 'inicio', e.target.value)}
+        required
+      />
+
+      <input
+        type="time"
+        className={inputStyle}
+        value={horario.fin}
+        onChange={(e) => handleHorarioChange(index, 'fin', e.target.value)}
+        required
+      />
+
+      <button
+        type="button"
+        onClick={() => eliminarHorario(index)}
+        className="text-red-600 hover:underline"
+      >
+        Eliminar
+      </button>
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={agregarHorario}
+    className="mt-2 text-sm text-blue-600 hover:underline"
+  >
+    + Agregar otro horario
+  </button>
+</div>
 
         {/* Textareas (campos largos) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

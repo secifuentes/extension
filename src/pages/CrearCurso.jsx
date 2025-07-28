@@ -57,7 +57,7 @@ const eliminarHorario = (index) => {
   };
 
   try {
-    // 2️⃣ Enviar curso con horarios al backend
+    // 2️⃣ Enviar curso con horarios bal backend
     const res = await fetch(`${API_URL}/api/cursos`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
